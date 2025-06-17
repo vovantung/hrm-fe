@@ -9,6 +9,7 @@ import Link from 'next/link'
 
 import { Card, CardContent, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/system'
+import { useSelector } from 'react-redux'
 
 const RelatedPost = () => {
   const [articles, setArticles] = useState([])
@@ -17,6 +18,7 @@ const RelatedPost = () => {
   // const store = useSelector(state => state.custom)
   const theme = useTheme()
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
+  const store = useSelector(state => state.customReducer)
 
   // const router = useRouter()
 
@@ -32,7 +34,7 @@ const RelatedPost = () => {
           }
         }
 
-        const response1 = await fetch('http://localhost:8080' + '/post/get-all-post', r1)
+        const response1 = await fetch(store.url + '/post/get-all-post', r1)
 
         const result = await response1.json()
 

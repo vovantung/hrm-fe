@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const customSlice = createSlice({
   name: 'custom_url',
   initialState: {
-    url: 'https://api.txuapp.com'
+    url: 'https://backend.txuapp.com'
 
     // url: 'http://localhost:8080'
   },

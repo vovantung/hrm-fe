@@ -2,14 +2,14 @@
 
 import { useParams } from 'next/navigation'
 
-import PostPageReview from '@views/post/PostPageReview'
+import PostPageReview1 from '@views/post/PostPageReview1'
 
 const Post = () => {
   const { id } = useParams()
 
   return (
     <>
-      <PostPageReview id={id} />
+      <PostPageReview1 id={id} />
     </>
   )
 }

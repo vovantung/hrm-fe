@@ -7,9 +7,9 @@ import { useParams } from 'next/navigation'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import AskQuestion from '@/views/post/AskQuestion'
-import QuestionTag from '@/views/post/QuestionTag'
-import RelatedPost from '@/views/post/RelatedPost'
+// import AskQuestion from '@/views/post/AskQuestion'
+// import QuestionTag from '@/views/post/QuestionTag'
+// import RelatedPost from '@/views/post/RelatedPost'
 
 export default function PostLayout({ children }: { children: React.ReactNode }) {
   const { id } = useParams()
@@ -56,9 +56,9 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
         }}
       >
         <aside>
-          <AskQuestion></AskQuestion>
+          {/* <AskQuestion></AskQuestion>
           <RelatedPost></RelatedPost>
-          <QuestionTag></QuestionTag>
+          <QuestionTag></QuestionTag> */}
         </aside>
       </div>
       <div

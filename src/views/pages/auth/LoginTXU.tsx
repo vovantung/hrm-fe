@@ -27,7 +27,7 @@ import Logo from '@components/layout/shared/Logo'
 import CustomTextField from '@core/components/mui/TextField'
 
 // Config Imports
-import themeConfig from '@configs/themeConfig'
+// import themeConfig from '@configs/themeConfig'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
@@ -93,11 +93,14 @@ const LoginTXU = () => {
     <AuthIllustrationWrapper>
       <Card className='flex flex-col sm:is-[450px]'>
         <CardContent className='sm:!p-12'>
-          <Link href={getLocalizedUrl('/', locale as Locale)} className='flex justify-center mbe-6'>
-            <Logo />
-          </Link>
           <div className='flex flex-col gap-1 mbe-6'>
-            <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</Typography>
+            {/* <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}`}</Typography> */}
+            <Link href={getLocalizedUrl('/', locale as Locale)} className='flex justify-center mbe-6'>
+              <Typography variant='h4' style={{ marginRight: '5px' }}>
+                <span>Welcome to </span>
+              </Typography>
+              <Logo />
+            </Link>
             <Typography>Please sign-in to your account and start the adventure</Typography>
           </div>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()} className='flex flex-col gap-6'>
@@ -112,7 +115,7 @@ const LoginTXU = () => {
             <CustomTextField
               fullWidth
               label='Password'
-              placeholder='············'
+              placeholder='*********'
               id='outlined-adornment-password'
               type={isPasswordShown ? 'text' : 'password'}
               value={formData.password}

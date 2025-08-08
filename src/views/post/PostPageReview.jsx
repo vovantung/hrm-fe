@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import EditorComment from './EditorComment'
 import AskQuestion from './AskQuestion'
-import QuestionTag from './QuestionTag'
 import RelatedPost from './RelatedPost'
 import { setLastPost } from '@/redux-store/slices/post'
 
@@ -36,7 +35,7 @@ const PostPageReview = ({ id }) => {
 
   const lastPost = useSelector(state => state.post.lastPost)
 
-  const [post, setPostState] = useState(lastPost || null)
+  // const [post, setPostState] = useState(lastPost || null)
 
   const route = useRouter()
 
@@ -52,20 +51,22 @@ const PostPageReview = ({ id }) => {
     }
 
     highlightCodeContent()
-  }, [id, post])
+  }, [id, lastPost])
 
   async function loadItems(id) {
     if (id == undefined || id == '' || id == null || (initId != '' && initId == id)) {
       return
     }
 
-    setPostState(lastPost || null) // Tạm gán dữ liệu cũ để hiển thị
+    // setPostState(lastPost || null) // Tạm gán dữ liệu cũ để hiển thị
+    // alert('load')
 
     try {
       const r = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('Authorization')
         },
         body: JSON.stringify({
           unsignedTitle: id
@@ -80,13 +81,8 @@ const PostPageReview = ({ id }) => {
           setCommentList(post.commentList)
         }
 
-        // dispatch(setPost(post))
-        // setPostState(post)
-
         dispatch(setLastPost(post)) // Cập nhật redux với user mới
-        setPostState(post)
-
-        // setLoading(false)
+        // setPostState(post)
       }
 
       setInitId(id)
@@ -145,26 +141,26 @@ const PostPageReview = ({ id }) => {
 
   return (
     <>
-      {post ? (
+      {lastPost ? (
         <div style={{ margin: '0px', padding: '0px' }}>
-          {post.title !== '' ? (
+          {lastPost.title !== '' ? (
             <>
               <span style={{ fontSize: '20px', color: '#333' }}>
-                <strong> {post.title}</strong>
+                <strong> {lastPost.title}</strong>
               </span>
               <br />
             </>
           ) : null}
 
-          {post.createdAt !== '' ? (
+          {lastPost.createdAt !== '' ? (
             <>
-              <span style={{ fontSize: '12px', color: '#777' }}>Posted {post.createdAt}</span>
+              <span style={{ fontSize: '12px', color: '#777' }}>Posted {lastPost.createdAt}</span>
               <hr style={{ border: 'none', borderBottom: '1px solid #d1d1d1' }} />
             </>
           ) : null}
 
-          <div ref={contentRef} sx={{ width: '100%' }} dangerouslySetInnerHTML={{ __html: post.content }}></div>
-          {post.createdAt !== '' ? (
+          <div ref={contentRef} sx={{ width: '100%' }} dangerouslySetInnerHTML={{ __html: lastPost.content }}></div>
+          {lastPost.createdAt !== '' ? (
             <div style={{ width: '100%', textAlign: 'right' }}>
               <div
                 style={{
@@ -176,21 +172,23 @@ const PostPageReview = ({ id }) => {
                 }}
               >
                 <span style={{ fontSize: '12px', color: '#3087e0', display: 'inline-block' }}>
-                  {post.account.username}
+                  {lastPost.account.username}
                 </span>
-                <span style={{ fontSize: '12px', color: '#555', textAlign: 'right' }}>, posted {post.createdAt}</span>
+                <span style={{ fontSize: '12px', color: '#555', textAlign: 'right' }}>
+                  , posted {lastPost.createdAt}
+                </span>
               </div>
             </div>
           ) : null}
 
-          {lgAbove ? null : post.content === '' ? null : (
+          {lgAbove ? null : lastPost.content === '' ? null : (
             <>
               <RelatedPost id={id}></RelatedPost>
             </>
           )}
 
           <div ref={commentRef} style={{ marginTop: '10px' }}>
-            {post.commentList.length !== 0 ? (
+            {lastPost.commentList.length !== 0 ? (
               <>
                 <span style={{ fontSize: '18px', marginTop: '16px' }}>
                   <strong>Answer</strong>{' '}
@@ -199,7 +197,7 @@ const PostPageReview = ({ id }) => {
               </>
             ) : null}
 
-            {post.commentList.map(comment => (
+            {lastPost.commentList.map(comment => (
               <div key={comment.id} style={{ marginTop: '10px' }}>
                 <Box sx={{ width: '100%' }} dangerouslySetInnerHTML={{ __html: comment.content }}></Box>
                 <div style={{ width: '100%', textAlign: 'right' }}>
@@ -220,26 +218,25 @@ const PostPageReview = ({ id }) => {
                       , asked {comment.createdAt}
                     </span>
                   </div>
-                  {post.commentList.lastIndexOf(comment) ? null : (
+                  {lastPost.commentList.lastIndexOf(comment) ? null : (
                     <hr style={{ border: 'none', borderTop: '0.8px solid #ccc' }} />
                   )}
                 </div>
               </div>
             ))}
           </div>
-          {post.content !== '' ? (
+          {lastPost.content !== '' ? (
             <>
               <span style={{ fontSize: '18px' }}>
                 <strong>Your Answer</strong>{' '}
               </span>
-              <EditorComment id={post.id} callback={handleCallback}></EditorComment>
+              <EditorComment id={lastPost.id} callback={handleCallback}></EditorComment>
             </>
           ) : null}
 
-          {lgAbove ? null : post.content === '' ? null : (
+          {lgAbove ? null : lastPost.content === '' ? null : (
             <>
               <AskQuestion></AskQuestion>
-              <QuestionTag></QuestionTag>
             </>
           )}
         </div>

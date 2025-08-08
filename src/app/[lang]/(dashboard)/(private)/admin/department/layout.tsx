@@ -7,9 +7,9 @@ import { useParams } from 'next/navigation'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import AskQuestion from '@/views/post/AskQuestion'
-import RelatedPost from '@/views/post/RelatedPost'
 import { useSettings } from '@/@core/hooks/useSettings'
+import SidebarAccount1 from '@/views/admin/SidebarAccount1'
+import FilterWeeklyReportSidebar from '@/views/admin/FilterWeeklyReportSidebar'
 
 export default function PostLayout({ children }: { children: React.ReactNode }) {
   const { settings } = useSettings()
@@ -47,27 +47,40 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
     // return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY, id])
 
-  if (!id) return <p>Loading...</p>
+  // if (!id) return <p>Loading...</p>
 
   return lgAbove ? (
     <div>
-      <div
-        style={{
-          position: 'fixed',
-          top: '116px',
-          width: '450px',
-          maxHeight: 'calc(100vh - 50px)',
-          overflowY: 'auto',
-          left: left,
-          zIndex: 999,
-          transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
-          transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
-        }}
-      >
-        <aside>
-          <AskQuestion></AskQuestion>
-          <RelatedPost></RelatedPost>
-        </aside>
+      <div>
+        <div
+          style={{
+            position: 'fixed',
+            top: '110px',
+            width: '450px',
+            left: left,
+            zIndex: 999,
+            transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
+            transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
+          }}
+        >
+          <div
+            style={{
+              paddingTop: '24px'
+            }}
+          ></div>
+          <div
+            style={{
+              maxHeight: 'calc(100vh - 190px)',
+              overflowY: 'auto',
+              width: '100%'
+            }}
+          >
+            <aside>
+              <SidebarAccount1 />
+              <FilterWeeklyReportSidebar />
+            </aside>
+          </div>
+        </div>
       </div>
       <div
         style={{

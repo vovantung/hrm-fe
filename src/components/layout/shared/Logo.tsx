@@ -11,7 +11,7 @@ import styled from '@emotion/styled'
 import type { VerticalNavContextProps } from '@menu/contexts/verticalNavContext'
 
 // Component Imports
-import VuexyLogo from '@core/svg/Logo'
+// import VuexyLogo from '@core/svg/Logo'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
@@ -71,8 +71,9 @@ const Logo = ({ color }: { color?: CSSProperties['color'] }) => {
 
   return (
     <div className='flex items-center'>
-      <VuexyLogo className='text-2xl text-primary' />
+      {/* <VuexyLogo className='text-2xl text-primary' /> */}
       <LogoText
+        style={{ marginLeft: '0px' }}
         color={color}
         ref={logoTextRef}
         isHovered={isHovered}

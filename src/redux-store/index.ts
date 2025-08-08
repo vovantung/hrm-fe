@@ -8,6 +8,8 @@ import kanbanReducer from '@/redux-store/slices/kanban'
 import emailReducer from '@/redux-store/slices/email'
 import customReducer from '@/redux-store/slices/custom'
 import postReducer from '@/redux-store/slices/post'
+import accountsReducer from '@/redux-store/slices/accounts'
+import reportWeeklyReducer from '@/redux-store/slices/report-weekly'
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +18,9 @@ export const store = configureStore({
     kanbanReducer,
     emailReducer,
     customReducer,
-    post: postReducer
+    post: postReducer,
+    accounts: accountsReducer,
+    reportWeekly: reportWeeklyReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false })
 })

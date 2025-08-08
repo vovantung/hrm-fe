@@ -54,11 +54,11 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'TXU App',
+  templateName: 'TXU❤️',
   homePageUrl: '/dashboards/crm',
   settingsCookieName: 'vuexy-mui-next-demo-1',
   mode: 'system', // 'system', 'light', 'dark'
-  skin: 'bordered', // 'default', 'bordered'
+  skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false
   layout: 'horizontal', // 'vertical', 'collapsed', 'horizontal'
   layoutPadding: 24, // Common padding for header, content, footer layout components (in px)
@@ -70,7 +70,7 @@ const themeConfig: Config = {
     detached: true, //! true, false (This will not work in the Horizontal Layout or floating navbar is enabled)
     blur: true // true, false
   },
-  contentWidth: 'compact', // 'compact', 'wide'
+  contentWidth: 'wide', // 'compact', 'wide'
   footer: {
     type: 'static', // 'fixed', 'static'
     contentWidth: 'compact', // 'compact', 'wide'

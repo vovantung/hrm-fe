@@ -47,14 +47,14 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
     // return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY, id])
 
-  if (!id) return <p>Loading...</p>
+  // if (!id) return <p>Loading...</p>
 
   return lgAbove ? (
     <div>
       <div
         style={{
           position: 'fixed',
-          top: '116px',
+          top: '110px',
           width: '450px',
           maxHeight: 'calc(100vh - 50px)',
           overflowY: 'auto',

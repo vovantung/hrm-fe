@@ -19,22 +19,18 @@ const PostPageReview1 = ({ id }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ2b3ZhbnR1bmciLCJpc3MiOiJ0eHUtaXNzIiwiZXhwIjoxNzUyNjcxNzk0LCJpYXQiOjE3NTI2NTM3OTR9.34TdfnZVT8VafIft-QWj3b_x5Yq-nECswIG6Pm3wjmE'
+          Authorization: localStorage.getItem('Authorization')
         },
         body: JSON.stringify({
           unsignedTitle: id
         })
       }
 
-      const response = await fetch('https://backend.txuapp.com/test', r)
+      const response = await fetch('https://backend.txuapp.com/hrm/test', r)
 
       const result = await response.json()
 
       if (result !== undefined) {
-        // if (JSON.stringify(commentList) !== JSON.stringify(post.commentList)) {
-        //   setCommentList(post.commentList)
-        // }
         // alert(result.test)
       }
     } catch (exception) {

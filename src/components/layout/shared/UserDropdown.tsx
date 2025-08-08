@@ -22,7 +22,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 
 // Third-party Imports
-import { signOut, useSession } from 'next-auth/react'
+// import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 // Type Imports
 import type { Locale } from '@configs/i18n'
@@ -72,10 +73,23 @@ const UserDropdown = () => {
     setOpen(false)
   }
 
-  const handleUserLogout = async () => {
+  // const handleUserLogout = async () => {
+  //   try {
+  //     // Sign out from the app
+  //     await signOut({ callbackUrl: process.env.NEXT_PUBLIC_APP_URL })
+  //   } catch (error) {
+  //     console.error(error)
+
+  //     // Show above error in a toast like following
+  //     // toastService.error((err as Error).message)
+  //   }
+  // }
+
+  const handleUserLogoutTXU = async () => {
     try {
       // Sign out from the app
-      await signOut({ callbackUrl: process.env.NEXT_PUBLIC_APP_URL })
+      localStorage.clear()
+      window.location.reload()
     } catch (error) {
       console.error(error)
 
@@ -152,7 +166,7 @@ const UserDropdown = () => {
                       color='error'
                       size='small'
                       endIcon={<i className='tabler-logout' />}
-                      onClick={handleUserLogout}
+                      onClick={handleUserLogoutTXU}
                       sx={{ '& .MuiButton-endIcon': { marginInlineStart: 1.5 } }}
                     >
                       Logout

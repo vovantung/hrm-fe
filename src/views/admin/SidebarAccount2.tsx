@@ -1,27 +1,23 @@
-import { useTheme } from '@emotion/react'
 import { Card, CardContent, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/system'
 
-const QuestionTag = () => {
+const SidebarAccount2 = () => {
   const theme = useTheme()
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
 
   return (
-    <Card style={{ margin: lgAbove ? '24px' : null, marginTop: lgAbove ? null : '14px' }}>
+    <Card style={{ margin: '24px', marginTop: '0px' }}>
       <CardContent style={{ margin: '0px', padding: lgAbove ? '18px' : '14px', textAlign: 'justify' }}>
         <span style={{ color: '#444477' }}>
-          <strong>Explore related questions</strong>
+          <strong>Sidebar 2</strong>
         </span>
         <br />
         <div style={{ marginTop: '10px', marginBottom: '10px' }}>
-          <span> See similar questions with these tags.</span>
+          <span>This is sidebar right for account page...</span>
         </div>
-
-        {/* <Button variant='contained' color='secondary'>
-          Ask question
-        </Button> */}
       </CardContent>
     </Card>
   )
 }
 
-export default QuestionTag
+export default SidebarAccount2

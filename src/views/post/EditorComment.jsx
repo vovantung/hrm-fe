@@ -55,6 +55,8 @@ import { styled, useTheme } from '@mui/material/styles'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
 
+import { useSelector } from 'react-redux'
+
 import { FontSize } from './FontSize.js'
 import CodeBlockComponent from './CodeBlockComponent.jsx'
 
@@ -283,6 +285,7 @@ const MenuBar = ({ editor }) => {
 }
 
 const EditorComment = ({ id, callback }) => {
+  const store = useSelector(state => state.customReducer)
   const [html, setHtml] = useState(null)
 
   const editor = useEditor({
@@ -348,7 +351,8 @@ const EditorComment = ({ id, callback }) => {
       const r = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('Authorization')
         },
         body: JSON.stringify({
           comment: {
@@ -361,7 +365,7 @@ const EditorComment = ({ id, callback }) => {
         })
       }
 
-      await fetch('https://a968-2402-800-6340-186f-1f6-209a-22cd-3ccd.ngrok-free.app' + '/comment/create-or-update', r)
+      await fetch(store.url + '/comment/create-or-update', r)
 
       // alert('Added a comment')
       callback()

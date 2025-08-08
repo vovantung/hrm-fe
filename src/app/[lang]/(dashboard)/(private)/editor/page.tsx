@@ -11,9 +11,6 @@ import AskQuestion from '@views/post/AskQuestion'
 
 import EditorAddPost from '@views/post/add/EditorAddPost'
 
-// import RelatedPost from '@views/post/RelatedPost'
-import QuestionTag from '@views/post/QuestionTag'
-
 const AddPost = () => {
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -54,7 +51,6 @@ const AddPost = () => {
         }}
       >
         <AskQuestion></AskQuestion>
-        <QuestionTag></QuestionTag>
       </div>
       <div
         style={{

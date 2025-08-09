@@ -56,7 +56,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
         <div
           style={{
             position: 'fixed',
-            top: '110px',
+            top: settings.layout == 'horizontal' ? '110px' : '76px',
             width: '450px',
             left: left,
             zIndex: 999,

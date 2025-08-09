@@ -28,6 +28,7 @@ import { i18n } from '@configs/i18n'
 // Util Imports
 import { getDictionary } from '@/utils/getDictionary'
 import { getMode, getSystemMode } from '@core/utils/serverHelpers'
+import Customizer from '@/@core/components/customizer'
 
 const Layout = async (props: ChildrenType & { params: Promise<{ lang: Locale }> }) => {
   const params = await props.params
@@ -68,7 +69,7 @@ const Layout = async (props: ChildrenType & { params: Promise<{ lang: Locale }> 
             <i className='tabler-arrow-up' />
           </Button>
         </ScrollToTop>
-        {/* <Customizer dir={direction} /> */}
+        <Customizer dir={direction} />
       </AuthGuard>
     </Providers>
   )

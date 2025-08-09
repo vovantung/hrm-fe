@@ -35,8 +35,8 @@ import '@/app/styles.scss'
 import '@assets/iconify-icons/generated-icons.css'
 
 export const metadata = {
-  title: 'TXU❤️',
-  description: 'TXU❤️'
+  title: 'Hành chính - Tổng hợp',
+  description: 'Hành chính - Tổng hợp'
 }
 
 const RootLayout = async (props: ChildrenType & { params: Promise<{ lang: Locale }> }) => {

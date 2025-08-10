@@ -83,13 +83,13 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
       >
         {/* Author: Vo Van Tung; 25/7/2025 */}
         <SubMenu label={dictionary['navigation'].admin} icon={<i className='ic--baseline-manage-accounts' />}>
-          <MenuItem href={`/${locale}/admin/account`} icon={<i className='txu-account' />}>
+          <MenuItem href={`/${locale}/admin/account`} icon={<i className='mdi--account-tie' />}>
             {dictionary['navigation'].account}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/department`} icon={<i className='txu-department' />}>
+          <MenuItem href={`/${locale}/admin/department`} icon={<i className='mingcute--department-line' />}>
             {dictionary['navigation'].department}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='txu-weekly-report' />}>
+          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='mdi--report-box-outline' />}>
             {dictionary['navigation'].weeklyReport}
           </MenuItem>
         </SubMenu>

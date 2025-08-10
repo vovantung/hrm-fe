@@ -89,7 +89,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           <MenuItem href={`/${locale}/admin/department`} icon={<i className='mingcute-department-line' />}>
             {dictionary['navigation'].department}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='bx-basket' />}>
+          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='ix-report-barchart' />}>
             {dictionary['navigation'].weeklyReport}
           </MenuItem>
         </SubMenu>

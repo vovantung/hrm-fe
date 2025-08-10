@@ -108,7 +108,7 @@ async function generateIconsCSS() {
   }
 
   // File to save bundle to
-  const target = join(__dirname, 'generated-icons.css')
+  const target = join(__dirname, 'generated-icons-txu.css')
 
   /**
    * Do stuff!

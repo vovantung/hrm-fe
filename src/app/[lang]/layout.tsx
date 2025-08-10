@@ -32,7 +32,7 @@ import '@/app/globals.css'
 import '@/app/styles.scss'
 
 // Generated Icon CSS Imports
-import '@assets/iconify-icons/generated-icons.css'
+import '@assets/iconify-icons/generated-icons-txu.css'
 
 export const metadata = {
   title: 'Hành chính - Tổng hợp',

@@ -82,7 +82,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
         {/* Author: Vo Van Tung; 25/7/2025 */}
-        <SubMenu label={dictionary['navigation'].admin} icon={<i className='txu-admin' />}>
+        <SubMenu label={dictionary['navigation'].admin} icon={<i className='ic--baseline-manage-accounts' />}>
           <MenuItem href={`/${locale}/admin/account`} icon={<i className='txu-account' />}>
             {dictionary['navigation'].account}
           </MenuItem>

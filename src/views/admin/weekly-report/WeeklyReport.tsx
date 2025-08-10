@@ -261,15 +261,14 @@ const WeeklyReportView = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <b>File name</b>
-                  </TableCell>
-                  <TableCell>
                     <b>Department</b>
                   </TableCell>
                   <TableCell>
                     <b>Uploaded at</b>
                   </TableCell>
-
+                  <TableCell>
+                    <b>File name</b>
+                  </TableCell>
                   <TableCell>
                     <b>Action</b>
                   </TableCell>
@@ -278,6 +277,8 @@ const WeeklyReportView = () => {
               <TableBody>
                 {reportedWeeklyListOfPage.map(reportedWeekly => (
                   <TableRow key={reportedWeekly.id}>
+                    <TableCell>{reportedWeekly.department.name} </TableCell>
+                    <TableCell>{format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')} </TableCell>
                     <TableCell>
                       <Link
                         href={reportedWeekly.url}
@@ -289,8 +290,6 @@ const WeeklyReportView = () => {
                         {reportedWeekly.filename}
                       </Link>
                     </TableCell>
-                    <TableCell>{reportedWeekly.department.name} </TableCell>
-                    <TableCell>{format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')} </TableCell>
                     <TableCell>
                       <IconButton
                         color='primary'

@@ -17,8 +17,8 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
 
   const left =
     settings.contentWidth === 'compact'
-      ? 'calc(100% - 450px - max(0px, (100% - 1440px) / 2))'
-      : 'calc(100% - 450px  - max(0px, (-100%) / 2))'
+      ? 'calc(100% - 420px - max(0px, (100% - 1440px) / 2))'
+      : 'calc(100% - 420px  - max(0px, (-100%) / 2))'
 
   // const isCompact = settings.contentWidth === 'compact'
 
@@ -57,7 +57,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           style={{
             position: 'fixed',
             top: settings.layout == 'horizontal' ? '110px' : '76px',
-            width: '450px',
+            width: '420px',
             left: left,
             zIndex: 999,
             transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
@@ -85,7 +85,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       </div>
       <div
         style={{
-          paddingRight: '426px'
+          paddingRight: '396px'
         }}
       >
         <main>{children}</main>

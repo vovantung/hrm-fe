@@ -86,7 +86,11 @@ async function generateIconsCSS() {
       'uit-adobe-alt',
 
       // 'fa6-regular-comment',
-      'twemoji-auto-rickshaw'
+      'twemoji-auto-rickshaw',
+      'ix:report-barchart',
+      'ic:baseline-manage-accounts',
+      'ic:round-supervisor-account',
+      'mingcute:department-fill'
     ],
 
     svg: [

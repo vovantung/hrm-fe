@@ -67,7 +67,10 @@ async function generateIconsCSS() {
   const sources: BundleScriptConfig = {
     json: [
       // Iconify JSON file (@iconify/json is a package name, /json/ is directory where files are, then filename)
-      require.resolve('@iconify/json/json/tabler.json')
+      require.resolve('@iconify/json/json/tabler.json'),
+      require.resolve('@iconify/json/json/ic.json'),
+      require.resolve('@iconify/json/json/ix.json'),
+      require.resolve('@iconify/json/json/mingcute.json')
 
       // Custom file with only few icons
       /* {
@@ -80,17 +83,17 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'ix:report-barchart',
+      'ic:baseline-manage-accounts',
+      'ic:round-supervisor-account',
+      'mingcute:department-fill',
       'bx-basket',
       'bi-airplane-engines',
       'ri-anchor-line',
       'uit-adobe-alt',
 
       // 'fa6-regular-comment',
-      'twemoji-auto-rickshaw',
-      'ix:report-barchart',
-      'ic:baseline-manage-accounts',
-      'ic:round-supervisor-account',
-      'mingcute:department-fill'
+      'twemoji-auto-rickshaw'
     ],
 
     svg: [

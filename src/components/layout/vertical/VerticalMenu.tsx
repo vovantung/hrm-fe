@@ -82,11 +82,11 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
         {/* Author: Vo Van Tung; 25/7/2025 */}
-        <SubMenu label={dictionary['navigation'].admin} icon={<i className='ic:baseline-manage-accounts' />}>
-          <MenuItem href={`/${locale}/admin/account`} icon={<i className='ic:round-supervisor-account' />}>
+        <SubMenu label={dictionary['navigation'].admin} icon={<i className='ic-baseline-manage-accounts' />}>
+          <MenuItem href={`/${locale}/admin/account`} icon={<i className='ic-round-supervisor-account' />}>
             {dictionary['navigation'].account}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/department`} icon={<i className='mingcute--department-line' />}>
+          <MenuItem href={`/${locale}/admin/department`} icon={<i className='mingcute-department-line' />}>
             {dictionary['navigation'].department}
           </MenuItem>
           <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='bx-basket' />}>

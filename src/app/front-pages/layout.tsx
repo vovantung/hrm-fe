@@ -24,7 +24,7 @@ import { getSystemMode } from '@core/utils/serverHelpers'
 import '@/app/globals.css'
 
 // Generated Icon CSS Imports
-import '@assets/iconify-icons/generated-icons-txu.css'
+import '@assets/iconify-icons/generated-icons.css'
 
 export const metadata = {
   title: 'TXU❤️',

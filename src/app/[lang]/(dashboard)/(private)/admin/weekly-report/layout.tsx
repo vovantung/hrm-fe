@@ -7,6 +7,8 @@ import { useParams } from 'next/navigation'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
+import { Card } from '@mui/material'
+
 import { useSettings } from '@/@core/hooks/useSettings'
 import ThisWeek from '@/views/admin/ThisWeek'
 import FilterWeeklyReportSidebar from '@/views/admin/FilterWeeklyReportSidebar'
@@ -16,7 +18,11 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
 
   const left =
     settings.contentWidth === 'compact'
-      ? 'calc(100% - 420px - max(0px, (100% - 1440px) / 2))'
+      ? settings.layout !== 'collapsed'
+        ? settings.layout === 'horizontal'
+          ? 'calc(100% - 420px - max(0px, (100% - 1440px) / 2))'
+          : 'calc(100% - 420px - max(0px, (100% - 1440px - 260px) / 2))'
+        : 'calc(100% - 420px - max(0px, (100% - 1440px - 70px) / 2))'
       : 'calc(100% - 420px  - max(0px, (-100%) / 2))'
 
   // const isCompact = settings.contentWidth === 'compact'
@@ -55,7 +61,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
         <div
           style={{
             position: 'fixed',
-            top: settings.layout == 'horizontal' ? '110px' : '76px',
+            top: settings.layout == 'horizontal' ? '115px' : '76px',
             width: '420px',
             left: left,
             zIndex: 999,
@@ -65,20 +71,36 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
         >
           <div
             style={{
-              paddingTop: '24px'
-            }}
-          ></div>
-          <div
-            style={{
-              maxHeight: 'calc(100vh - 190px)',
-              overflowY: 'auto',
-              width: '100%'
+              position: 'fixed',
+              top: '0px',
+              left: left,
+              width: '420px',
+              zIndex: 9999
             }}
           >
-            <aside>
-              <FilterWeeklyReportSidebar />
-              <ThisWeek />
-            </aside>
+            {/* Card thực sự: có background + shadow */}
+            <Card
+              style={{
+                marginTop: '20px',
+                marginLeft: '24px',
+                marginRight: '24px',
+                paddingTop: '20px',
+                paddingBottom: '20px'
+              }}
+            >
+              <div
+                style={{
+                  overflowY: 'auto',
+                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 230px)' : 'calc(100vh - 190px)',
+                  minHeight: '110px'
+                }}
+              >
+                <aside>
+                  <FilterWeeklyReportSidebar />
+                  <ThisWeek />
+                </aside>
+              </div>
+            </Card>
           </div>
         </div>
       </div>

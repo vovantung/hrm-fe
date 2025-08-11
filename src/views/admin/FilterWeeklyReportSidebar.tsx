@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Card, CardContent, Tooltip, useMediaQuery } from '@mui/material'
+// import { Card, CardContent, Tooltip, useMediaQuery } from '@mui/material'
+import { Tooltip, useMediaQuery } from '@mui/material'
 import type { Theme } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
 import { startOfWeek, endOfWeek, format, startOfMonth, endOfMonth, addDays, isBefore } from 'date-fns'
@@ -175,13 +176,21 @@ const FilterWeeklyReportSidebar = () => {
   }, [dateFrom, dateTo])
 
   return (
-    <Card style={{ margin: lgAbove ? '24px' : undefined, marginTop: '0px' }}>
-      <CardContent style={{ margin: '0px', padding: lgAbove ? '18px' : '14px', textAlign: 'justify' }}>
+    <div style={{ margin: lgAbove ? '0px' : undefined, marginTop: '0px' }}>
+      <div
+        style={{
+          margin: '0px',
+          padding: lgAbove ? '18px' : '14px',
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          textAlign: 'justify'
+        }}
+      >
         <span style={{ color: '#444477' }}>
           <strong>Filter</strong>
         </span>
         <br />
-        <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+        <div style={{ marginTop: '00px', marginBottom: '10px' }}>
           <div style={{}}>
             <AppReactDatepicker
               selected={dateFrom}
@@ -294,8 +303,8 @@ const FilterWeeklyReportSidebar = () => {
             </li>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
 

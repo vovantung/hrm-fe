@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { MouseEvent } from 'react'
 
 // Next Imports
@@ -26,6 +26,8 @@ import Button from '@mui/material/Button'
 // import { useSession } from 'next-auth/react'
 
 // Type Imports
+import { useDispatch, useSelector } from 'react-redux'
+
 import type { Locale } from '@configs/i18n'
 
 // Hook Imports
@@ -33,6 +35,7 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
+import { setUserLogin } from '@/redux-store/slices/accounts'
 
 // Styled component for badge content
 const BadgeContentSpan = styled('span')({
@@ -43,6 +46,26 @@ const BadgeContentSpan = styled('span')({
   backgroundColor: 'var(--mui-palette-success-main)',
   boxShadow: '0 0 0 2px var(--mui-palette-background-paper)'
 })
+
+type AccountDataType = {
+  id: number
+  username: string
+  lastName: string
+  firstName: string
+  email: string
+  phoneNumber: string
+  avatar: string
+  department: DepartmentDataType
+  newpassword: string
+}
+
+type DepartmentDataType = {
+  id: number
+  name: string
+  description: string
+  createdAt: string
+  updateAt: string
+}
 
 const UserDropdown = () => {
   // States
@@ -57,6 +80,11 @@ const UserDropdown = () => {
   // const { data: session } = useSession()
   const { settings } = useSettings()
   const { lang: locale } = useParams()
+
+  const store = useSelector((state: any) => state.customReducer)
+  const userLogin = useSelector((state: any) => state.accounts.userLogin) as AccountDataType
+
+  const dispatch = useDispatch()
 
   const handleDropdownOpen = () => {
     !open ? setOpen(true) : setOpen(false)
@@ -99,6 +127,38 @@ const UserDropdown = () => {
     }
   }
 
+  async function getNotReportedFromTo() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const p = {
+        method: 'GET',
+        headers: {
+          Authorization: auth
+        }
+      }
+
+      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
+      const res = await fetch(store.url_admin + '/account/get-current-user', p)
+
+      if (!res.ok) {
+        return
+      }
+
+      const userLogin = await res.json()
+
+      if (userLogin !== undefined) {
+        dispatch(setUserLogin(userLogin))
+      }
+    } catch (exception) {
+      // route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  useEffect(() => {
+    getNotReportedFromTo()
+  }, [])
+
   return (
     <>
       <Badge
@@ -112,9 +172,8 @@ const UserDropdown = () => {
           ref={anchorRef}
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
-
-          //  alt={session?.user?.name || ''}
-          // src={session?.user?.image || ''}
+          alt={userLogin.lastName + userLogin.firstName || ''}
+          src={userLogin.avatar || ''}
         />
       </Badge>
       <Popper
@@ -137,11 +196,15 @@ const UserDropdown = () => {
                 <MenuList>
                   <div className='flex items-center plb-2 pli-6 gap-2' tabIndex={-1}>
                     {/* <Avatar alt={session?.user?.name || ''} src={session?.user?.image || ''} /> */}
+                    <Avatar alt={userLogin.lastName + userLogin.firstName || ''} src={userLogin.avatar || ''} />
+
                     <div className='flex items-start flex-col'>
                       <Typography className='font-medium' color='text.primary'>
                         {/* {session?.user?.name || ''} */}
+                        {userLogin.lastName + ' ' + userLogin.firstName || ''}
                       </Typography>
                       {/* <Typography variant='caption'>{session?.user?.email || ''}</Typography> */}
+                      <Typography variant='caption'>{userLogin.email || ''}</Typography>
                     </div>
                   </div>
                   <Divider className='mlb-1' />

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Card, CardContent, useMediaQuery } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { startOfWeek, endOfWeek, format } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
@@ -106,8 +106,16 @@ const ThisWeek = () => {
   }, [])
 
   return (
-    <Card style={{ margin: lgAbove ? '24px' : undefined }}>
-      <CardContent style={{ margin: '0px', padding: lgAbove ? '18px' : '14px', textAlign: 'justify' }}>
+    <div style={{ margin: lgAbove ? '0px' : undefined }}>
+      <div
+        style={{
+          margin: '0px',
+          padding: lgAbove ? '18px' : '14px',
+          paddingTop: '10px',
+          paddingBottom: '0px',
+          textAlign: 'justify'
+        }}
+      >
         <span style={{ color: '#444477' }}>
           <strong>This week</strong>
         </span>
@@ -127,7 +135,7 @@ const ThisWeek = () => {
           </span>
         </div>
         {notReportedWeekly.length !== 0 ? (
-          <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+          <div style={{ marginTop: '10px', marginBottom: '0px' }}>
             <div>Các đơn vị chưa gửi báo cáo:</div>
 
             {notReportedWeekly.map(notReported => (
@@ -164,8 +172,8 @@ const ThisWeek = () => {
             Tất cả đơn vị đã hoàn thành gửi báo cáo
           </span>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
 

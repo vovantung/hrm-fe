@@ -37,6 +37,7 @@ import { useSelector } from 'react-redux'
 import tableStyles from '@core/styles/table.module.css'
 import CustomTextField from '@/@core/components/mui/TextField'
 import Pagination from '../PaginationTXU'
+import { useSettings } from '@/@core/hooks/useSettings'
 
 const CustomCloseButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
   top: 0,
@@ -69,6 +70,7 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const DepartmentPage = () => {
+  const { settings } = useSettings()
   const route = useRouter()
   const store = useSelector((state: any) => state.customReducer)
 
@@ -365,7 +367,9 @@ const DepartmentPage = () => {
       <Card>
         <CardHeader title='DEPARTMENT' />
         <CardContent className='p-0'>
-          <TableContainer style={{ maxHeight: 'calc(100vh - 370px)' }}>
+          <TableContainer
+            style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+          >
             <Table className={tableStyles.table} stickyHeader>
               <TableHead>
                 <TableRow>
@@ -389,10 +393,15 @@ const DepartmentPage = () => {
               <TableBody>
                 {departmentsOfPage.map(department => (
                   <TableRow key={department.id}>
-                    <TableCell>{department.name}</TableCell>
-                    <TableCell>{department.description} </TableCell>
-                    <TableCell>{format(new Date(department.createdAt), 'dd/MM/yyyy')}</TableCell>
-                    <TableCell> {format(new Date(department.updatedAt), 'dd/MM/yyyy')}</TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{department.name}</TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{department.description} </TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>
+                      {format(new Date(department.createdAt), 'dd/MM/yyyy')}
+                    </TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>
+                      {' '}
+                      {format(new Date(department.updatedAt), 'dd/MM/yyyy')}
+                    </TableCell>
 
                     <TableCell>
                       <IconButton
@@ -402,8 +411,8 @@ const DepartmentPage = () => {
                       >
                         <Box
                           sx={{
-                            width: 22,
-                            height: 22,
+                            width: 20,
+                            height: 20,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -425,8 +434,8 @@ const DepartmentPage = () => {
                       >
                         <Box
                           sx={{
-                            width: 22,
-                            height: 22,
+                            width: 20,
+                            height: 20,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -457,10 +466,14 @@ const DepartmentPage = () => {
               marginRight: '20px'
             }}
           >
-            <Button variant='outlined' onClick={handleViewCreateDepartment}>
-              Add new department
+            <Button
+              variant='contained'
+              startIcon={<i className='mingcute-add-fill' />}
+              onClick={handleViewCreateDepartment}
+            >
+              Add department
             </Button>
-            <Pagination pageSize={14} items={departments} onChangePage={onChangePage} />
+            <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
           </Box>
         </CardContent>
 
@@ -501,7 +514,13 @@ const DepartmentPage = () => {
               />
             </Box>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button variant='contained' sx={{ mr: 3.5 }} color='primary' onClick={handleUpdateDepartment}>
+              <Button
+                variant='contained'
+                startIcon={<i className='material-symbols-system-update-alt' />}
+                sx={{ mr: 3.5 }}
+                color='primary'
+                onClick={handleUpdateDepartment}
+              >
                 Update
               </Button>
             </div>
@@ -547,7 +566,13 @@ const DepartmentPage = () => {
               />
             </Box>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button variant='contained' sx={{ mr: 3.5 }} color='primary' onClick={handleCreateDepartment}>
+              <Button
+                variant='contained'
+                startIcon={<i className='gridicons-create' />}
+                sx={{ mr: 3.5 }}
+                color='primary'
+                onClick={handleCreateDepartment}
+              >
                 Create
               </Button>
             </div>

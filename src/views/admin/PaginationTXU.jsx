@@ -145,9 +145,8 @@ class PaginationTXU extends React.Component {
           count={pager.totalPages}
           page={this.state.page}
           onChange={this.handleChangePage}
-          size='medium'
+          size='small'
           shape='rounded'
-          variant='outlined'
           color='primary'
           siblingCount={1}
           boundaryCount={2}

@@ -83,6 +83,13 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'gridicons:create',
+      'mingcute:add-fill',
+      'material-symbols:system-update-alt',
+      'icon-park-outline:add-four',
+      'wpf:add-user',
+      'line-md:uploading-loop',
+      'line-md:upload-loop',
       'ix:report-barchart',
       'ic:baseline-manage-accounts',
       'ic:round-supervisor-account',

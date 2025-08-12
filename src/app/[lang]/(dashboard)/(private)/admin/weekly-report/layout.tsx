@@ -82,6 +82,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
             <Card
               style={{
                 marginTop: '20px',
+                marginBottom: '20px',
                 marginLeft: '24px',
                 marginRight: '24px',
                 paddingTop: '20px',
@@ -91,7 +92,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               <div
                 style={{
                   overflowY: 'auto',
-                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 230px)' : 'calc(100vh - 190px)',
+                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 240px)' : 'calc(100vh - 195px)',
                   minHeight: '110px'
                 }}
               >
@@ -104,17 +105,41 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
       </div>
-      <div
-        style={{
-          paddingRight: '396px'
-        }}
-      >
-        <main>{children}</main>
+      <div>
+        <div
+          style={{
+            paddingRight: '396px',
+            top: settings.layout == 'horizontal' ? '115px' : '76px',
+            width: '100%',
+            zIndex: 999,
+            transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
+            transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
+          }}
+        >
+          <div
+            style={{
+              position: 'fixed',
+              width: '100%',
+              paddingRight: '396px'
+            }}
+          >
+            <Card style={{}}>
+              <div
+                style={{
+                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 200px)' : 'calc(100vh - 150px)',
+                  minHeight: '150px'
+                }}
+              >
+                <aside>
+                  <main>{children}</main>
+                </aside>
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
-    <>
-      <main>{children}</main>
-    </>
+    <main>{children}</main>
   )
 }

@@ -37,6 +37,7 @@ import tableStyles from '@core/styles/table.module.css'
 import CustomTextField from '@/@core/components/mui/TextField'
 import Pagination from '../PaginationTXU'
 import { setLastAccounts } from '@/redux-store/slices/accounts'
+import { useSettings } from '@/@core/hooks/useSettings'
 
 const CustomCloseButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
   top: 0,
@@ -81,6 +82,7 @@ const TransitionUp = (props: TransitionProps) => {
 
 const AccountPage = () => {
   const route = useRouter()
+  const { settings } = useSettings()
 
   // Data Accounts, Departments  Page
   const [accounts, setAccounts] = useState<AccountDataType[]>([])
@@ -523,7 +525,9 @@ const AccountPage = () => {
       <Card>
         <CardHeader title='ACCOUNT' />
         <CardContent className='p-0'>
-          <TableContainer style={{ maxHeight: 'calc(100vh - 370px)' }}>
+          <TableContainer
+            style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+          >
             <Table className={tableStyles.table} stickyHeader>
               <TableHead>
                 <TableRow>
@@ -550,11 +554,11 @@ const AccountPage = () => {
               <TableBody>
                 {accountsOfPage.map(account => (
                   <TableRow key={account.id}>
-                    <TableCell>{account.username}</TableCell>
-                    <TableCell>{account.lastName + ' ' + account.firstName} </TableCell>
-                    <TableCell>{account.department?.name ?? ''}</TableCell>
-                    <TableCell>{account.phoneNumber}</TableCell>
-                    <TableCell>{account.email}</TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{account.username}</TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{account.lastName + ' ' + account.firstName} </TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{account.department?.name ?? ''}</TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{account.phoneNumber}</TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{account.email}</TableCell>
                     <TableCell>
                       <IconButton
                         color='primary'
@@ -563,8 +567,8 @@ const AccountPage = () => {
                       >
                         <Box
                           sx={{
-                            width: 22,
-                            height: 22,
+                            width: 20,
+                            height: 20,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -586,8 +590,8 @@ const AccountPage = () => {
                       >
                         <Box
                           sx={{
-                            width: 22,
-                            height: 22,
+                            width: 20,
+                            height: 20,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -618,10 +622,10 @@ const AccountPage = () => {
               marginRight: '20px'
             }}
           >
-            <Button variant='outlined' onClick={handleViewCreateAccount}>
-              Add new account
+            <Button variant='contained' startIcon={<i className='wpf-add-user' />} onClick={handleViewCreateAccount}>
+              Add account
             </Button>
-            <Pagination pageSize={14} items={accounts} onChangePage={onChangePage} />
+            <Pagination pageSize={8} items={accounts} onChangePage={onChangePage} />
           </Box>
         </CardContent>
 
@@ -723,7 +727,13 @@ const AccountPage = () => {
               />
             </Box>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button variant='contained' sx={{ mr: 3.5 }} color='primary' onClick={handleUpdateAccount}>
+              <Button
+                variant='contained'
+                startIcon={<i className='material-symbols-system-update-alt' />}
+                sx={{ mr: 3.5 }}
+                color='primary'
+                onClick={handleUpdateAccount}
+              >
                 Update
               </Button>
             </div>
@@ -848,7 +858,13 @@ const AccountPage = () => {
               </CustomTextField>
             </Box>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button variant='contained' sx={{ mr: 3.5 }} color='primary' onClick={handleCreateAccount}>
+              <Button
+                variant='contained'
+                startIcon={<i className='gridicons-create' />}
+                sx={{ mr: 3.5 }}
+                color='primary'
+                onClick={handleCreateAccount}
+              >
                 Create
               </Button>
             </div>

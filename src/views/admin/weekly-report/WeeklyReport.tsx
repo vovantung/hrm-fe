@@ -23,6 +23,7 @@ import { endOfWeek, format, startOfWeek } from 'date-fns'
 import tableStyles from '@core/styles/table.module.css'
 import Pagination from '../PaginationTXU'
 import { setNotReportedWeekly, setReportedWeekly } from '@/redux-store/slices/report-weekly'
+import { useSettings } from '@/@core/hooks/useSettings'
 
 type ReportedWeeklyDataType = {
   id: number
@@ -47,6 +48,7 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const WeeklyReportView = () => {
+  const { settings } = useSettings()
   const route = useRouter()
   const [init, setInit] = useState<boolean>(false)
 
@@ -256,7 +258,9 @@ const WeeklyReportView = () => {
       <Card>
         <CardHeader title='WEEKLY REPORT' />
         <CardContent className='p-0'>
-          <TableContainer style={{ maxHeight: 'calc(100vh - 370px)' }}>
+          <TableContainer
+            style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+          >
             <Table className={tableStyles.table} stickyHeader>
               <TableHead>
                 <TableRow>
@@ -277,9 +281,11 @@ const WeeklyReportView = () => {
               <TableBody>
                 {reportedWeeklyListOfPage.map(reportedWeekly => (
                   <TableRow key={reportedWeekly.id}>
-                    <TableCell>{reportedWeekly.department.name} </TableCell>
-                    <TableCell>{format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')} </TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{reportedWeekly.department.name} </TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>
+                      {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')}{' '}
+                    </TableCell>
+                    <TableCell style={{ fontSize: '14px' }}>
                       <Link
                         href={reportedWeekly.url}
                         target='_blank'
@@ -298,8 +304,8 @@ const WeeklyReportView = () => {
                       >
                         <Box
                           sx={{
-                            width: 22,
-                            height: 22,
+                            width: 20,
+                            height: 20,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -324,68 +330,79 @@ const WeeklyReportView = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginLeft: '25px',
-              marginTop: '20px',
-              marginBottom: '20px',
-              marginRight: '20px'
-            }}
-          >
-            <Box display='flex' alignItems='center'>
-              <input type='file' hidden ref={inputRef} onChange={handleChange} />
-              <Button variant='outlined' onClick={handleInputOpen}>
-                Upload weekly report
-              </Button>
-            </Box>
 
-            <Pagination pageSize={14} items={reportedWeeklyList} onChangePage={onChangePage} />
-          </Box>
-        </CardContent>
-
-        {/* Alert */}
-        <Fragment>
-          <Snackbar
-            open={openAlert}
-            onClose={handleAlertClose}
-            autoHideDuration={2500}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            TransitionComponent={transition}
-          >
-            <Alert
-              variant='filled'
-              severity='info'
-              style={{ color: 'white', backgroundColor: '#056abdff' }}
+          {/* Alert */}
+          <Fragment>
+            <Snackbar
+              open={openAlert}
               onClose={handleAlertClose}
-              sx={{ width: '100%' }}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
             >
-              {message}
-            </Alert>
-          </Snackbar>
-        </Fragment>
-        {/* Error */}
-        <Fragment>
-          <Snackbar
-            open={openError}
-            onClose={handleErrorClose}
-            autoHideDuration={2500}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            TransitionComponent={transition}
-          >
-            <Alert
-              variant='filled'
-              severity='error'
-              style={{ color: 'white', backgroundColor: '#c51111a9' }}
+              <Alert
+                variant='filled'
+                severity='info'
+                style={{ color: 'white', backgroundColor: '#056abdff' }}
+                onClose={handleAlertClose}
+                sx={{ width: '100%' }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+          </Fragment>
+          {/* Error */}
+          <Fragment>
+            <Snackbar
+              open={openError}
               onClose={handleErrorClose}
-              sx={{ width: '100%' }}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
             >
-              {message}
-            </Alert>
-          </Snackbar>
-        </Fragment>
+              <Alert
+                variant='filled'
+                severity='error'
+                style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                onClose={handleErrorClose}
+                sx={{ width: '100%' }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+          </Fragment>
+        </CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginLeft: '25px',
+            marginTop: '20px',
+            marginBottom: '20px',
+            marginRight: '20px'
+          }}
+        >
+          <Box display='flex' alignItems='center'>
+            <input type='file' hidden ref={inputRef} onChange={handleChange} />
+            <Button
+              variant='contained'
+              size='medium'
+              startIcon={<i className='line-md-uploading-loop' />}
+              onClick={handleInputOpen}
+            >
+              Upload report
+            </Button>
+          </Box>
+
+          <Pagination
+            shape='rounded'
+            color='primary'
+            pageSize={8}
+            items={reportedWeeklyList}
+            onChangePage={onChangePage}
+          />
+        </Box>
       </Card>
     )
 }

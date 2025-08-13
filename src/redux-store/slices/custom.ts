@@ -6,6 +6,7 @@ export const customSlice = createSlice({
     url: 'https://backend.txuyen.com',
     url_hrm: 'https://backend.txuyen.com/hrm',
     url_auth: 'https://backend.txuyen.com/auth',
+
     url_admin: 'https://backend.txuyen.com/admin'
 
     // url_admin: 'http://localhost:8080'

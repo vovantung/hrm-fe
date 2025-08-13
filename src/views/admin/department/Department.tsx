@@ -150,6 +150,46 @@ const DepartmentView = () => {
     setDepartmentsOfPage(departmentsOfPage) // Cập nhật redux với departmentsOfPage mới
   }
 
+  useEffect(() => {
+    initData()
+  }, [])
+
+  async function initData() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      //  Load Departments
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          limit: 1000
+        })
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/department/get-limit', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
+
+        return
+      }
+
+      const departments = await res.json()
+
+      if (departments !== undefined) {
+        setDepartments(departments)
+      }
+    } catch (exception) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
   async function handleRemoveDepartment(event: any) {
     try {
       const id = event.target.id.substring(0, event.target.id.length - 2)
@@ -315,46 +355,6 @@ const DepartmentView = () => {
       }
     } catch (error) {
       console.log(error)
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
-  useEffect(() => {
-    initData()
-  }, [])
-
-  async function initData() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      //  Load Departments
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          limit: 1000
-        })
-      }
-
-      const res = await fetch(globalVariables.url_admin + '/department/get-limit', param)
-
-      if (!res.ok) {
-        const resError = await res.json()
-
-        handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
-
-        return
-      }
-
-      const departments = await res.json()
-
-      if (departments !== undefined) {
-        setDepartments(departments)
-      }
-    } catch (exception) {
       route.replace('/pages/misc/500-server-error')
     }
   }

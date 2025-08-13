@@ -28,9 +28,19 @@ const FilterWeeklyReportSidebar = () => {
   const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
   const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
   const [selectedMonth, setSelectedMonth] = useState<Date | null | undefined>(new Date())
+  const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
   const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
+
+  useEffect(() => {
+    if (!init) {
+      setInit(true)
+      selectMonthYear(selectedMonth)
+    }
+
+    handleReportedFromTo()
+  }, [dateFrom, dateTo])
 
   const filterBySelectedWeekly = (event: any) => {
     const input = event.target.id
@@ -50,8 +60,6 @@ const FilterWeeklyReportSidebar = () => {
       setDateTo(end)
     }
   }
-
-  const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
 
   const selectMonthYear = async (date: Date | null | undefined) => {
     if (date) {
@@ -165,15 +173,6 @@ const FilterWeeklyReportSidebar = () => {
       route.replace('/pages/misc/500-server-error')
     }
   }
-
-  useEffect(() => {
-    if (!init) {
-      setInit(true)
-      selectMonthYear(selectedMonth)
-    }
-
-    handleReportedFromTo()
-  }, [dateFrom, dateTo])
 
   return (
     <div style={{ margin: lgAbove ? '0px' : undefined, marginTop: '0px' }}>

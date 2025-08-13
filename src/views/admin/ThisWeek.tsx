@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
+import type { ComponentType, SyntheticEvent } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { useMediaQuery } from '@mui/material'
+import type { SlideProps } from '@mui/material'
+import { Alert, Slide, Snackbar, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { startOfWeek, endOfWeek, format } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +17,12 @@ type DepartmentDataType = {
   description: string
   createdAt: string
   updateAt: string
+}
+
+type TransitionProps = Omit<SlideProps, 'direction'>
+
+const TransitionUp = (props: TransitionProps) => {
+  return <Slide {...props} direction='down' />
 }
 
 const ThisWeek = () => {
@@ -30,11 +38,36 @@ const ThisWeek = () => {
 
   const notReportedWeekly = useSelector((state: any) => state.reportWeekly.notReportedWeekly) as DepartmentDataType[]
 
-  async function getWeeklyReportsFromTo() {
+  // Dữ liệu, cài đặt hông báo...
+  const [transition, setTransition] = useState<ComponentType<TransitionProps>>()
+  const [message, setMessage] = useState<string>()
+
+  // Alert error
+  const [openError, setOpenError] = useState<boolean>(false)
+
+  const handleErrorOpen = (message: string) => {
+    setTransition(() => TransitionUp)
+    setMessage(message)
+    setOpenError(true)
+  }
+
+  const handleErrorClose = (event?: Event | SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenError(false)
+  }
+
+  useEffect(() => {
+    getNotReportedFromTo()
+  }, [])
+
+  async function getNotReportedFromTo() {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,11 +80,51 @@ const ThisWeek = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', p)
+      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+        const resError = await res.json()
+
+        handleErrorOpen("Can't get list not reported weekly current list, cause by " + resError.errorMessage)
+
+        return
+      }
+
+      const notReportedWeekly = await res.json()
+
+      if (notReportedWeekly !== undefined) {
+        dispatch(setNotReportedWeekly(notReportedWeekly))
+      }
+    } catch (exception) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  async function getWeeklyReportsFromTo() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
+          from: weekStart.toISOString(),
+          to: weekEnd.toISOString()
+        })
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not get list reported weekly current list, cause by ' + resError.errorMessage)
+
         // Thông báo hoặc log lỗi ở đây
         return
       }
@@ -66,44 +139,6 @@ const ThisWeek = () => {
       route.replace('/pages/misc/500-server-error')
     }
   }
-
-  async function getNotReportedFromTo() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const p = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
-          from: weekStart.toISOString(),
-          to: weekEnd.toISOString()
-        })
-      }
-
-      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', p)
-
-      if (!res.ok) {
-        return
-      }
-
-      const notReportedWeekly = await res.json()
-
-      if (notReportedWeekly !== undefined) {
-        dispatch(setNotReportedWeekly(notReportedWeekly))
-      }
-    } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
-  useEffect(() => {
-    getNotReportedFromTo()
-  }, [])
 
   return (
     <div style={{ margin: lgAbove ? '0px' : undefined }}>
@@ -173,6 +208,26 @@ const ThisWeek = () => {
           </span>
         )}
       </div>
+      {/* Error */}
+      <Fragment>
+        <Snackbar
+          open={openError}
+          onClose={handleErrorClose}
+          autoHideDuration={2500}
+          anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+          TransitionComponent={transition}
+        >
+          <Alert
+            variant='filled'
+            severity='error'
+            style={{ color: 'white', backgroundColor: '#c51111a9' }}
+            onClose={handleErrorClose}
+            sx={{ width: '100%' }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
+      </Fragment>
     </div>
   )
 }

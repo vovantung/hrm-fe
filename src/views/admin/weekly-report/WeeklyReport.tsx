@@ -109,81 +109,6 @@ const WeeklyReportView = () => {
     setReportedWeeklyListOfPage(reportedWeeklyOfPage)
   }
 
-  async function handleReportedWeekly() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const p2 = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
-          from: weekStart.toISOString(),
-          to: weekEnd.toISOString()
-        })
-      }
-
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', p2)
-
-      if (!res.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
-      }
-
-      const uploadFiles = await res.json()
-
-      if (uploadFiles !== undefined) {
-        // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(uploadFiles))
-      }
-    } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
-  async function handleNotReportedWeekly() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const p = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
-          from: weekStart.toISOString(),
-          to: weekEnd.toISOString()
-        })
-      }
-
-      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', p)
-
-      if (!res.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
-      }
-
-      const notReported = await res.json()
-
-      if (notReported !== undefined) {
-        // Thống kê các đơn vị chưa gửi báo cáo trong tuần, đây lad state lưu thông tin chung được chia sẽ cho tất cả các component
-        dispatch(setNotReportedWeekly(notReported))
-      }
-    } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
   useEffect(() => {
     if (!init) {
       setInit(true)
@@ -195,16 +120,92 @@ const WeeklyReportView = () => {
     }
   }, [file?.name])
 
+  async function handleReportedWeekly() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
+          from: weekStart.toISOString(),
+          to: weekEnd.toISOString()
+        })
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not get list reported weekly, cause by ' + resError.errorMessage)
+
+        return
+      }
+
+      const reportedWeeklys = await res.json()
+
+      if (reportedWeeklys !== undefined) {
+        // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
+        dispatch(setReportedWeekly(reportedWeeklys))
+      }
+    } catch (exception) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  async function handleNotReportedWeekly() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
+          from: weekStart.toISOString(),
+          to: weekEnd.toISOString()
+        })
+      }
+
+      // Lấy số đơn vị chưa upload báo cáo trong tuần hiện tại
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
+
+        return
+      }
+
+      const notReportedCurrentWeeklyList = await res.json()
+
+      if (notReportedCurrentWeeklyList !== undefined) {
+        // Thống kê các đơn vị chưa gửi báo cáo trong tuần hiện tại, đây là state lưu thông tin chung được chia sẽ cho tất cả các component
+        dispatch(setNotReportedWeekly(notReportedCurrentWeeklyList))
+      }
+    } catch (exception) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
   const handleUploadWeeklyReport = async () => {
     if (!file) return
-
-    const formData = new FormData()
     const auth = localStorage.getItem('Authorization') as string
+    const formData = new FormData()
 
     formData.append('file', file)
 
     try {
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           Authorization: auth
@@ -212,19 +213,19 @@ const WeeklyReportView = () => {
         body: formData
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/create', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/create', param)
 
       if (!res.ok) {
-        const rs = await res.json()
+        const resError = await res.json()
 
-        handleErrorOpen('Can not upload weekly report, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const rs = await res.json()
+      const reportWeekly = await res.json()
 
-      handleAlertOpen('Upload weekly report success. Url file: ' + rs.url)
+      handleAlertOpen('Upload weekly report success. Url file: ' + reportWeekly.url)
       handleReportedWeekly() // Đặt lại danh sách đã gửi báo cáo để WeeklyReport hiện thị...
       handleNotReportedWeekly() // Đặt lại danh sách chưa gửi báo cáo tuần, component ThisWeek sẽ sử dụng danh sách này để hiện thị thông báo...
     } catch (error) {
@@ -312,7 +313,7 @@ const WeeklyReportView = () => {
                           }}
                         >
                           <Icon
-                            icon='fluent:person-delete-16-regular'
+                            icon='mingcute:delete-line'
                             id={reportedWeekly.id + '_0'}
                             style={{ width: '100%', height: '100%' }}
                           />
@@ -330,47 +331,6 @@ const WeeklyReportView = () => {
               </TableBody>
             </Table>
           </TableContainer>
-
-          {/* Alert */}
-          <Fragment>
-            <Snackbar
-              open={openAlert}
-              onClose={handleAlertClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-            >
-              <Alert
-                variant='filled'
-                severity='info'
-                style={{ color: 'white', backgroundColor: '#056abdff' }}
-                onClose={handleAlertClose}
-                sx={{ width: '100%' }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-          </Fragment>
-          {/* Error */}
-          <Fragment>
-            <Snackbar
-              open={openError}
-              onClose={handleErrorClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-            >
-              <Alert
-                variant='filled'
-                severity='error'
-                style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                onClose={handleErrorClose}
-                sx={{ width: '100%' }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-          </Fragment>
         </CardContent>
         <Box
           sx={{
@@ -403,6 +363,46 @@ const WeeklyReportView = () => {
             onChangePage={onChangePage}
           />
         </Box>
+        {/* Alert */}
+        <Fragment>
+          <Snackbar
+            open={openAlert}
+            onClose={handleAlertClose}
+            autoHideDuration={2500}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            TransitionComponent={transition}
+          >
+            <Alert
+              variant='filled'
+              severity='info'
+              style={{ color: 'white', backgroundColor: '#056abdff' }}
+              onClose={handleAlertClose}
+              sx={{ width: '100%' }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+        </Fragment>
+        {/* Error */}
+        <Fragment>
+          <Snackbar
+            open={openError}
+            onClose={handleErrorClose}
+            autoHideDuration={2500}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            TransitionComponent={transition}
+          >
+            <Alert
+              variant='filled'
+              severity='error'
+              style={{ color: 'white', backgroundColor: '#c51111a9' }}
+              onClose={handleErrorClose}
+              sx={{ width: '100%' }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+        </Fragment>
       </Card>
     )
 }

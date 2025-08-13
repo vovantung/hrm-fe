@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react'
 
 import { redirect, usePathname } from 'next/navigation'
 
+import { useSelector } from 'react-redux'
+
 import type { Locale } from '@configs/i18n'
 import type { ChildrenType } from '@core/types'
 import { getLocalizedUrl } from '@/utils/i18n'
 import themeConfig from '@/configs/themeConfig'
 
 export default function AuthGuardTXU({ children, locale }: ChildrenType & { locale: Locale }) {
+  const store = useSelector((state: any) => state.customReducer)
   const [role, setRole] = useState<string>('')
   const pathname = usePathname()
   const allowed_post = ['admin', 'hrm']
@@ -34,7 +37,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      const response = await fetch('https://backend.txuapp.com/get-role', r)
+      const response = await fetch(store.url + '/get-role', r)
 
       const result = await response.json()
 

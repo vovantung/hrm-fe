@@ -20,6 +20,8 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Divider from '@mui/material/Divider'
 
 // Type Imports
+import { useSelector } from 'react-redux'
+
 import type { Locale } from '@configs/i18n'
 
 // Component Imports
@@ -42,6 +44,8 @@ type FormDataType = {
 }
 
 const LoginTXU = () => {
+  const store = useSelector((state: any) => state.customReducer)
+
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
 
@@ -74,7 +78,7 @@ const LoginTXU = () => {
         })
       }
 
-      const response = await fetch('https://backend.txuapp.com/auth/authenticate', r)
+      const response = await fetch(store.url_auth + '/authenticate', r)
 
       const result = await response.json()
 

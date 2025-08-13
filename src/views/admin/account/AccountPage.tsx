@@ -63,6 +63,7 @@ type AccountDataType = {
   email: string
   phoneNumber: string
   department: DepartmentDataType
+  role: RoleDataType
   newpassword: string
 }
 
@@ -70,6 +71,13 @@ type DepartmentDataType = {
   id: number
   name: string
   description: string
+  createdAt: string
+  updateAt: string
+}
+
+type RoleDataType = {
+  id: number
+  name: string
   createdAt: string
   updateAt: string
 }
@@ -92,6 +100,7 @@ const AccountPage = () => {
   const accountsOfPage = useSelector((state: any) => state.accounts.lastAccounts) as AccountDataType[]
 
   const [departments, setDepartments] = useState<DepartmentDataType[]>([])
+  const [roles, setRoles] = useState<RoleDataType[]>([])
 
   const dispatch = useDispatch()
   const store = useSelector((state: any) => state.customReducer)
@@ -111,6 +120,12 @@ const AccountPage = () => {
       createdAt: '',
       updateAt: ''
     },
+    role: {
+      id: 0,
+      name: '',
+      createdAt: '',
+      updateAt: ''
+    },
     newpassword: ''
   })
 
@@ -126,6 +141,12 @@ const AccountPage = () => {
       id: 0,
       name: '',
       description: '',
+      createdAt: '',
+      updateAt: ''
+    },
+    role: {
+      id: 0,
+      name: '',
       createdAt: '',
       updateAt: ''
     },
@@ -287,6 +308,7 @@ const AccountPage = () => {
           firstName: updateAccount.firstName,
           phoneNumber: updateAccount.phoneNumber,
           department: updateAccount.department,
+          role: updateAccount.role,
           email: updateAccount.email,
           password: updateAccount.newpassword
         })
@@ -349,6 +371,41 @@ const AccountPage = () => {
     }
   }
 
+  async function onChangeRoleToUpdate(e: any) {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const p = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          id: e.target.value
+        })
+      }
+
+      const res = await fetch(store.url_admin + '/role/get-by-id', p)
+
+      if (!res.ok) {
+        const rs = await res.json()
+
+        handleErrorOpen('Can not get role, cause by ' + rs.errorMessage)
+
+        return
+      }
+
+      const role = await res.json()
+
+      if (role !== undefined) {
+        setUpdateAccount({ ...updateAccount, role: role })
+      }
+    } catch (error) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
   // Create account
 
   function handleViewCreateAccount() {
@@ -364,6 +421,12 @@ const AccountPage = () => {
         id: 0,
         name: '',
         description: '',
+        createdAt: '',
+        updateAt: ''
+      },
+      role: {
+        id: 0,
+        name: '',
         createdAt: '',
         updateAt: ''
       },
@@ -389,6 +452,7 @@ const AccountPage = () => {
           firstName: createAccount.firstName,
           phoneNumber: createAccount.phoneNumber,
           department: createAccount.department,
+          role: createAccount.role,
           email: createAccount.email,
           password: createAccount.newpassword
         })
@@ -446,6 +510,41 @@ const AccountPage = () => {
 
       if (department !== undefined) {
         setCreateAccount({ ...createAccount, department: department })
+      }
+    } catch (error) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  async function onChangeRoleToCreate(e: any) {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const p = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          id: e.target.value
+        })
+      }
+
+      const res = await fetch(store.url_admin + '/role/get-by-id', p)
+
+      if (!res.ok) {
+        const rs = await res.json()
+
+        handleErrorOpen('Can not get role, cause by ' + rs.errorMessage)
+
+        return
+      }
+
+      const role = await res.json()
+
+      if (role !== undefined) {
+        setCreateAccount({ ...createAccount, role: role })
       }
     } catch (error) {
       route.replace('/pages/misc/500-server-error')
@@ -514,6 +613,35 @@ const AccountPage = () => {
 
       if (departments !== undefined) {
         setDepartments(departments)
+      }
+
+      // Load roles
+      //  Load Departments
+      const p3 = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          limit: 100
+        })
+      }
+
+      const res3 = await fetch(store.url_admin + '/role/get-limit', p3)
+
+      if (!res3.ok) {
+        const rs3 = await res3.json()
+
+        handleErrorOpen('Can not get list department, cause by ' + rs3.errorMessage)
+
+        return
+      }
+
+      const roles = await res3.json()
+
+      if (roles !== undefined) {
+        setRoles(roles)
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -700,6 +828,21 @@ const AccountPage = () => {
 
               <CustomTextField
                 style={{ marginTop: '15px' }}
+                select
+                fullWidth
+                label='Role'
+                onChange={onChangeRoleToUpdate}
+                value={updateAccount.role.id}
+              >
+                {roles.map(role => (
+                  <MenuItem key={role.id} value={role.id}>
+                    {role.name}
+                  </MenuItem>
+                ))}
+              </CustomTextField>
+
+              <CustomTextField
+                style={{ marginTop: '15px' }}
                 fullWidth
                 label='New password (leave blank if no update needed)'
                 placeholder='Enter new password'
@@ -853,6 +996,20 @@ const AccountPage = () => {
                 {departments.map(department => (
                   <MenuItem key={department.id} value={department.id}>
                     {department.name}
+                  </MenuItem>
+                ))}
+              </CustomTextField>
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                select
+                fullWidth
+                label='Role'
+                onChange={onChangeRoleToCreate}
+                value={createAccount.role.id}
+              >
+                {roles.map(role => (
+                  <MenuItem key={role.id} value={role.id}>
+                    {role.name}
                   </MenuItem>
                 ))}
               </CustomTextField>

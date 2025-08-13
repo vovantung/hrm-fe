@@ -18,7 +18,11 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
 
   const left =
     settings.contentWidth === 'compact'
-      ? 'calc(100% - 420px - max(0px, (100% - 1440px) / 2))'
+      ? settings.layout !== 'collapsed'
+        ? settings.layout === 'horizontal'
+          ? 'calc(100% - 420px - max(0px, (100% - 1440px) / 2))'
+          : 'calc(100% - 420px - max(0px, (100% - 1440px - 260px) / 2))'
+        : 'calc(100% - 420px - max(0px, (100% - 1440px - 70px) / 2))'
       : 'calc(100% - 420px  - max(0px, (-100%) / 2))'
 
   // const isCompact = settings.contentWidth === 'compact'

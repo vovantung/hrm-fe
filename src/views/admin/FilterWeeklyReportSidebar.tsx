@@ -39,7 +39,9 @@ const FilterWeeklyReportSidebar = () => {
       selectMonthYear(selectedMonth)
     }
 
-    handleReportedFromTo()
+    if (dateFrom && dateTo) {
+      handleReportedFromTo()
+    }
   }, [dateFrom, dateTo])
 
   const filterBySelectedWeekly = (event: any) => {
@@ -49,10 +51,8 @@ const FilterWeeklyReportSidebar = () => {
 
     if (match) {
       const [, startStr, endStr] = match
-
       const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
       const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
-
       const start = new Date(startYear, startMonth - 1, startDay)
       const end = new Date(endYear, endMonth - 1, endDay + 1)
 
@@ -102,7 +102,7 @@ const FilterWeeklyReportSidebar = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p2 = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', p2)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', param)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -124,11 +124,11 @@ const FilterWeeklyReportSidebar = () => {
         return
       }
 
-      const reportedWeekly = await res.json()
+      const reportedFromToList = await res.json()
 
-      if (reportedWeekly !== undefined) {
+      if (reportedFromToList !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(reportedWeekly))
+        dispatch(setReportedWeekly(reportedFromToList))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -139,7 +139,7 @@ const FilterWeeklyReportSidebar = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ const FilterWeeklyReportSidebar = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
         // const rs = await res.json()

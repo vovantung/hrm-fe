@@ -1,8 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-import type Account from '@/views/pages/account-settings/account'
-
 type DepartmentDataType = {
   id: number
   name: string
@@ -11,7 +9,7 @@ type DepartmentDataType = {
   updateAt: string
 }
 
-type Account = {
+type AccountDataType = {
   id: number
   username: string
   lastName: string
@@ -24,12 +22,12 @@ type Account = {
 }
 
 interface AccountState {
-  lastAccounts: Account[]
-  userLogin: Account
+  accountsOfPage: AccountDataType[]
+  userLogin: AccountDataType
 }
 
 const initialState: AccountState = {
-  lastAccounts: [],
+  accountsOfPage: [],
   userLogin: {
     id: 0,
     username: '',
@@ -53,14 +51,14 @@ const accountsSlice = createSlice({
   name: 'accounts',
   initialState,
   reducers: {
-    setLastAccounts(state, action: PayloadAction<Account[]>) {
-      state.lastAccounts = action.payload
+    setAccountsOfPage(state, action: PayloadAction<AccountDataType[]>) {
+      state.accountsOfPage = action.payload
     },
-    setUserLogin(state, action: PayloadAction<Account>) {
+    setUserLogin(state, action: PayloadAction<AccountDataType>) {
       state.userLogin = action.payload
     },
-    clearLastAccounts(state) {
-      state.lastAccounts = []
+    clearAccountsOfPage(state) {
+      state.accountsOfPage = []
     },
     clearUserLogin(state) {
       state.userLogin = {
@@ -84,5 +82,5 @@ const accountsSlice = createSlice({
   }
 })
 
-export const { setLastAccounts, clearLastAccounts, setUserLogin, clearUserLogin } = accountsSlice.actions
+export const { setAccountsOfPage, clearAccountsOfPage, setUserLogin, clearUserLogin } = accountsSlice.actions
 export default accountsSlice.reducer

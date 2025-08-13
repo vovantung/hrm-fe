@@ -30,7 +30,7 @@ const FilterWeeklyReportSidebar = () => {
   const [selectedMonth, setSelectedMonth] = useState<Date | null | undefined>(new Date())
   const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
-  const store = useSelector((state: any) => state.customReducer)
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   const filterBySelectedWeekly = (event: any) => {
     const input = event.target.id
@@ -107,7 +107,7 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res = await fetch(store.url_admin + '/weekly-report/get-fromto', p2)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', p2)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -145,7 +145,7 @@ const FilterWeeklyReportSidebar = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(store.url_admin + '/weekly-report/get-noreport-fromto', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', p)
 
       if (!res.ok) {
         // const rs = await res.json()

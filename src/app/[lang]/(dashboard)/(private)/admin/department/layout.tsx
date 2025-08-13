@@ -11,7 +11,7 @@ import { Card } from '@mui/material'
 
 import { useSettings } from '@/@core/hooks/useSettings'
 import SidebarAccount1 from '@/views/admin/SidebarAccount1'
-import FilterWeeklyReportSidebar from '@/views/admin/FilterWeeklyReportSidebar'
+import SidebarAccount2 from '@/views/admin/SidebarAccount2'
 
 export default function PostLayout({ children }: { children: React.ReactNode }) {
   const { settings } = useSettings()
@@ -64,7 +64,6 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
             top: settings.layout == 'horizontal' ? '115px' : '76px',
             width: '420px',
             left: left,
-            zIndex: 999,
             transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
             transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
           }}
@@ -74,8 +73,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               position: 'fixed',
               top: '0px',
               left: left,
-              width: '420px',
-              zIndex: 9999
+              width: '420px'
             }}
           >
             {/* Card thực sự: có background + shadow */}
@@ -98,7 +96,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               >
                 <aside>
                   <SidebarAccount1 />
-                  <FilterWeeklyReportSidebar />
+                  <SidebarAccount2 />
                 </aside>
               </div>
             </Card>
@@ -111,7 +109,6 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
             paddingRight: '396px',
             top: settings.layout == 'horizontal' ? '115px' : '76px',
             width: '100%',
-            zIndex: 999,
             transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
             transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
           }}

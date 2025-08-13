@@ -26,7 +26,7 @@ const ThisWeek = () => {
   const weekEnd = endOfWeek(now, { weekStartsOn: 1 }) // Chủ nhật, ngày cuối tuần (hiện tại)
 
   const dispatch = useDispatch()
-  const store = useSelector((state: any) => state.customReducer)
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   const notReportedWeekly = useSelector((state: any) => state.reportWeekly.notReportedWeekly) as DepartmentDataType[]
 
@@ -47,7 +47,7 @@ const ThisWeek = () => {
         })
       }
 
-      const res = await fetch(store.url_admin + '/weekly-report/get-fromto', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', p)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -85,7 +85,7 @@ const ThisWeek = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(store.url_admin + '/weekly-report/get-noreport-fromto', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', p)
 
       if (!res.ok) {
         return

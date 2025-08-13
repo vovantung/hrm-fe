@@ -38,13 +38,13 @@ import { getLocalizedUrl } from '@/utils/i18n'
 import AuthIllustrationWrapper from './AuthIllustrationWrapper'
 
 // Vo Van Tung 17/7/2025
-type FormDataType = {
+type LoginDataType = {
   username: string
   password: string
 }
 
 const LoginTXU = () => {
-  const store = useSelector((state: any) => state.customReducer)
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
@@ -60,7 +60,7 @@ const LoginTXU = () => {
 
   // Author: Vo Van Tung
   // 17/7/2025
-  const [formData, setFormData] = useState<FormDataType>({
+  const [formData, setFormData] = useState<LoginDataType>({
     username: '',
     password: ''
   })
@@ -78,7 +78,7 @@ const LoginTXU = () => {
         })
       }
 
-      const response = await fetch(store.url_auth + '/authenticate', r)
+      const response = await fetch(globalVariables.url_auth + '/authenticate', r)
 
       const result = await response.json()
 

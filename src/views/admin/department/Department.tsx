@@ -69,13 +69,11 @@ const TransitionUp = (props: TransitionProps) => {
   return <Slide {...props} direction='down' />
 }
 
-const DepartmentPage = () => {
-  const { settings } = useSettings()
+const DepartmentView = () => {
   const route = useRouter()
-  const store = useSelector((state: any) => state.customReducer)
-
+  const { settings } = useSettings()
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const [departments, setDepartments] = useState<DepartmentDataType[]>([])
-
   const [departmentsOfPage, setDepartmentsOfPage] = useState<DepartmentDataType[]>([])
 
   // Data temp using for update account
@@ -158,7 +156,7 @@ const DepartmentPage = () => {
       const auth = localStorage.getItem('Authorization') as string
 
       if (!(id == 0 || id == undefined)) {
-        const r = {
+        const param = {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -169,19 +167,19 @@ const DepartmentPage = () => {
           })
         }
 
-        const response = await fetch(store.url_admin + '/department/remove', r)
+        const res = await fetch(globalVariables.url_admin + '/department/remove', param)
 
-        if (!response.ok) {
-          const rs = await response.json()
+        if (!res.ok) {
+          const resError = await res.json()
 
-          handleErrorOpen('Can not delete department, cause by ' + rs.errorMessage)
+          handleErrorOpen('Can not delete department, cause by ' + resError.errorMessage)
 
           return
         }
 
-        const rs = await response.json()
+        const result = await res.json()
 
-        if (rs !== undefined && rs == true) {
+        if (result !== undefined && result == true) {
           initData()
           handleAlertOpen('Deleted  department with [' + id + ']')
         }
@@ -197,7 +195,7 @@ const DepartmentPage = () => {
       const auth = localStorage.getItem('Authorization') as string
 
       if (!(id == 0 || id == undefined)) {
-        const p = {
+        const param = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -208,17 +206,17 @@ const DepartmentPage = () => {
           })
         }
 
-        const response = await fetch(store.url_admin + '/department/get-by-id', p)
+        const res = await fetch(globalVariables.url_admin + '/department/get-by-id', param)
 
-        if (!response.ok) {
-          const rs = await response.json()
+        if (!res.ok) {
+          const resError = await res.json()
 
-          handleErrorOpen('Can not get department, cause by ' + rs.errorMessage)
+          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
           return
         }
 
-        const department = await response.json()
+        const department = await res.json()
 
         if (department !== undefined) {
           setUpdateDepartment(department)
@@ -234,7 +232,7 @@ const DepartmentPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -247,17 +245,17 @@ const DepartmentPage = () => {
         })
       }
 
-      const response = await fetch(store.url_admin + '/department/create-or-update', p)
+      const res = await fetch(globalVariables.url_admin + '/department/create-or-update', param)
 
-      if (!response.ok) {
-        const rs = await response.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not update department, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not update department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const department = await response.json()
+      const department = await res.json()
 
       if (department !== undefined) {
         closeUpdateDepartmentDailog()
@@ -270,7 +268,6 @@ const DepartmentPage = () => {
   }
 
   // Create account
-
   function handleViewCreateDepartment() {
     setCreateDepartment({
       id: 0,
@@ -287,7 +284,7 @@ const DepartmentPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -299,17 +296,17 @@ const DepartmentPage = () => {
         })
       }
 
-      const response = await fetch(store.url_admin + '/department/create-or-update', p)
+      const res = await fetch(globalVariables.url_admin + '/department/create-or-update', param)
 
-      if (!response.ok) {
-        const rs = await response.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not add new department, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not add new department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const department = await response.json()
+      const department = await res.json()
 
       if (department !== undefined) {
         closeCreateDepartmentDailog()
@@ -331,28 +328,28 @@ const DepartmentPage = () => {
       const auth = localStorage.getItem('Authorization') as string
 
       //  Load Departments
-      const p2 = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: auth
         },
         body: JSON.stringify({
-          limit: 100
+          limit: 1000
         })
       }
 
-      const response1 = await fetch(store.url_admin + '/department/get-limit', p2)
+      const res = await fetch(globalVariables.url_admin + '/department/get-limit', param)
 
-      if (!response1.ok) {
-        const rs = await response1.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const departments = await response1.json()
+      const departments = await res.json()
 
       if (departments !== undefined) {
         setDepartments(departments)
@@ -374,19 +371,19 @@ const DepartmentPage = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <b>Name</b>
+                    <b>Đơn vị</b>
                   </TableCell>
                   <TableCell>
-                    <b>Description</b>
+                    <b>Mô tả</b>
                   </TableCell>
                   <TableCell>
-                    <b>Created at</b>
+                    <b>Ngày tạo</b>
                   </TableCell>
                   <TableCell>
-                    <b>Updated at</b>
+                    <b>Ngày cập nhật</b>
                   </TableCell>
                   <TableCell>
-                    <b>Action</b>
+                    <b>Hành động</b>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -419,7 +416,7 @@ const DepartmentPage = () => {
                           }}
                         >
                           <Icon
-                            icon='fluent:person-delete-16-regular'
+                            icon='mingcute:delete-line'
                             id={department.id + '_0'}
                             onClick={handleRemoveDepartment}
                             style={{ width: '100%', height: '100%' }}
@@ -443,7 +440,7 @@ const DepartmentPage = () => {
                         >
                           <Icon
                             id={department.id + '_0'}
-                            icon='radix-icons:update'
+                            icon='wpf:create-new'
                             onClick={handleViewUpdateDepartment}
                             style={{ width: '100%', height: '100%' }}
                           />
@@ -471,7 +468,7 @@ const DepartmentPage = () => {
               startIcon={<i className='mingcute-add-fill' />}
               onClick={handleViewCreateDepartment}
             >
-              Add department
+              Thêm đơn vị
             </Button>
             <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
           </Box>
@@ -521,7 +518,7 @@ const DepartmentPage = () => {
                 color='primary'
                 onClick={handleUpdateDepartment}
               >
-                Update
+                Cập nhật
               </Button>
             </div>
           </DialogContent>
@@ -573,7 +570,7 @@ const DepartmentPage = () => {
                 color='primary'
                 onClick={handleCreateDepartment}
               >
-                Create
+                Tạo
               </Button>
             </div>
           </DialogContent>
@@ -623,4 +620,4 @@ const DepartmentPage = () => {
     )
 }
 
-export default DepartmentPage
+export default DepartmentView

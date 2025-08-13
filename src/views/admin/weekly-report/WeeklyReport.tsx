@@ -65,7 +65,7 @@ const WeeklyReportView = () => {
   const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
 
   const dispatch = useDispatch()
-  const store = useSelector((state: any) => state.customReducer)
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   const [reportedWeeklyListOfPage, setReportedWeeklyListOfPage] = useState<ReportedWeeklyDataType[]>([])
 
@@ -126,7 +126,7 @@ const WeeklyReportView = () => {
         })
       }
 
-      const res = await fetch(store.url_admin + '/weekly-report/get-fromto', p2)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', p2)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -164,7 +164,7 @@ const WeeklyReportView = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(store.url_admin + '/weekly-report/get-noreport-fromto', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', p)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -212,7 +212,7 @@ const WeeklyReportView = () => {
         body: formData
       }
 
-      const res = await fetch(store.url_admin + '/weekly-report/create', p)
+      const res = await fetch(globalVariables.url_admin + '/weekly-report/create', p)
 
       if (!res.ok) {
         const rs = await res.json()

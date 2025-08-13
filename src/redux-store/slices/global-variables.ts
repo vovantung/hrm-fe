@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const customSlice = createSlice({
+export const globalVariablesSlice = createSlice({
   name: 'custom_url',
   initialState: {
     url: 'https://backend.txuyen.com',
@@ -14,4 +14,4 @@ export const customSlice = createSlice({
   reducers: {}
 })
 
-export default customSlice.reducer
+export default globalVariablesSlice.reducer

@@ -81,7 +81,7 @@ const UserDropdown = () => {
   const { settings } = useSettings()
   const { lang: locale } = useParams()
 
-  const store = useSelector((state: any) => state.customReducer)
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const userLogin = useSelector((state: any) => state.accounts.userLogin) as AccountDataType
 
   const dispatch = useDispatch()
@@ -139,7 +139,7 @@ const UserDropdown = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(store.url_admin + '/account/get-current-user', p)
+      const res = await fetch(globalVariables.url_admin + '/account/get-current-user', p)
 
       if (!res.ok) {
         return

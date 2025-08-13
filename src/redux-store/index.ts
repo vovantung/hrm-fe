@@ -6,7 +6,7 @@ import chatReducer from '@/redux-store/slices/chat'
 import calendarReducer from '@/redux-store/slices/calendar'
 import kanbanReducer from '@/redux-store/slices/kanban'
 import emailReducer from '@/redux-store/slices/email'
-import customReducer from '@/redux-store/slices/custom'
+import globalVariablesReducer from '@/redux-store/slices/global-variables'
 import postReducer from '@/redux-store/slices/post'
 import accountsReducer from '@/redux-store/slices/accounts'
 import reportWeeklyReducer from '@/redux-store/slices/report-weekly'
@@ -17,7 +17,7 @@ export const store = configureStore({
     calendarReducer,
     kanbanReducer,
     emailReducer,
-    customReducer,
+    globalVariablesReducer,
     post: postReducer,
     accounts: accountsReducer,
     reportWeekly: reportWeeklyReducer

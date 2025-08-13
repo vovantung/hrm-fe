@@ -36,8 +36,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import tableStyles from '@core/styles/table.module.css'
 import CustomTextField from '@/@core/components/mui/TextField'
 import Pagination from '../PaginationTXU'
-import { setLastAccounts } from '@/redux-store/slices/accounts'
+
 import { useSettings } from '@/@core/hooks/useSettings'
+import { setAccountsOfPage } from '@/redux-store/slices/accounts'
 
 const CustomCloseButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
   top: 0,
@@ -97,13 +98,13 @@ const AccountPage = () => {
 
   // const [accountsOfPage, setAccountsOfPage] = useState<AccountDataType[]>([])
   // Sử dụng redux lưu dữ liệu chia sẽ giữa các thành phần trong ứng dụng
-  const accountsOfPage = useSelector((state: any) => state.accounts.lastAccounts) as AccountDataType[]
+  const accountsOfPage = useSelector((state: any) => state.accounts.accountsOfPage) as AccountDataType[]
 
   const [departments, setDepartments] = useState<DepartmentDataType[]>([])
   const [roles, setRoles] = useState<RoleDataType[]>([])
 
   const dispatch = useDispatch()
-  const store = useSelector((state: any) => state.customReducer)
+  const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   // Data temp using for update account
   const [updateAccount, setUpdateAccount] = useState<AccountDataType>({
@@ -211,7 +212,103 @@ const AccountPage = () => {
 
   function onChangePage(accountsOfPage: any) {
     // setAccountsOfPage(accountsOfPage)
-    dispatch(setLastAccounts(accountsOfPage)) // Cập nhật redux với accountsOfPage mới
+    dispatch(setAccountsOfPage(accountsOfPage)) // Cập nhật redux với accountsOfPage mới
+  }
+
+  useEffect(() => {
+    initData()
+  }, [])
+
+  async function initData() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      // Load Accounts
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          limit: 1000
+        })
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/account/get-limit', param)
+
+      if (!res.ok) {
+        const rs = await res.json()
+
+        handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
+
+        return
+      }
+
+      const accounts = await res.json()
+
+      if (accounts !== undefined) {
+        setAccounts(accounts)
+      }
+
+      //  Load Departments
+      const param1 = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          limit: 1000
+        })
+      }
+
+      const res1 = await fetch(globalVariables.url_admin + '/department/get-limit', param1)
+
+      if (!res1.ok) {
+        const rs = await res1.json()
+
+        handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+
+        return
+      }
+
+      const departments = await res1.json()
+
+      if (departments !== undefined) {
+        setDepartments(departments)
+      }
+
+      // Load roles
+      const param2 = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          limit: 100
+        })
+      }
+
+      const res2 = await fetch(globalVariables.url_admin + '/role/get-limit', param2)
+
+      if (!res2.ok) {
+        const rs3 = await res2.json()
+
+        handleErrorOpen('Can not get list department, cause by ' + rs3.errorMessage)
+
+        return
+      }
+
+      const roles = await res2.json()
+
+      if (roles !== undefined) {
+        setRoles(roles)
+      }
+    } catch (exception) {
+      route.replace('/pages/misc/500-server-error')
+    }
   }
 
   async function handleRemoveAccount(event: any) {
@@ -220,7 +317,7 @@ const AccountPage = () => {
       const auth = localStorage.getItem('Authorization') as string
 
       if (!(username == '' || username == undefined)) {
-        const r = {
+        const param = {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -231,19 +328,19 @@ const AccountPage = () => {
           })
         }
 
-        const response = await fetch(store.url_admin + '/account/remove', r)
+        const res = await fetch(globalVariables.url_admin + '/account/remove', param)
 
-        if (!response.ok) {
-          const rs = await response.json()
+        if (!res.ok) {
+          const resError = await res.json()
 
-          handleErrorOpen('Can not delete account, cause by ' + rs.errorMessage)
+          handleErrorOpen('Can not delete account, cause by ' + resError.errorMessage)
 
           return
         }
 
-        const rs = await response.json()
+        const result = await res.json()
 
-        if (rs !== undefined && rs == true) {
+        if (result !== undefined && result == true) {
           initData()
           handleAlertOpen('Deleted [' + username + '] account')
         }
@@ -259,7 +356,7 @@ const AccountPage = () => {
       const auth = localStorage.getItem('Authorization') as string
 
       if (!(username == '' || username == undefined)) {
-        const p = {
+        const param = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -270,17 +367,17 @@ const AccountPage = () => {
           })
         }
 
-        const response = await fetch(store.url_admin + '/account/get-by-username', p)
+        const res = await fetch(globalVariables.url_admin + '/account/get-by-username', param)
 
-        if (!response.ok) {
-          const rs = await response.json()
+        if (!res.ok) {
+          const resError = await res.json()
 
-          handleErrorOpen('Can not get account, cause by ' + rs.errorMessage)
+          handleErrorOpen('Can not get account, cause by ' + resError.errorMessage)
 
           return
         }
 
-        const accounts = await response.json()
+        const accounts = await res.json()
 
         if (accounts !== undefined) {
           setUpdateAccount(accounts)
@@ -296,7 +393,7 @@ const AccountPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -314,17 +411,17 @@ const AccountPage = () => {
         })
       }
 
-      const response = await fetch(store.url_admin + '/account/create-or-update', p)
+      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
 
-      if (!response.ok) {
-        const rs = await response.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not add new account, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const acount = await response.json()
+      const acount = await res.json()
 
       if (acount !== undefined) {
         closeUpdateAccountDailog()
@@ -340,7 +437,7 @@ const AccountPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -351,17 +448,17 @@ const AccountPage = () => {
         })
       }
 
-      const response = await fetch(store.url_admin + '/department/get-by-id', p)
+      const res = await fetch(globalVariables.url_admin + '/department/get-by-id', param)
 
-      if (!response.ok) {
-        const rs = await response.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not get department, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const department = await response.json()
+      const department = await res.json()
 
       if (department !== undefined) {
         setUpdateAccount({ ...updateAccount, department: department })
@@ -375,7 +472,7 @@ const AccountPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -386,12 +483,12 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(store.url_admin + '/role/get-by-id', p)
+      const res = await fetch(globalVariables.url_admin + '/role/get-by-id', param)
 
       if (!res.ok) {
-        const rs = await res.json()
+        const resError = await res.json()
 
-        handleErrorOpen('Can not get role, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not get role, cause by ' + resError.errorMessage)
 
         return
       }
@@ -440,7 +537,7 @@ const AccountPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -458,17 +555,17 @@ const AccountPage = () => {
         })
       }
 
-      const response = await fetch(store.url_admin + '/account/create-or-update', p)
+      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
 
-      if (!response.ok) {
-        const rs = await response.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not add new account, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const acount = await response.json()
+      const acount = await res.json()
 
       if (acount !== undefined) {
         closeCreateAccountDailog()
@@ -485,7 +582,7 @@ const AccountPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -496,17 +593,17 @@ const AccountPage = () => {
         })
       }
 
-      const response = await fetch(store.url_admin + '/department/get-by-id', p)
+      const res = await fetch(globalVariables.url_admin + '/department/get-by-id', param)
 
-      if (!response.ok) {
-        const rs = await response.json()
+      if (!res.ok) {
+        const resError = await res.json()
 
-        handleErrorOpen('Can not get department, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const department = await response.json()
+      const department = await res.json()
 
       if (department !== undefined) {
         setCreateAccount({ ...createAccount, department: department })
@@ -520,7 +617,7 @@ const AccountPage = () => {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
-      const p = {
+      const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -531,12 +628,12 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(store.url_admin + '/role/get-by-id', p)
+      const res = await fetch(globalVariables.url_admin + '/role/get-by-id', param)
 
       if (!res.ok) {
-        const rs = await res.json()
+        const resError = await res.json()
 
-        handleErrorOpen('Can not get role, cause by ' + rs.errorMessage)
+        handleErrorOpen('Can not get role, cause by ' + resError.errorMessage)
 
         return
       }
@@ -547,103 +644,6 @@ const AccountPage = () => {
         setCreateAccount({ ...createAccount, role: role })
       }
     } catch (error) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
-  useEffect(() => {
-    initData()
-  }, [])
-
-  async function initData() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      // Load Accounts
-      const p1 = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          limit: 100
-        })
-      }
-
-      const response = await fetch(store.url_admin + '/account/get-limit', p1)
-
-      if (!response.ok) {
-        const rs = await response.json()
-
-        handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
-
-        return
-      }
-
-      const accounts = await response.json()
-
-      if (accounts !== undefined) {
-        setAccounts(accounts)
-      }
-
-      //  Load Departments
-      const p2 = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          limit: 100
-        })
-      }
-
-      const response1 = await fetch(store.url_admin + '/department/get-limit', p2)
-
-      if (!response.ok) {
-        const rs = await response.json()
-
-        handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-
-        return
-      }
-
-      const departments = await response1.json()
-
-      if (departments !== undefined) {
-        setDepartments(departments)
-      }
-
-      // Load roles
-      //  Load Departments
-      const p3 = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          limit: 100
-        })
-      }
-
-      const res3 = await fetch(store.url_admin + '/role/get-limit', p3)
-
-      if (!res3.ok) {
-        const rs3 = await res3.json()
-
-        handleErrorOpen('Can not get list department, cause by ' + rs3.errorMessage)
-
-        return
-      }
-
-      const roles = await res3.json()
-
-      if (roles !== undefined) {
-        setRoles(roles)
-      }
-    } catch (exception) {
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -660,30 +660,30 @@ const AccountPage = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <b>Username</b>
+                    <b>Họ tên</b>
                   </TableCell>
                   <TableCell>
-                    <b>Full name</b>
+                    <b>Tên người dùng</b>
                   </TableCell>
                   <TableCell>
-                    <b>Department</b>
+                    <b>Đơn vị</b>
                   </TableCell>
                   <TableCell>
-                    <b>Phone number</b>
+                    <b>Số điện thoại</b>
                   </TableCell>
                   <TableCell>
                     <b>Email</b>
                   </TableCell>
                   <TableCell>
-                    <b>Action</b>
+                    <b>Hành động</b>
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {accountsOfPage.map(account => (
                   <TableRow key={account.id}>
-                    <TableCell style={{ fontSize: '14.5px' }}>{account.username}</TableCell>
                     <TableCell style={{ fontSize: '14.5px' }}>{account.lastName + ' ' + account.firstName} </TableCell>
+                    <TableCell style={{ fontSize: '14.5px' }}>{account.username}</TableCell>
                     <TableCell style={{ fontSize: '14.5px' }}>{account.department?.name ?? ''}</TableCell>
                     <TableCell style={{ fontSize: '14.5px' }}>{account.phoneNumber}</TableCell>
                     <TableCell style={{ fontSize: '14.5px' }}>{account.email}</TableCell>
@@ -703,7 +703,7 @@ const AccountPage = () => {
                           }}
                         >
                           <Icon
-                            icon='fluent:person-delete-16-regular'
+                            icon='mingcute:delete-line'
                             id={account.username + '_0'}
                             onClick={handleRemoveAccount}
                             style={{ width: '100%', height: '100%' }}
@@ -727,7 +727,7 @@ const AccountPage = () => {
                         >
                           <Icon
                             id={account.username + '_1'}
-                            icon='radix-icons:update'
+                            icon='wpf:create-new'
                             onClick={handleViewUpdateAccount}
                             style={{ width: '100%', height: '100%' }}
                           />
@@ -751,7 +751,7 @@ const AccountPage = () => {
             }}
           >
             <Button variant='contained' startIcon={<i className='wpf-add-user' />} onClick={handleViewCreateAccount}>
-              Add account
+              Thêm tài khoản
             </Button>
             <Pagination pageSize={8} items={accounts} onChangePage={onChangePage} />
           </Box>
@@ -877,7 +877,7 @@ const AccountPage = () => {
                 color='primary'
                 onClick={handleUpdateAccount}
               >
-                Update
+                Cập nhật
               </Button>
             </div>
           </DialogContent>
@@ -1022,7 +1022,7 @@ const AccountPage = () => {
                 color='primary'
                 onClick={handleCreateAccount}
               >
-                Create
+                Tạo
               </Button>
             </div>
           </DialogContent>

@@ -97,7 +97,7 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function handleReportedFromTo() {
-    if (dateFrom == dateTo) return
+    // if (dateFrom == dateTo) return
 
     try {
       const auth = localStorage.getItem('Authorization') as string
@@ -125,6 +125,8 @@ const FilterWeeklyReportSidebar = () => {
       }
 
       const reportedFromToList = await res.json()
+
+      alert('aa')
 
       if (reportedFromToList !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào

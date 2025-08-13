@@ -37,9 +37,7 @@ const FilterWeeklyReportSidebar = () => {
     if (!init) {
       setInit(true)
       selectMonthYear(selectedMonth)
-    }
-
-    if (dateFrom && dateTo) {
+    } else {
       handleReportedFromTo()
     }
   }, [dateFrom, dateTo])

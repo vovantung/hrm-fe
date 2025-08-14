@@ -106,6 +106,12 @@ const AccountPage = () => {
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
+  const auth = useSelector((state: any) => state.auth.auth) as {
+    token: string
+  }
+
+  // const auth = localStorage.getItem('Authorization') as string
+
   // Data temp using for update account
   const [updateAccount, setUpdateAccount] = useState<AccountDataType>({
     id: 0,
@@ -223,14 +229,14 @@ const AccountPage = () => {
 
   async function initAccounts() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       // Load Accounts
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           limit: 1000
@@ -259,14 +265,14 @@ const AccountPage = () => {
 
   async function initRolesDepartments() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       //  Load Departments
       const param1 = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           limit: 1000
@@ -294,7 +300,7 @@ const AccountPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           limit: 100
@@ -325,14 +331,15 @@ const AccountPage = () => {
   async function handleRemoveAccount(event: any) {
     try {
       const username = event.target.id.substring(0, event.target.id.length - 2)
-      const auth = localStorage.getItem('Authorization') as string
+
+      // const auth = localStorage.getItem('Authorization') as string
 
       if (!(username == '' || username == undefined)) {
         const param = {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: auth
+            Authorization: auth.token
           },
           body: JSON.stringify({
             username: username
@@ -366,14 +373,15 @@ const AccountPage = () => {
   async function handleViewUpdateAccount(event: any) {
     try {
       const username = event.target.id.substring(0, event.target.id.length - 2)
-      const auth = localStorage.getItem('Authorization') as string
+
+      // const auth = localStorage.getItem('Authorization') as string
 
       if (!(username == '' || username == undefined)) {
         const param = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: auth
+            Authorization: auth.token
           },
           body: JSON.stringify({
             username: username
@@ -404,13 +412,13 @@ const AccountPage = () => {
 
   async function onChangeDepartmentToUpdate(e: any) {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           id: e.target.value
@@ -440,13 +448,13 @@ const AccountPage = () => {
 
   async function onChangeRoleToUpdate(e: any) {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           id: e.target.value
@@ -475,13 +483,13 @@ const AccountPage = () => {
 
   async function handleUpdateAccount() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           id: updateAccount.id,
@@ -550,13 +558,13 @@ const AccountPage = () => {
 
   async function onChangeDepartmentToCreate(e: any) {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           id: e.target.value
@@ -585,13 +593,13 @@ const AccountPage = () => {
 
   async function onChangeRoleToCreate(e: any) {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           id: e.target.value
@@ -620,13 +628,13 @@ const AccountPage = () => {
 
   async function handleCreateAccount() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           username: createAccount.username,

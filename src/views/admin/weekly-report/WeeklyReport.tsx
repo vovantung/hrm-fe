@@ -64,6 +64,12 @@ const WeeklyReportView = () => {
   // sẽ được lấy để sử dụng trong component này
   const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
 
+  const auth = useSelector((state: any) => state.auth.auth) as {
+    token: string
+  }
+
+  // const auth = localStorage.getItem('Authorization') as string
+
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
@@ -130,13 +136,13 @@ const WeeklyReportView = () => {
 
   async function handleReportedWeekly() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
@@ -168,13 +174,13 @@ const WeeklyReportView = () => {
 
   async function handleNotReportedWeekly() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
@@ -207,7 +213,8 @@ const WeeklyReportView = () => {
 
   const handleUploadWeeklyReport = async () => {
     if (!file) return
-    const auth = localStorage.getItem('Authorization') as string
+
+    // const auth = localStorage.getItem('Authorization') as string
     const formData = new FormData()
 
     formData.append('file', file)
@@ -216,7 +223,7 @@ const WeeklyReportView = () => {
       const param = {
         method: 'POST',
         headers: {
-          Authorization: auth
+          Authorization: auth.token
         },
         body: formData
       }

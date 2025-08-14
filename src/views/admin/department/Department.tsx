@@ -32,12 +32,13 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 
 import { format } from 'date-fns'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import tableStyles from '@core/styles/table.module.css'
 import CustomTextField from '@/@core/components/mui/TextField'
 import Pagination from '../PaginationTXU'
 import { useSettings } from '@/@core/hooks/useSettings'
+import { setDepartmentsOfPage } from '@/redux-store/slices/departments'
 
 const CustomCloseButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
   top: 0,
@@ -72,9 +73,19 @@ const TransitionUp = (props: TransitionProps) => {
 const DepartmentView = () => {
   const route = useRouter()
   const { settings } = useSettings()
+  const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
+
+  const auth = useSelector((state: any) => state.auth.auth) as {
+    token: string
+  }
+
+  // const auth = localStorage.getItem('Authorization') as string
+
   const [departments, setDepartments] = useState<DepartmentDataType[]>([])
-  const [departmentsOfPage, setDepartmentsOfPage] = useState<DepartmentDataType[]>([])
+  const departmentsOfPage = useSelector((state: any) => state.departments.departmentsOfPage) as DepartmentDataType[]
+
+  // const [departmentsOfPage, setDepartmentsOfPage] = useState<DepartmentDataType[]>([])
 
   // Data temp using for update account
   const [updateDepartment, setUpdateDepartment] = useState<DepartmentDataType>({
@@ -147,7 +158,8 @@ const DepartmentView = () => {
   }
 
   function onChangePage(departmentsOfPage: any) {
-    setDepartmentsOfPage(departmentsOfPage) // Cập nhật redux với departmentsOfPage mới
+    dispatch(setDepartmentsOfPage(departmentsOfPage)) // Cập nhật redux với accountsOfPage mới
+    // setDepartmentsOfPage(departmentsOfPage) // Cập nhật redux với departmentsOfPage mới
   }
 
   useEffect(() => {
@@ -156,14 +168,14 @@ const DepartmentView = () => {
 
   async function initData() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       //  Load Departments
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           limit: 1000
@@ -193,14 +205,15 @@ const DepartmentView = () => {
   async function handleRemoveDepartment(event: any) {
     try {
       const id = event.target.id.substring(0, event.target.id.length - 2)
-      const auth = localStorage.getItem('Authorization') as string
+
+      // const auth = localStorage.getItem('Authorization') as string
 
       if (!(id == 0 || id == undefined)) {
         const param = {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: auth
+            Authorization: auth.token
           },
           body: JSON.stringify({
             id: id
@@ -232,14 +245,15 @@ const DepartmentView = () => {
   async function handleViewUpdateDepartment(event: any) {
     try {
       const id = event.target.id.substring(0, event.target.id.length - 2)
-      const auth = localStorage.getItem('Authorization') as string
+
+      // const auth = localStorage.getItem('Authorization') as string
 
       if (!(id == 0 || id == undefined)) {
         const param = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: auth
+            Authorization: auth.token
           },
           body: JSON.stringify({
             id: id
@@ -270,13 +284,13 @@ const DepartmentView = () => {
 
   async function handleUpdateDepartment() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           id: updateDepartment.id,
@@ -322,13 +336,13 @@ const DepartmentView = () => {
 
   async function handleCreateDepartment() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           name: createDepartment.name,
@@ -359,7 +373,7 @@ const DepartmentView = () => {
     }
   }
 
-  if (departments)
+  if (departmentsOfPage)
     return (
       <Card>
         <CardHeader title='DEPARTMENT' />

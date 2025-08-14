@@ -4,15 +4,23 @@ import { useEffect, useState } from 'react'
 
 import { redirect, usePathname } from 'next/navigation'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import type { Locale } from '@configs/i18n'
 import type { ChildrenType } from '@core/types'
 import { getLocalizedUrl } from '@/utils/i18n'
 import themeConfig from '@/configs/themeConfig'
+import { setUserLogined } from '@/redux-store/slices/accounts'
+import { setAuth } from '@/redux-store/slices/auth'
 
 export default function AuthGuardTXU({ children, locale }: ChildrenType & { locale: Locale }) {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
+
+  const auth = useSelector((state: any) => state.auth.auth) as {
+    token: string
+  }
+
+  const dispatch = useDispatch()
   const [role, setRole] = useState<string>('')
   const pathname = usePathname()
   const allowed_post = ['admin', 'hrm']
@@ -23,17 +31,21 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
   const homePage = getLocalizedUrl(themeConfig.homePageUrl, locale)
 
   useEffect(() => {
-    loadItems()
+    initData()
+
+    // if (role !== '') {
+    //   getUserLogined()
+    // }
   }, [])
 
-  async function loadItems() {
+  async function initData() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      const auth_ = localStorage.getItem('Authorization') as string
 
       const r = {
         method: 'GET',
         headers: {
-          Authorization: auth
+          Authorization: auth_
         }
       }
 
@@ -42,11 +54,44 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       const result = await response.json()
 
       if (result !== undefined) {
-        // alert(result.role)
         setRole(result.role)
+        getUserLogined()
+
+        // if (result.role != '') {
+        //   getUserLogined()
+        // }
       }
     } catch (exception) {
       setRole('user')
+    }
+  }
+
+  async function getUserLogined() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const p = {
+        method: 'GET',
+        headers: {
+          Authorization: auth
+        }
+      }
+
+      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
+      const res = await fetch(globalVariables.url_admin + '/account/get-current-user', p)
+
+      if (!res.ok) {
+        return
+      }
+
+      const userLogin = await res.json()
+
+      if (userLogin !== undefined) {
+        dispatch(setUserLogined(userLogin))
+        dispatch(setAuth({ token: auth }))
+      }
+    } catch (exception) {
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -56,7 +101,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
     } else if (pathname.substring(4, 8) == 'post' && !allowed_post.includes(role)) {
       redirect(pathname === login ? login : pathname === homePage ? login : redirectUrl)
     } else {
-      return <>{children}</>
+      if (auth.token != '') return <>{children}</>
     }
   }
 }

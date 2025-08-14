@@ -216,10 +216,12 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    initData()
+    // Nạp danh sách accounts, roles, department lần đâu khi load trang
+    initAccounts()
+    initRolesDepartments()
   }, [])
 
-  async function initData() {
+  async function initAccounts() {
     try {
       const auth = localStorage.getItem('Authorization') as string
 
@@ -250,6 +252,14 @@ const AccountPage = () => {
       if (accounts !== undefined) {
         setAccounts(accounts)
       }
+    } catch (exception) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  async function initRolesDepartments() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
 
       //  Load Departments
       const param1 = {
@@ -311,6 +321,7 @@ const AccountPage = () => {
     }
   }
 
+  // Remove account
   async function handleRemoveAccount(event: any) {
     try {
       const username = event.target.id.substring(0, event.target.id.length - 2)
@@ -341,7 +352,8 @@ const AccountPage = () => {
         const result = await res.json()
 
         if (result !== undefined && result == true) {
-          initData()
+          // Nạp lại danh sách accounts sau khi đã xóa một account
+          initAccounts()
           handleAlertOpen('Deleted [' + username + '] account')
         }
       }
@@ -350,6 +362,7 @@ const AccountPage = () => {
     }
   }
 
+  // Update account
   async function handleViewUpdateAccount(event: any) {
     try {
       const username = event.target.id.substring(0, event.target.id.length - 2)
@@ -389,50 +402,6 @@ const AccountPage = () => {
     }
   }
 
-  async function handleUpdateAccount() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          id: updateAccount.id,
-          lastName: updateAccount.lastName,
-          firstName: updateAccount.firstName,
-          phoneNumber: updateAccount.phoneNumber,
-          department: updateAccount.department,
-          role: updateAccount.role,
-          email: updateAccount.email,
-          password: updateAccount.newpassword
-        })
-      }
-
-      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
-
-      if (!res.ok) {
-        const resError = await res.json()
-
-        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
-
-        return
-      }
-
-      const acount = await res.json()
-
-      if (acount !== undefined) {
-        closeUpdateAccountDailog()
-        initData()
-        handleAlertOpen('Updated infor for [' + acount.username + '] account')
-      }
-    } catch (error) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
   async function onChangeDepartmentToUpdate(e: any) {
     try {
       const auth = localStorage.getItem('Authorization') as string
@@ -461,6 +430,7 @@ const AccountPage = () => {
       const department = await res.json()
 
       if (department !== undefined) {
+        // Đặt lại department mới được chọn cho trạng thái update, updateAccount chứa dữ liệu để update và hiện thị trên giao diện (dialog) update
         setUpdateAccount({ ...updateAccount, department: department })
       }
     } catch (error) {
@@ -503,8 +473,53 @@ const AccountPage = () => {
     }
   }
 
-  // Create account
+  async function handleUpdateAccount() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
 
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          id: updateAccount.id,
+          lastName: updateAccount.lastName,
+          firstName: updateAccount.firstName,
+          phoneNumber: updateAccount.phoneNumber,
+          department: updateAccount.department,
+          role: updateAccount.role,
+          email: updateAccount.email,
+          password: updateAccount.newpassword
+        })
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
+
+        return
+      }
+
+      const acount = await res.json()
+
+      if (acount !== undefined) {
+        closeUpdateAccountDailog()
+
+        // Nạp lại danh sách accounts sau khi đã cập nhật account
+        initAccounts()
+        handleAlertOpen('Updated infor for [' + acount.username + '] account')
+      }
+    } catch (error) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  // Create account
   function handleViewCreateAccount() {
     setCreateAccount({
       id: 0,
@@ -531,51 +546,6 @@ const AccountPage = () => {
     })
 
     toggleCreateAccountDailog()
-  }
-
-  async function handleCreateAccount() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          username: createAccount.username,
-          lastName: createAccount.lastName,
-          firstName: createAccount.firstName,
-          phoneNumber: createAccount.phoneNumber,
-          department: createAccount.department,
-          role: createAccount.role,
-          email: createAccount.email,
-          password: createAccount.newpassword
-        })
-      }
-
-      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
-
-      if (!res.ok) {
-        const resError = await res.json()
-
-        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
-
-        return
-      }
-
-      const acount = await res.json()
-
-      if (acount !== undefined) {
-        closeCreateAccountDailog()
-        initData()
-        handleAlertOpen('Added [' + acount.username + '] account')
-      }
-    } catch (error) {
-      console.log(error)
-      route.replace('/pages/misc/500-server-error')
-    }
   }
 
   async function onChangeDepartmentToCreate(e: any) {
@@ -644,6 +614,53 @@ const AccountPage = () => {
         setCreateAccount({ ...createAccount, role: role })
       }
     } catch (error) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  async function handleCreateAccount() {
+    try {
+      const auth = localStorage.getItem('Authorization') as string
+
+      const param = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth
+        },
+        body: JSON.stringify({
+          username: createAccount.username,
+          lastName: createAccount.lastName,
+          firstName: createAccount.firstName,
+          phoneNumber: createAccount.phoneNumber,
+          department: createAccount.department,
+          role: createAccount.role,
+          email: createAccount.email,
+          password: createAccount.newpassword
+        })
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
+
+        return
+      }
+
+      const acount = await res.json()
+
+      if (acount !== undefined) {
+        closeCreateAccountDailog()
+
+        // Nạp lại danh sách accounts sau khi đã tạo mới account
+        initAccounts()
+        handleAlertOpen('Added [' + acount.username + '] account')
+      }
+    } catch (error) {
+      console.log(error)
       route.replace('/pages/misc/500-server-error')
     }
   }

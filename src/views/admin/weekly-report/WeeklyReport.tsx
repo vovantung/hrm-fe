@@ -112,13 +112,21 @@ const WeeklyReportView = () => {
   useEffect(() => {
     if (!init) {
       setInit(true)
-      handleReportedWeekly()
-    }
 
-    if (file) {
-      handleUploadWeeklyReport()
+      // Chỉ nạp danh sách báo cáo tuần hiện tại lần đâu tiên khi load trang
+      handleReportedWeekly()
+    } else {
+      // Để chắc chắn không thực hiện thêm báo cáo (upload file) lần đầu tiên khi nạp trang
+      if (file) {
+        // Để chắc chắn chỉ thêm báo cáo khi file đã có giá trị
+        handleUploadWeeklyReport()
+      }
     }
-  }, [file?.name])
+  }, [file?.name]) // Để chắc chắn mỗi khi file báo cáo được chọn mới, thì sẽ thực hiện thêm báo cáo
+  // Và điều này cũng sẽ thực hiện thêm báo cáo kể cả khi file chuyển từ trạng thái có giá trị sang trạng thái null.
+  // Tuy nhiên, với điều kiện if(file) đã ngăn việc thêm báo cáo với giá trị null
+  // Việc đặt lại giá trị null cho file đã được thực hiện sau mỗi lần thêm báo cáo nên dù có chọn lại đúng file cũ thì báo cáo vẫn được xem là báo cáo mới
+  // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
   async function handleReportedWeekly() {
     try {
@@ -240,17 +248,18 @@ const WeeklyReportView = () => {
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file_ = event.target.files?.[0]
+    const file = event.target.files?.[0] // Lấy file đầu tiên được chọn
 
-    // alert(file_?.name)
-    if (!file_) return // Người dùng bấm Cancel
+    if (!file) return // Người dùng bấm Cancel, file không tồn tại, thoát và không làm gì thêm
 
-    setFile(file_)
-
-    // handleUploadWeeklyReport()
+    setFile(file) // Khi file được chọn và có giá trị, đặt file vào state file, trạng thái file thay đổi
+    // nên kích hoạt hàm thêm báo cáo với file được chọn (đã đặt trong useEffect())
 
     if (inputRef.current) {
-      inputRef.current.value = '' // Quan trọng
+      inputRef.current.value = ''
+
+      // Sau khi đã kích hoạt hàm thêm báo cáo với file được chọn, đặt lại giá trị rỗng để đưa filename về giá trị rỗng
+      // Việc này có làm thay đổi state file, tuy nhiên không làm lại hàm xử lý thêm báo cáo vì giá trị file được đặt giá trị null
     }
   }
 

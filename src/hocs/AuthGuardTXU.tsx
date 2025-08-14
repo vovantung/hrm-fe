@@ -113,7 +113,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
 
         return <>{children}</>
       } else {
-        // alert('username: ' + userLogined.username + '; token: ' + auth.token)
+        // alert('; token: ' + auth.token)
       }
     }
   }

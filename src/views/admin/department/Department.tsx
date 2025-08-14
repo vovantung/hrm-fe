@@ -159,11 +159,14 @@ const DepartmentView = () => {
 
   function onChangePage(departmentsOfPage: any) {
     dispatch(setDepartmentsOfPage(departmentsOfPage)) // Cập nhật redux với accountsOfPage mới
+    alert(departmentsOfPage.length)
+
     // setDepartmentsOfPage(departmentsOfPage) // Cập nhật redux với departmentsOfPage mới
   }
 
   useEffect(() => {
     initData()
+    alert(departmentsOfPage.length)
   }, [])
 
   async function initData() {

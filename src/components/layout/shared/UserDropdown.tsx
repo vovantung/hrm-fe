@@ -130,38 +130,6 @@ const UserDropdown = () => {
     }
   }
 
-  // async function getNotReportedFromTo() {
-  //   try {
-  //     const auth = localStorage.getItem('Authorization') as string
-
-  //     const p = {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: auth
-  //       }
-  //     }
-
-  //     // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-  //     const res = await fetch(globalVariables.url_admin + '/account/get-current-user', p)
-
-  //     if (!res.ok) {
-  //       return
-  //     }
-
-  //     const userLogin = await res.json()
-
-  //     if (userLogin !== undefined) {
-  //       dispatch(setUserLogin(userLogin))
-  //     }
-  //   } catch (exception) {
-  //     // route.replace('/pages/misc/500-server-error')
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getNotReportedFromTo()
-  // }, [])
-
   return (
     <>
       <Badge

@@ -101,7 +101,13 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
     } else if (pathname.substring(4, 8) == 'post' && !allowed_post.includes(role)) {
       redirect(pathname === login ? login : pathname === homePage ? login : redirectUrl)
     } else {
-      if (auth.token != '') return <>{children}</>
+      // Ngăn việc return sớm khi auto.toke chưa nhận giá trị
+      // if (auth.token != '') return <>{children}</>
+      if (auth.token != '') {
+        return <>{children}</>
+      } else {
+        alert('sớm')
+      }
     }
   }
 }

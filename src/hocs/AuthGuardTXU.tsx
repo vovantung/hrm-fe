@@ -32,20 +32,16 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
 
   useEffect(() => {
     initData()
-
-    // if (role !== '') {
-    //   getUserLogined()
-    // }
   }, [])
 
   async function initData() {
     try {
-      const auth_ = localStorage.getItem('Authorization') as string
+      const auth = localStorage.getItem('Authorization') as string
 
       const r = {
         method: 'GET',
         headers: {
-          Authorization: auth_
+          Authorization: auth
         }
       }
 
@@ -56,10 +52,6 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       if (result !== undefined) {
         setRole(result.role)
         getUserLogined()
-
-        // if (result.role != '') {
-        //   getUserLogined()
-        // }
       }
     } catch (exception) {
       setRole('user')
@@ -105,9 +97,11 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       // if (auth.token != '') return <>{children}</>
       if (auth.token != '') {
         return <>{children}</>
-      } else {
-        alert('sớm')
       }
+
+      //  else {
+      //   alert('sớm')
+      // }
     }
   }
 }

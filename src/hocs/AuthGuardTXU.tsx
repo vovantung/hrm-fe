@@ -13,16 +13,16 @@ import themeConfig from '@/configs/themeConfig'
 import { setUserLogined } from '@/redux-store/slices/accounts'
 import { setAuth } from '@/redux-store/slices/auth'
 
-type AccountDataType = {
-  id: number
-  username: string
-  lastName: string
-  firstName: string
-  email: string
-  phoneNumber: string
-  avatar: string
-  newpassword: string
-}
+// type AccountDataType = {
+//   id: number
+//   username: string
+//   lastName: string
+//   firstName: string
+//   email: string
+//   phoneNumber: string
+//   avatar: string
+//   newpassword: string
+// }
 
 export default function AuthGuardTXU({ children, locale }: ChildrenType & { locale: Locale }) {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
@@ -31,7 +31,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
     token: string
   }
 
-  const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
+  // const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
   const dispatch = useDispatch()
   const [role, setRole] = useState<string>('')

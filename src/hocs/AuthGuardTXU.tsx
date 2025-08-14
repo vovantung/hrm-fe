@@ -13,12 +13,25 @@ import themeConfig from '@/configs/themeConfig'
 import { setUserLogined } from '@/redux-store/slices/accounts'
 import { setAuth } from '@/redux-store/slices/auth'
 
+type AccountDataType = {
+  id: number
+  username: string
+  lastName: string
+  firstName: string
+  email: string
+  phoneNumber: string
+  avatar: string
+  newpassword: string
+}
+
 export default function AuthGuardTXU({ children, locale }: ChildrenType & { locale: Locale }) {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   const auth = useSelector((state: any) => state.auth.auth) as {
     token: string
   }
+
+  const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
   const dispatch = useDispatch()
   const [role, setRole] = useState<string>('')
@@ -96,12 +109,12 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       // Ngăn việc return sớm khi auto.toke chưa nhận giá trị
       // if (auth.token != '') return <>{children}</>
       if (auth.token != '') {
-        return <>{children}</>
-      }
+        // alert('Kusername: ' + userLogined.username + '; Ktoken: ' + auth.token)
 
-      //  else {
-      //   alert('sớm')
-      // }
+        return <>{children}</>
+      } else {
+        // alert('username: ' + userLogined.username + '; token: ' + auth.token)
+      }
     }
   }
 }

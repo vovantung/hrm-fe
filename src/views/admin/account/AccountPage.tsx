@@ -222,8 +222,6 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    alert('ttttt')
-
     // Nạp danh sách accounts, roles, department lần đâu khi load trang
     initAccounts()
     initRolesDepartments()

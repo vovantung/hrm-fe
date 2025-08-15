@@ -135,7 +135,7 @@ const UserDropdown = () => {
       <Badge
         ref={anchorRef}
         overlap='circular'
-        badgeContent={<BadgeContentSpan onClick={handleDropdownOpen} />}
+        badgeContent={userLogined.avatar != '' ? <BadgeContentSpan onClick={handleDropdownOpen} /> : null}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         className='mis-2'
       >

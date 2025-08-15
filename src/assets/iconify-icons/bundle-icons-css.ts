@@ -83,6 +83,7 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'ic:baseline-language',
       'nimbus:edit',
       'fluent-mdl2:add-group',
       'material-symbols:person-add-rounded',

@@ -39,9 +39,9 @@
   justify-content: center;
   cursor: pointer;
   position: absolute;
-  inset-block-start: 20%;
+  inset-block-start: 80%;
   inset-inline-end: 100%;
-  transform: translateY(-20%);
+  transform: translateY(-80%);
   padding: 8px;
   background-color: var(--primary-color);
   color: var(--mui-palette-primary-contrastText);

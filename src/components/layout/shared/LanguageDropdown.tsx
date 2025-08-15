@@ -45,11 +45,12 @@ const languageData: LanguageDataType[] = [
   {
     langCode: 'fr',
     langName: 'French'
-  },
-  {
-    langCode: 'ar',
-    langName: 'Arabic'
   }
+
+  // {
+  //   langCode: 'ar',
+  //   langName: 'Arabic'
+  // }
 ]
 
 const LanguageDropdown = () => {
@@ -75,7 +76,7 @@ const LanguageDropdown = () => {
   return (
     <>
       <IconButton ref={anchorRef} onClick={handleToggle} className='text-textPrimary'>
-        <i className='tabler-language' />
+        <i className='ic-baseline-language' />
       </IconButton>
       <Popper
         open={open}

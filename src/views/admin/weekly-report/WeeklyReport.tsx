@@ -292,7 +292,8 @@ const WeeklyReportView = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.281)',
+            backgroundColor: 'hsla(0, 0%, 100%, 0)',
+
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',

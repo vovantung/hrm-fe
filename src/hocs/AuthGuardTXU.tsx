@@ -112,8 +112,9 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         // alert('Kusername: ' + userLogined.username + '; Ktoken: ' + auth.token)
 
         return <>{children}</>
-      } else {
+      } else if (pathname.substring(4, 9) != 'admin') {
         // alert('; token: ' + auth.token)
+        return <>{children}</>
       }
     }
   }

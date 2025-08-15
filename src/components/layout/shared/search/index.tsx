@@ -221,7 +221,8 @@ const NavSearch = () => {
           <IconButton className='text-textPrimary' onClick={() => setOpen(true)}>
             <i className='tabler-search text-2xl' />
           </IconButton>
-          <div className='whitespace-nowrap select-none text-textDisabled'>Search ⌘K</div>
+          {/* <div className='whitespace-nowrap select-none text-textDisabled'>Search ⌘K</div> */}
+          <div className='whitespace-nowrap select-none text-textDisabled'>Search</div>
         </div>
       )}
       <CommandDialog open={open} onOpenChange={setOpen}>

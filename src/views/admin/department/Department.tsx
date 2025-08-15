@@ -9,6 +9,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   IconButton,
@@ -157,16 +158,13 @@ const DepartmentView = () => {
     setOpenError(false)
   }
 
-  function onChangePage(departmentsOfPage: any) {
-    dispatch(setDepartmentsOfPage(departmentsOfPage)) // Cập nhật redux với accountsOfPage mới
-    alert(departmentsOfPage.length)
-
-    // setDepartmentsOfPage(departmentsOfPage) // Cập nhật redux với departmentsOfPage mới
+  function onChangePage(departmentsOfPage_: any) {
+    dispatch(setDepartmentsOfPage(departmentsOfPage_)) // Cập nhật redux với accountsOfPage mới
+    // alert(departmentsOfPage.length)
   }
 
   useEffect(() => {
     initData()
-    alert(departmentsOfPage.length)
   }, [])
 
   async function initData() {
@@ -376,265 +374,566 @@ const DepartmentView = () => {
     }
   }
 
-  if (departmentsOfPage)
-    return (
-      <Card>
-        <CardHeader title='DEPARTMENT' />
-        <CardContent className='p-0'>
-          <TableContainer
-            style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-          >
-            <Table className={tableStyles.table} stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <b>Đơn vị</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Mô tả</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Ngày tạo</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Ngày cập nhật</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Hành động</b>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {departmentsOfPage.map(department => (
-                  <TableRow key={department.id}>
-                    <TableCell style={{ fontSize: '14.5px' }}>{department.name}</TableCell>
-                    <TableCell style={{ fontSize: '14.5px' }}>{department.description} </TableCell>
-                    <TableCell style={{ fontSize: '14.5px' }}>
-                      {format(new Date(department.createdAt), 'dd/MM/yyyy')}
-                    </TableCell>
-                    <TableCell style={{ fontSize: '14.5px' }}>
-                      {' '}
-                      {format(new Date(department.updatedAt), 'dd/MM/yyyy')}
-                    </TableCell>
+  return (
+    <div style={{ position: 'relative', minHeight: '100%' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.281)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 99999,
+          opacity: departmentsOfPage.length === 0 ? 1 : 0,
+          pointerEvents: departmentsOfPage.length === 0 ? 'auto' : 'none',
+          transition: 'opacity 0.8s ease'
+        }}
+      >
+        <CircularProgress sx={{ color: '#175ea1' }} size={36} thickness={4} />
+        {/* <Icon style={{ color: 'red', fontSize: '40px' }} icon='eos-icons:loading'></Icon> */}
+      </div>
 
+      <div style={{ opacity: departmentsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
+        <Card>
+          <CardHeader title='DEPARTMENT' />
+          <CardContent className='p-0'>
+            <TableContainer
+              style={{
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)'
+              }}
+            >
+              <Table className={tableStyles.table} stickyHeader>
+                <TableHead>
+                  <TableRow>
                     <TableCell>
-                      <IconButton
-                        color='primary'
-                        size='small'
-                        sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
-                      >
-                        <Box
-                          sx={{
-                            width: 20,
-                            height: 20,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                        >
-                          <Icon
-                            icon='mingcute:delete-line'
-                            id={department.id + '_0'}
-                            onClick={handleRemoveDepartment}
-                            style={{ width: '100%', height: '100%' }}
-                          />
-                        </Box>
-                      </IconButton>
-                      |
-                      <IconButton
-                        color='primary'
-                        size='small'
-                        sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
-                      >
-                        <Box
-                          sx={{
-                            width: 20,
-                            height: 20,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                        >
-                          <Icon
-                            id={department.id + '_0'}
-                            icon='wpf:create-new'
-                            onClick={handleViewUpdateDepartment}
-                            style={{ width: '100%', height: '100%' }}
-                          />
-                        </Box>
-                      </IconButton>
+                      <b>Đơn vị</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Mô tả</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Ngày tạo</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Ngày cập nhật</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Hành động</b>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginLeft: '25px',
-              marginTop: '20px',
-              marginBottom: '20px',
-              marginRight: '20px'
-            }}
-          >
-            <Button
-              variant='contained'
-              startIcon={<i className='mingcute-add-fill' />}
-              onClick={handleViewCreateDepartment}
+                </TableHead>
+                <TableBody>
+                  {departmentsOfPage.map(department => (
+                    <TableRow key={department.id}>
+                      <TableCell style={{ fontSize: '14.5px' }}>{department.name}</TableCell>
+                      <TableCell style={{ fontSize: '14.5px' }}>{department.description} </TableCell>
+                      <TableCell style={{ fontSize: '14.5px' }}>
+                        {format(new Date(department.createdAt), 'dd/MM/yyyy')}
+                      </TableCell>
+                      <TableCell style={{ fontSize: '14.5px' }}>
+                        {' '}
+                        {format(new Date(department.updatedAt), 'dd/MM/yyyy')}
+                      </TableCell>
+
+                      <TableCell>
+                        <IconButton
+                          color='primary'
+                          size='small'
+                          sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
+                        >
+                          <Box
+                            sx={{
+                              width: 20,
+                              height: 20,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <Icon
+                              icon='mingcute:delete-line'
+                              id={department.id + '_0'}
+                              onClick={handleRemoveDepartment}
+                              style={{ width: '100%', height: '100%' }}
+                            />
+                          </Box>
+                        </IconButton>
+                        |
+                        <IconButton
+                          color='primary'
+                          size='small'
+                          sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
+                        >
+                          <Box
+                            sx={{
+                              width: 20,
+                              height: 20,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <Icon
+                              id={department.id + '_0'}
+                              icon='nimbus-edit'
+                              onClick={handleViewUpdateDepartment}
+                              style={{ width: '100%', height: '100%' }}
+                            />
+                          </Box>
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginLeft: '25px',
+                marginTop: '20px',
+                marginBottom: '20px',
+                marginRight: '20px'
+              }}
             >
-              Thêm đơn vị
-            </Button>
-            <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
-          </Box>
-        </CardContent>
-
-        {/* Hộp thoại update department  */}
-        <Dialog
-          fullWidth
-          open={updateDepartmentDailog}
-          onClose={toggleUpdateDepartmentDailog}
-          sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-        >
-          <DialogContent>
-            <CustomCloseButton onClick={closeUpdateDepartmentDailog}>
-              <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-            </CustomCloseButton>
-            <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-              Department
-            </Typography>
-
-            <Box sx={{ overflow: 'auto' }}>
-              <CustomTextField
-                autoFocus
-                fullWidth
-                label='Name'
-                placeholder='Enter name'
-                value={updateDepartment.name ?? ''}
-                error={updateDepartment.name === ''}
-                helperText={updateDepartment.name === '' ? 'This field is required.' : ''}
-                onChange={e => setUpdateDepartment({ ...updateDepartment, name: e.target.value })}
-              />
-              <CustomTextField
-                style={{ marginTop: '15px' }}
-                autoFocus
-                fullWidth
-                label='Description'
-                placeholder='Enter description'
-                value={updateDepartment.description ?? ''}
-                onChange={e => setUpdateDepartment({ ...updateDepartment, description: e.target.value })}
-              />
-            </Box>
-            <div style={{ textAlign: 'center', marginTop: '15px' }}>
               <Button
                 variant='contained'
-                startIcon={<i className='material-symbols-system-update-alt' />}
-                sx={{ mr: 3.5 }}
-                color='primary'
-                onClick={handleUpdateDepartment}
+                startIcon={<i className='fluent-mdl2-add-group' />}
+                onClick={handleViewCreateDepartment}
               >
-                Cập nhật
+                Thêm đơn vị
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* Hộp thoại thêm mới account */}
-
-        <Dialog
-          fullWidth
-          open={createDepartmentDailog}
-          onClose={toggleCreateDepartmentDailog}
-          sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-        >
-          <DialogContent>
-            <CustomCloseButton onClick={closeCreateDepartmentDailog}>
-              <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-            </CustomCloseButton>
-            <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-              Department
-            </Typography>
-
-            <Box sx={{ overflow: 'auto' }}>
-              <CustomTextField
-                autoFocus
-                fullWidth
-                label='Name'
-                placeholder='Enter name'
-                value={createDepartment.name ?? ''}
-                onChange={e => setCreateDepartment({ ...createDepartment, name: e.target.value })}
-                error={createDepartment.name === ''}
-                helperText={createDepartment.name === '' ? 'This field is required.' : ''}
-              />
-
-              <CustomTextField
-                style={{ marginTop: '15px' }}
-                autoFocus
-                fullWidth
-                label='Description'
-                placeholder='Enter description'
-                value={createDepartment.description ?? ''}
-                onChange={e => setCreateDepartment({ ...createDepartment, description: e.target.value })}
-              />
+              <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
             </Box>
-            <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button
-                variant='contained'
-                startIcon={<i className='gridicons-create' />}
-                sx={{ mr: 3.5 }}
-                color='primary'
-                onClick={handleCreateDepartment}
-              >
-                Tạo
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+          </CardContent>
 
-        {/* Alert */}
-        <Fragment>
-          <Snackbar
-            open={openAlert}
-            onClose={handleAlertClose}
-            autoHideDuration={2500}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            TransitionComponent={transition}
+          {/* Hộp thoại update department  */}
+          <Dialog
+            fullWidth
+            open={updateDepartmentDailog}
+            onClose={toggleUpdateDepartmentDailog}
+            sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
           >
-            <Alert
-              variant='filled'
-              severity='info'
-              style={{ color: 'white', backgroundColor: '#056abdff' }}
+            <DialogContent>
+              <CustomCloseButton onClick={closeUpdateDepartmentDailog}>
+                <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+              </CustomCloseButton>
+              <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+                Department
+              </Typography>
+
+              <Box sx={{ overflow: 'auto' }}>
+                <CustomTextField
+                  autoFocus
+                  fullWidth
+                  label='Name'
+                  placeholder='Enter name'
+                  value={updateDepartment.name ?? ''}
+                  error={updateDepartment.name === ''}
+                  helperText={updateDepartment.name === '' ? 'This field is required.' : ''}
+                  onChange={e => setUpdateDepartment({ ...updateDepartment, name: e.target.value })}
+                />
+                <CustomTextField
+                  style={{ marginTop: '15px' }}
+                  autoFocus
+                  fullWidth
+                  label='Description'
+                  placeholder='Enter description'
+                  value={updateDepartment.description ?? ''}
+                  onChange={e => setUpdateDepartment({ ...updateDepartment, description: e.target.value })}
+                />
+              </Box>
+              <div style={{ textAlign: 'center', marginTop: '15px' }}>
+                <Button
+                  variant='contained'
+                  startIcon={<i className='ic-round-save-alt' />}
+                  sx={{ mr: 3.5 }}
+                  color='primary'
+                  onClick={handleUpdateDepartment}
+                >
+                  Cập nhật
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Hộp thoại thêm mới account */}
+
+          <Dialog
+            fullWidth
+            open={createDepartmentDailog}
+            onClose={toggleCreateDepartmentDailog}
+            sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+          >
+            <DialogContent>
+              <CustomCloseButton onClick={closeCreateDepartmentDailog}>
+                <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+              </CustomCloseButton>
+              <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+                Department
+              </Typography>
+
+              <Box sx={{ overflow: 'auto' }}>
+                <CustomTextField
+                  autoFocus
+                  fullWidth
+                  label='Name'
+                  placeholder='Enter name'
+                  value={createDepartment.name ?? ''}
+                  onChange={e => setCreateDepartment({ ...createDepartment, name: e.target.value })}
+                  error={createDepartment.name === ''}
+                  helperText={createDepartment.name === '' ? 'This field is required.' : ''}
+                />
+
+                <CustomTextField
+                  style={{ marginTop: '15px' }}
+                  autoFocus
+                  fullWidth
+                  label='Description'
+                  placeholder='Enter description'
+                  value={createDepartment.description ?? ''}
+                  onChange={e => setCreateDepartment({ ...createDepartment, description: e.target.value })}
+                />
+              </Box>
+              <div style={{ textAlign: 'center', marginTop: '15px' }}>
+                <Button
+                  variant='contained'
+                  startIcon={<i className='fluent-mdl2-add-group' />}
+                  sx={{ mr: 3.5 }}
+                  color='primary'
+                  onClick={handleCreateDepartment}
+                >
+                  Thêm
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Alert */}
+          <Fragment>
+            <Snackbar
+              open={openAlert}
               onClose={handleAlertClose}
-              sx={{ width: '100%' }}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
             >
-              {message}
-            </Alert>
-          </Snackbar>
-        </Fragment>
-        {/* Error */}
-        <Fragment>
-          <Snackbar
-            open={openError}
-            onClose={handleErrorClose}
-            autoHideDuration={2500}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            TransitionComponent={transition}
-          >
-            <Alert
-              variant='filled'
-              severity='error'
-              style={{ color: 'white', backgroundColor: '#c51111a9' }}
+              <Alert
+                variant='filled'
+                severity='info'
+                style={{ color: 'white', backgroundColor: '#056abdff' }}
+                onClose={handleAlertClose}
+                sx={{ width: '100%' }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+          </Fragment>
+          {/* Error */}
+          <Fragment>
+            <Snackbar
+              open={openError}
               onClose={handleErrorClose}
-              sx={{ width: '100%' }}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
             >
-              {message}
-            </Alert>
-          </Snackbar>
-        </Fragment>
-      </Card>
-    )
+              <Alert
+                variant='filled'
+                severity='error'
+                style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                onClose={handleErrorClose}
+                sx={{ width: '100%' }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+          </Fragment>
+        </Card>
+      </div>
+    </div>
+  )
+
+  // if (departments.length == 0) return <>Đang load</>
+  // if (departments.length !== 0)
+  // return (
+  //   <Card>
+  //     {/* <Backdrop
+  //       sx={{ color: '#962121', zIndex: theme => theme.zIndex.drawer + 1 }}
+  //       open={departmentsOfPage.length == 0 ? true : true}
+  //     >
+  //       <CircularProgress color='inherit' />
+  //     </Backdrop> */}
+
+  //     <Button onClick={handleOpen}>Show backdrop</Button>
+  //     <Backdrop sx={theme => ({ color: 'red', zIndex: theme.zIndex.drawer + 1 })} open={opena} onClick={handleClosea}>
+  //       <CircularProgress color='inherit' />
+  //     </Backdrop>
+
+  //     <CardHeader title='DEPARTMENT' />
+  //     <CardContent className='p-0'>
+  //       <TableContainer
+  //         style={{
+  //           maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)'
+  //         }}
+  //       >
+  //         <Table className={tableStyles.table} stickyHeader>
+  //           <TableHead>
+  //             <TableRow>
+  //               <TableCell>
+  //                 <b>Đơn vị</b>
+  //               </TableCell>
+  //               <TableCell>
+  //                 <b>Mô tả</b>
+  //               </TableCell>
+  //               <TableCell>
+  //                 <b>Ngày tạo</b>
+  //               </TableCell>
+  //               <TableCell>
+  //                 <b>Ngày cập nhật</b>
+  //               </TableCell>
+  //               <TableCell>
+  //                 <b>Hành động</b>
+  //               </TableCell>
+  //             </TableRow>
+  //           </TableHead>
+  //           <TableBody>
+  //             {departmentsOfPage.map(department => (
+  //               <TableRow key={department.id}>
+  //                 <TableCell style={{ fontSize: '14.5px' }}>{department.name}</TableCell>
+  //                 <TableCell style={{ fontSize: '14.5px' }}>{department.description} </TableCell>
+  //                 <TableCell style={{ fontSize: '14.5px' }}>
+  //                   {format(new Date(department.createdAt), 'dd/MM/yyyy')}
+  //                 </TableCell>
+  //                 <TableCell style={{ fontSize: '14.5px' }}>
+  //                   {' '}
+  //                   {format(new Date(department.updatedAt), 'dd/MM/yyyy')}
+  //                 </TableCell>
+
+  //                 <TableCell>
+  //                   <IconButton
+  //                     color='primary'
+  //                     size='small'
+  //                     sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
+  //                   >
+  //                     <Box
+  //                       sx={{
+  //                         width: 20,
+  //                         height: 20,
+  //                         display: 'flex',
+  //                         alignItems: 'center',
+  //                         justifyContent: 'center'
+  //                       }}
+  //                     >
+  //                       <Icon
+  //                         icon='mingcute:delete-line'
+  //                         id={department.id + '_0'}
+  //                         onClick={handleRemoveDepartment}
+  //                         style={{ width: '100%', height: '100%' }}
+  //                       />
+  //                     </Box>
+  //                   </IconButton>
+  //                   |
+  //                   <IconButton
+  //                     color='primary'
+  //                     size='small'
+  //                     sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
+  //                   >
+  //                     <Box
+  //                       sx={{
+  //                         width: 20,
+  //                         height: 20,
+  //                         display: 'flex',
+  //                         alignItems: 'center',
+  //                         justifyContent: 'center'
+  //                       }}
+  //                     >
+  //                       <Icon
+  //                         id={department.id + '_0'}
+  //                         icon='wpf:create-new'
+  //                         onClick={handleViewUpdateDepartment}
+  //                         style={{ width: '100%', height: '100%' }}
+  //                       />
+  //                     </Box>
+  //                   </IconButton>
+  //                 </TableCell>
+  //               </TableRow>
+  //             ))}
+  //           </TableBody>
+  //         </Table>
+  //       </TableContainer>
+  //       <Box
+  //         sx={{
+  //           display: 'flex',
+  //           justifyContent: 'space-between',
+  //           alignItems: 'center',
+  //           marginLeft: '25px',
+  //           marginTop: '20px',
+  //           marginBottom: '20px',
+  //           marginRight: '20px'
+  //         }}
+  //       >
+  //         <Button
+  //           variant='contained'
+  //           startIcon={<i className='mingcute-add-fill' />}
+  //           onClick={handleViewCreateDepartment}
+  //         >
+  //           Thêm đơn vị
+  //         </Button>
+  //         <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
+  //       </Box>
+  //     </CardContent>
+
+  //     {/* Hộp thoại update department  */}
+  //     <Dialog
+  //       fullWidth
+  //       open={updateDepartmentDailog}
+  //       onClose={toggleUpdateDepartmentDailog}
+  //       sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+  //     >
+  //       <DialogContent>
+  //         <CustomCloseButton onClick={closeUpdateDepartmentDailog}>
+  //           <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+  //         </CustomCloseButton>
+  //         <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+  //           Department
+  //         </Typography>
+
+  //         <Box sx={{ overflow: 'auto' }}>
+  //           <CustomTextField
+  //             autoFocus
+  //             fullWidth
+  //             label='Name'
+  //             placeholder='Enter name'
+  //             value={updateDepartment.name ?? ''}
+  //             error={updateDepartment.name === ''}
+  //             helperText={updateDepartment.name === '' ? 'This field is required.' : ''}
+  //             onChange={e => setUpdateDepartment({ ...updateDepartment, name: e.target.value })}
+  //           />
+  //           <CustomTextField
+  //             style={{ marginTop: '15px' }}
+  //             autoFocus
+  //             fullWidth
+  //             label='Description'
+  //             placeholder='Enter description'
+  //             value={updateDepartment.description ?? ''}
+  //             onChange={e => setUpdateDepartment({ ...updateDepartment, description: e.target.value })}
+  //           />
+  //         </Box>
+  //         <div style={{ textAlign: 'center', marginTop: '15px' }}>
+  //           <Button
+  //             variant='contained'
+  //             startIcon={<i className='material-symbols-system-update-alt' />}
+  //             sx={{ mr: 3.5 }}
+  //             color='primary'
+  //             onClick={handleUpdateDepartment}
+  //           >
+  //             Cập nhật
+  //           </Button>
+  //         </div>
+  //       </DialogContent>
+  //     </Dialog>
+
+  //     {/* Hộp thoại thêm mới account */}
+
+  //     <Dialog
+  //       fullWidth
+  //       open={createDepartmentDailog}
+  //       onClose={toggleCreateDepartmentDailog}
+  //       sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+  //     >
+  //       <DialogContent>
+  //         <CustomCloseButton onClick={closeCreateDepartmentDailog}>
+  //           <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+  //         </CustomCloseButton>
+  //         <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+  //           Department
+  //         </Typography>
+
+  //         <Box sx={{ overflow: 'auto' }}>
+  //           <CustomTextField
+  //             autoFocus
+  //             fullWidth
+  //             label='Name'
+  //             placeholder='Enter name'
+  //             value={createDepartment.name ?? ''}
+  //             onChange={e => setCreateDepartment({ ...createDepartment, name: e.target.value })}
+  //             error={createDepartment.name === ''}
+  //             helperText={createDepartment.name === '' ? 'This field is required.' : ''}
+  //           />
+
+  //           <CustomTextField
+  //             style={{ marginTop: '15px' }}
+  //             autoFocus
+  //             fullWidth
+  //             label='Description'
+  //             placeholder='Enter description'
+  //             value={createDepartment.description ?? ''}
+  //             onChange={e => setCreateDepartment({ ...createDepartment, description: e.target.value })}
+  //           />
+  //         </Box>
+  //         <div style={{ textAlign: 'center', marginTop: '15px' }}>
+  //           <Button
+  //             variant='contained'
+  //             startIcon={<i className='gridicons-create' />}
+  //             sx={{ mr: 3.5 }}
+  //             color='primary'
+  //             onClick={handleCreateDepartment}
+  //           >
+  //             Tạo
+  //           </Button>
+  //         </div>
+  //       </DialogContent>
+  //     </Dialog>
+
+  //     {/* Alert */}
+  //     <Fragment>
+  //       <Snackbar
+  //         open={openAlert}
+  //         onClose={handleAlertClose}
+  //         autoHideDuration={2500}
+  //         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+  //         TransitionComponent={transition}
+  //       >
+  //         <Alert
+  //           variant='filled'
+  //           severity='info'
+  //           style={{ color: 'white', backgroundColor: '#056abdff' }}
+  //           onClose={handleAlertClose}
+  //           sx={{ width: '100%' }}
+  //         >
+  //           {message}
+  //         </Alert>
+  //       </Snackbar>
+  //     </Fragment>
+  //     {/* Error */}
+  //     <Fragment>
+  //       <Snackbar
+  //         open={openError}
+  //         onClose={handleErrorClose}
+  //         autoHideDuration={2500}
+  //         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+  //         TransitionComponent={transition}
+  //       >
+  //         <Alert
+  //           variant='filled'
+  //           severity='error'
+  //           style={{ color: 'white', backgroundColor: '#c51111a9' }}
+  //           onClose={handleErrorClose}
+  //           sx={{ width: '100%' }}
+  //         >
+  //           {message}
+  //         </Alert>
+  //       </Snackbar>
+  //     </Fragment>
+  //   </Card>
+  // )
 }
 
 export default DepartmentView

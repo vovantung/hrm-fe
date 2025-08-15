@@ -5,7 +5,7 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, IconButton, Link, Slide, Snackbar } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, IconButton, Link, Slide, Snackbar } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
@@ -22,7 +22,11 @@ import { endOfWeek, format, startOfWeek } from 'date-fns'
 
 import tableStyles from '@core/styles/table.module.css'
 import Pagination from '../PaginationTXU'
-import { setNotReportedWeekly, setReportedWeekly } from '@/redux-store/slices/report-weekly'
+import {
+  setNotReportedWeekly,
+  setReportedWeekly,
+  setReportedWeeklyListOfPage
+} from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 
 type ReportedWeeklyDataType = {
@@ -64,6 +68,14 @@ const WeeklyReportView = () => {
   // sẽ được lấy để sử dụng trong component này
   const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
 
+  const reportedWeeklyListOfPage = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyListOfPage
+  ) as ReportedWeeklyDataType[]
+
+  // const [reportedWeeklyListOfPage, setReportedWeeklyListOfPage] = useState<ReportedWeeklyDataType[]>([])
+
+  const loading = useSelector((state: any) => state.common.loading) as boolean
+
   const auth = useSelector((state: any) => state.auth.auth) as {
     token: string
   }
@@ -72,8 +84,6 @@ const WeeklyReportView = () => {
 
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
-
-  const [reportedWeeklyListOfPage, setReportedWeeklyListOfPage] = useState<ReportedWeeklyDataType[]>([])
 
   // Dữ liệu, cài đặt hông báo...
   const [transition, setTransition] = useState<ComponentType<TransitionProps>>()
@@ -112,7 +122,9 @@ const WeeklyReportView = () => {
   }
 
   function onChangePage(reportedWeeklyOfPage: any) {
-    setReportedWeeklyListOfPage(reportedWeeklyOfPage)
+    dispatch(setReportedWeeklyListOfPage(reportedWeeklyOfPage))
+
+    // setReportedWeeklyListOfPage(reportedWeeklyOfPage)
   }
 
   useEffect(() => {
@@ -272,154 +284,183 @@ const WeeklyReportView = () => {
 
   if (reportedWeeklyList)
     return (
-      <Card>
-        <CardHeader title='WEEKLY REPORT' />
-        <CardContent className='p-0'>
-          <TableContainer
-            style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-          >
-            <Table className={tableStyles.table} stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <b>Department</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Uploaded at</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>File name</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Action</b>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {reportedWeeklyListOfPage.map(reportedWeekly => (
-                  <TableRow key={reportedWeekly.id}>
-                    <TableCell style={{ fontSize: '14.5px' }}>{reportedWeekly.department.name} </TableCell>
-                    <TableCell style={{ fontSize: '14.5px' }}>
-                      {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')}{' '}
-                    </TableCell>
-                    <TableCell style={{ fontSize: '14px' }}>
-                      <Link
-                        href={reportedWeekly.url}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        underline='hover'
-                        sx={{ display: 'inline-flex', alignItems: 'center' }}
-                      >
-                        {reportedWeekly.filename}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <IconButton
-                        color='primary'
-                        size='small'
-                        sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
-                      >
-                        <Box
-                          sx={{
-                            width: 20,
-                            height: 20,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                        >
-                          <Icon
-                            icon='mingcute:delete-line'
-                            id={reportedWeekly.id + '_0'}
-                            style={{ width: '100%', height: '100%' }}
-                          />
-                        </Box>
-                      </IconButton>
-
-                      <IconButton
-                        color='primary'
-                        size='small'
-                        sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
-                      ></IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
-        <Box
-          sx={{
+      <div style={{ position: 'relative', minHeight: '100%' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.281)',
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
-            marginLeft: '25px',
-            marginTop: '20px',
-            marginBottom: '20px',
-            marginRight: '20px'
+            zIndex: 99999,
+            opacity: reportedWeeklyListOfPage.length === 0 && loading == false ? 1 : 0,
+            pointerEvents: reportedWeeklyListOfPage.length === 0 && loading == false ? 'auto' : 'none',
+            transition: 'opacity 0.8s ease'
           }}
         >
-          <Box display='flex' alignItems='center'>
-            <input type='file' hidden ref={inputRef} onChange={handleChange} />
-            <Button
-              variant='contained'
-              size='medium'
-              startIcon={<i className='line-md-uploading-loop' />}
-              onClick={handleInputOpen}
-            >
-              Upload report
-            </Button>
-          </Box>
+          <CircularProgress sx={{ color: '#175ea1' }} size={36} thickness={4} />
+        </div>
 
-          <Pagination
-            shape='rounded'
-            color='primary'
-            pageSize={8}
-            items={reportedWeeklyList}
-            onChangePage={onChangePage}
-          />
-        </Box>
-        {/* Alert */}
-        <Fragment>
-          <Snackbar
-            open={openAlert}
-            onClose={handleAlertClose}
-            autoHideDuration={2500}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            TransitionComponent={transition}
-          >
-            <Alert
-              variant='filled'
-              severity='info'
-              style={{ color: 'white', backgroundColor: '#056abdff' }}
-              onClose={handleAlertClose}
-              sx={{ width: '100%' }}
+        <div
+          style={{
+            opacity: reportedWeeklyListOfPage.length === 0 && loading == false ? 0 : 1,
+            transition: 'opacity 0.2s ease'
+          }}
+        >
+          <Card>
+            <CardHeader title='WEEKLY REPORT' />
+            <CardContent className='p-0'>
+              <TableContainer
+                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+              >
+                <Table className={tableStyles.table} stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <b>Department</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Uploaded at</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>File name</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Action</b>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {reportedWeeklyListOfPage.map(reportedWeekly => (
+                      <TableRow key={reportedWeekly.id}>
+                        <TableCell style={{ fontSize: '14.5px' }}>{reportedWeekly.department.name} </TableCell>
+                        <TableCell style={{ fontSize: '14.5px' }}>
+                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')}{' '}
+                        </TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>
+                          <Link
+                            href={reportedWeekly.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            underline='hover'
+                            sx={{ display: 'inline-flex', alignItems: 'center' }}
+                          >
+                            {reportedWeekly.filename}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            color='primary'
+                            size='small'
+                            sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
+                          >
+                            <Box
+                              sx={{
+                                width: 20,
+                                height: 20,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              <Icon
+                                icon='mingcute:delete-line'
+                                id={reportedWeekly.id + '_0'}
+                                style={{ width: '100%', height: '100%' }}
+                              />
+                            </Box>
+                          </IconButton>
+
+                          <IconButton
+                            color='primary'
+                            size='small'
+                            sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
+                          ></IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginLeft: '25px',
+                marginTop: '20px',
+                marginBottom: '20px',
+                marginRight: '20px'
+              }}
             >
-              {message}
-            </Alert>
-          </Snackbar>
-        </Fragment>
-        {/* Error */}
-        <Fragment>
-          <Snackbar
-            open={openError}
-            onClose={handleErrorClose}
-            autoHideDuration={2500}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            TransitionComponent={transition}
-          >
-            <Alert
-              variant='filled'
-              severity='error'
-              style={{ color: 'white', backgroundColor: '#c51111a9' }}
-              onClose={handleErrorClose}
-              sx={{ width: '100%' }}
-            >
-              {message}
-            </Alert>
-          </Snackbar>
-        </Fragment>
-      </Card>
+              <Box display='flex' alignItems='center'>
+                <input type='file' hidden ref={inputRef} onChange={handleChange} />
+                <Button
+                  variant='contained'
+                  size='medium'
+                  startIcon={<i className='line-md-uploading-loop' />}
+                  onClick={handleInputOpen}
+                >
+                  Upload report
+                </Button>
+              </Box>
+
+              <Pagination
+                shape='rounded'
+                color='primary'
+                pageSize={8}
+                items={reportedWeeklyList}
+                onChangePage={onChangePage}
+              />
+            </Box>
+            {/* Alert */}
+            <Fragment>
+              <Snackbar
+                open={openAlert}
+                onClose={handleAlertClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+              >
+                <Alert
+                  variant='filled'
+                  severity='info'
+                  style={{ color: 'white', backgroundColor: '#056abdff' }}
+                  onClose={handleAlertClose}
+                  sx={{ width: '100%' }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+            </Fragment>
+            {/* Error */}
+            <Fragment>
+              <Snackbar
+                open={openError}
+                onClose={handleErrorClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+              >
+                <Alert
+                  variant='filled'
+                  severity='error'
+                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                  onClose={handleErrorClose}
+                  sx={{ width: '100%' }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+            </Fragment>
+          </Card>
+        </div>
+      </div>
     )
 }
 

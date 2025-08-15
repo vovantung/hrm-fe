@@ -83,6 +83,11 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'nimbus:edit',
+      'fluent-mdl2:add-group',
+      'material-symbols:person-add-rounded',
+      'ic:round-save-alt',
+      'game-icons:save-arrow',
       'gridicons:create',
       'mingcute:add-fill',
       'material-symbols:system-update-alt',

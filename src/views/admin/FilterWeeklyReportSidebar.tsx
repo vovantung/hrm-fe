@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
 import { setReportedWeekly } from '@/redux-store/slices/report-weekly'
+import { setLoading } from '@/redux-store/slices/common'
 
 type DepartmentDataType = {
   id: number
@@ -56,6 +57,8 @@ const FilterWeeklyReportSidebar = () => {
 
       setDateFrom(start)
       setDateTo(end)
+
+      dispatch(setLoading(true))
     }
   }
 

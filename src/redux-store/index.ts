@@ -12,6 +12,7 @@ import accountsReducer from '@/redux-store/slices/accounts'
 import authReducer from '@/redux-store/slices/auth'
 import departmentsReducer from '@/redux-store/slices/departments'
 import reportWeeklyReducer from '@/redux-store/slices/report-weekly'
+import commonReducer from '@/redux-store/slices/common'
 
 export const store = configureStore({
   reducer: {
@@ -24,7 +25,8 @@ export const store = configureStore({
     accounts: accountsReducer,
     departments: departmentsReducer,
     reportWeekly: reportWeeklyReducer,
-    auth: authReducer
+    auth: authReducer,
+    common: commonReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false })
 })

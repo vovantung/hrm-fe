@@ -20,11 +20,13 @@ type WeeklyReportDataType = {
 interface ReportWeeklyState {
   notReportedWeekly: DepartmentDataType[]
   reportedWeekly: WeeklyReportDataType[]
+  reportedWeeklyListOfPage: WeeklyReportDataType[]
 }
 
 const initialState: ReportWeeklyState = {
   notReportedWeekly: [],
-  reportedWeekly: []
+  reportedWeekly: [],
+  reportedWeeklyListOfPage: []
 }
 
 const reportWeeklySlice = createSlice({
@@ -37,15 +39,27 @@ const reportWeeklySlice = createSlice({
     setReportedWeekly(state, action: PayloadAction<WeeklyReportDataType[]>) {
       state.reportedWeekly = action.payload
     },
+    setReportedWeeklyListOfPage(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyListOfPage = action.payload
+    },
     clearNotReportedWeekly(state) {
       state.notReportedWeekly = []
     },
     clearReportedWeekly(state) {
       state.reportedWeekly = []
+    },
+    clearReportedWeeklyListOfPage(state) {
+      state.reportedWeeklyListOfPage = []
     }
   }
 })
 
-export const { setNotReportedWeekly, clearNotReportedWeekly, setReportedWeekly, clearReportedWeekly } =
-  reportWeeklySlice.actions
+export const {
+  setNotReportedWeekly,
+  clearNotReportedWeekly,
+  setReportedWeekly,
+  clearReportedWeekly,
+  setReportedWeeklyListOfPage,
+  clearReportedWeeklyListOfPage
+} = reportWeeklySlice.actions
 export default reportWeeklySlice.reducer

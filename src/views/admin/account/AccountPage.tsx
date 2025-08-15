@@ -691,7 +691,7 @@ const AccountPage = () => {
             zIndex: 99999,
             opacity: accountsOfPage.length === 0 ? 1 : 0,
             pointerEvents: accountsOfPage.length === 0 ? 'auto' : 'none',
-            transition: 'opacity 0.8s ease'
+            transition: 'opacity 0.4s ease'
           }}
         >
           <CircularProgress sx={{ color: '#175ea1' }} size={36} thickness={4} />

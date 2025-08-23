@@ -91,15 +91,21 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
         }}
       >
         {/* Author: Vo Van Tung; 25/7/2025 */}
-        <SubMenu label={dictionary['navigation'].admin} icon={<i className='ic-baseline-manage-accounts' />}>
+        <SubMenu label={dictionary['navigation'].txuAdmin} icon={<i className='eos-icons-admin-outlined' />}>
           <MenuItem href={`/${locale}/admin/account`} icon={<i className='ic-round-supervisor-account' />}>
-            {dictionary['navigation'].account}
+            {dictionary['navigation'].txuAccount}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/department`} icon={<i className='mingcute-department-line' />}>
-            {dictionary['navigation'].department}
+          <MenuItem href={`/${locale}/admin/department`} icon={<i className='flowbite-users-group-solid' />}>
+            {dictionary['navigation'].txuDepartment}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='ix-report-barchart' />}>
-            {dictionary['navigation'].weeklyReport}
+          <MenuItem href={`/${locale}/admin/report`} icon={<i className='fluent-mdl2-report-lock' />}>
+            {dictionary['navigation'].txuSummaryReport}
+          </MenuItem>
+        </SubMenu>
+
+        <SubMenu label={dictionary['navigation'].txuUser} icon={<i className='heroicons-user-solid' />}>
+          <MenuItem href={`/${locale}/user/report`} icon={<i className='fluent-mdl2-report-warning' />}>
+            {dictionary['navigation'].txuReport}
           </MenuItem>
         </SubMenu>
 

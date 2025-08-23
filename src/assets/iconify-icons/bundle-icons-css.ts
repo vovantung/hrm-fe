@@ -83,6 +83,10 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'lets-icons:group-add-fill',
+      'flowbite:users-group-solid',
+      'heroicons:user-solid',
+      'eos-icons:admin-outlined',
       'ic:baseline-language',
       'nimbus:edit',
       'fluent-mdl2:add-group',
@@ -96,17 +100,10 @@ async function generateIconsCSS() {
       'wpf:add-user',
       'line-md:uploading-loop',
       'line-md:upload-loop',
-      'ix:report-barchart',
       'ic:baseline-manage-accounts',
       'ic:round-supervisor-account',
-      'mingcute:department-fill',
-      'bx-basket',
-      'bi-airplane-engines',
-      'ri-anchor-line',
-      'uit-adobe-alt',
-
-      // 'fa6-regular-comment',
-      'twemoji-auto-rickshaw'
+      'fluent-mdl2:report-warning',
+      'fluent-mdl2:report-lock'
     ],
 
     svg: [

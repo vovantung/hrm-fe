@@ -13,7 +13,8 @@ import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Me
 
 // Component Imports
 import { Menu, SubMenu, MenuItem, MenuSection } from '@menu/vertical-menu'
-import CustomChip from '@core/components/mui/Chip'
+
+// import CustomChip from '@core/components/mui/Chip'
 
 // import { GenerateVerticalMenu } from '@components/GenerateMenu'
 
@@ -82,81 +83,25 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
         {/* Author: Vo Van Tung; 25/7/2025 */}
-        <SubMenu label={dictionary['navigation'].admin} icon={<i className='ic-baseline-manage-accounts' />}>
+        <SubMenu label={dictionary['navigation'].txuAdmin} icon={<i className='eos-icons-admin-outlined' />}>
           <MenuItem href={`/${locale}/admin/account`} icon={<i className='ic-round-supervisor-account' />}>
-            {dictionary['navigation'].account}
+            {dictionary['navigation'].txuAccount}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/department`} icon={<i className='mingcute-department-line' />}>
-            {dictionary['navigation'].department}
+          <MenuItem href={`/${locale}/admin/department`} icon={<i className='flowbite-users-group-solid' />}>
+            {dictionary['navigation'].txuDepartment}
           </MenuItem>
-          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='ix-report-barchart' />}>
-            {dictionary['navigation'].weeklyReport}
-          </MenuItem>
-        </SubMenu>
-        <SubMenu
-          label={dictionary['navigation'].dashboards}
-          icon={<i className='tabler-smart-home' />}
-          suffix={<CustomChip label='5' size='small' color='error' round='true' />}
-        >
-          <MenuItem href={`/${locale}/dashboards/crm`}>{dictionary['navigation'].crm}</MenuItem>
-          <MenuItem href={`/${locale}/dashboards/analytics`}>{dictionary['navigation'].analytics}</MenuItem>
-          <MenuItem href={`/${locale}/dashboards/ecommerce`}>{dictionary['navigation'].eCommerce}</MenuItem>
-          <MenuItem href={`/${locale}/dashboards/academy`}>{dictionary['navigation'].academy}</MenuItem>
-          <MenuItem href={`/${locale}/dashboards/logistics`}>{dictionary['navigation'].logistics}</MenuItem>
-        </SubMenu>
-        <SubMenu label={dictionary['navigation'].frontPages} icon={<i className='tabler-files' />}>
-          <MenuItem href='/front-pages/landing-page' target='_blank'>
-            {dictionary['navigation'].landing}
-          </MenuItem>
-          <MenuItem href='/front-pages/pricing' target='_blank'>
-            {dictionary['navigation'].pricing}
-          </MenuItem>
-          <MenuItem href='/front-pages/payment' target='_blank'>
-            {dictionary['navigation'].payment}
-          </MenuItem>
-          <MenuItem href='/front-pages/checkout' target='_blank'>
-            {dictionary['navigation'].checkout}
-          </MenuItem>
-          <MenuItem href='/front-pages/help-center' target='_blank'>
-            {dictionary['navigation'].helpCenter}
+          <MenuItem href={`/${locale}/admin/report`} icon={<i className='fluent-mdl2-report-lock' />}>
+            {dictionary['navigation'].txuSummaryReport}
           </MenuItem>
         </SubMenu>
+
+        <SubMenu label={dictionary['navigation'].txuUser} icon={<i className='heroicons-user-solid' />}>
+          <MenuItem href={`/${locale}/user/report`} icon={<i className='fluent-mdl2-report-warning' />}>
+            {dictionary['navigation'].txuReport}
+          </MenuItem>
+        </SubMenu>
+
         <MenuSection label={dictionary['navigation'].appsPages}>
-          <SubMenu label={dictionary['navigation'].eCommerce} icon={<i className='tabler-shopping-cart' />}>
-            <MenuItem href={`/${locale}/apps/ecommerce/dashboard`}>{dictionary['navigation'].dashboard}</MenuItem>
-            <SubMenu label={dictionary['navigation'].products}>
-              <MenuItem href={`/${locale}/apps/ecommerce/products/list`}>{dictionary['navigation'].list}</MenuItem>
-              <MenuItem href={`/${locale}/apps/ecommerce/products/add`}>{dictionary['navigation'].add}</MenuItem>
-              <MenuItem href={`/${locale}/apps/ecommerce/products/category`}>
-                {dictionary['navigation'].category}
-              </MenuItem>
-            </SubMenu>
-            <SubMenu label={dictionary['navigation'].orders}>
-              <MenuItem href={`/${locale}/apps/ecommerce/orders/list`}>{dictionary['navigation'].list}</MenuItem>
-              <MenuItem
-                href={`/${locale}/apps/ecommerce/orders/details/5434`}
-                exactMatch={false}
-                activeUrl='/apps/ecommerce/orders/details'
-              >
-                {dictionary['navigation'].details}
-              </MenuItem>
-            </SubMenu>
-            <SubMenu label={dictionary['navigation'].customers}>
-              <MenuItem href={`/${locale}/apps/ecommerce/customers/list`}>{dictionary['navigation'].list}</MenuItem>
-              <MenuItem
-                href={`/${locale}/apps/ecommerce/customers/details/879861`}
-                exactMatch={false}
-                activeUrl='/apps/ecommerce/customers/details'
-              >
-                {dictionary['navigation'].details}
-              </MenuItem>
-            </SubMenu>
-            <MenuItem href={`/${locale}/apps/ecommerce/manage-reviews`}>
-              {dictionary['navigation'].manageReviews}
-            </MenuItem>
-            <MenuItem href={`/${locale}/apps/ecommerce/referrals`}>{dictionary['navigation'].referrals}</MenuItem>
-            <MenuItem href={`/${locale}/apps/ecommerce/settings`}>{dictionary['navigation'].settings}</MenuItem>
-          </SubMenu>
           <SubMenu label={dictionary['navigation'].academy} icon={<i className='tabler-school' />}>
             <MenuItem href={`/${locale}/apps/academy/dashboard`}>{dictionary['navigation'].dashboard}</MenuItem>
             <MenuItem href={`/${locale}/apps/academy/my-courses`}>{dictionary['navigation'].myCourses}</MenuItem>
@@ -164,29 +109,8 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
               {dictionary['navigation'].courseDetails}
             </MenuItem>
           </SubMenu>
-          <SubMenu label={dictionary['navigation'].logistics} icon={<i className='tabler-truck' />}>
-            <MenuItem href={`/${locale}/apps/logistics/dashboard`}>{dictionary['navigation'].dashboard}</MenuItem>
-            <MenuItem href={`/${locale}/apps/logistics/fleet`}>{dictionary['navigation'].fleet}</MenuItem>
-          </SubMenu>
-          <MenuItem
-            href={`/${locale}/apps/email`}
-            icon={<i className='tabler-mail' />}
-            exactMatch={false}
-            activeUrl='/apps/email'
-          >
-            {dictionary['navigation'].email}
-          </MenuItem>
-          <MenuItem href={`/${locale}/apps/chat`} icon={<i className='tabler-message-circle-2' />}>
-            {dictionary['navigation'].chat}
-          </MenuItem>
-          <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-calendar' />}>
-            {dictionary['navigation'].calendar}
-          </MenuItem>
-          <MenuItem href={`/${locale}/apps/kanban`} icon={<i className='tabler-copy' />}>
-            {dictionary['navigation'].kanban}
-          </MenuItem>
+          {/*
           <SubMenu label={dictionary['navigation'].invoice} icon={<i className='tabler-file-description' />}>
-            <MenuItem href={`/${locale}/apps/invoice/list`}>{dictionary['navigation'].list}</MenuItem>
             <MenuItem
               href={`/${locale}/apps/invoice/preview/4987`}
               exactMatch={false}
@@ -198,6 +122,24 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
               {dictionary['navigation'].edit}
             </MenuItem>
             <MenuItem href={`/${locale}/apps/invoice/add`}>{dictionary['navigation'].add}</MenuItem>
+          </SubMenu> */}
+          {/* <SubMenu
+            label={dictionary['navigation'].dashboards}
+            icon={<i className='tabler-smart-home' />}
+            suffix={<CustomChip label='5' size='small' color='error' round='true' />}
+          >
+            <MenuItem href={`/${locale}/dashboards/academy`}>{dictionary['navigation'].academy}</MenuItem>
+          </SubMenu> */}
+          <SubMenu label={dictionary['navigation'].frontPages} icon={<i className='tabler-files' />}>
+            <MenuItem href='/front-pages/landing-page' target='_blank'>
+              {dictionary['navigation'].landing}
+            </MenuItem>
+            <MenuItem href='/front-pages/pricing' target='_blank'>
+              {dictionary['navigation'].pricing}
+            </MenuItem>
+            <MenuItem href='/front-pages/payment' target='_blank'>
+              {dictionary['navigation'].payment}
+            </MenuItem>
           </SubMenu>
         </MenuSection>
       </Menu>

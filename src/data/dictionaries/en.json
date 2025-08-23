@@ -101,10 +101,12 @@
     "menuLevel2": "Menu Level 2",
     "menuLevel3": "Menu Level 3",
     "disabledMenu": "Disabled Menu",
-    "admin": "Admin",
-    "account": "Account",
-    "department": "Department",
-    "weeklyReport": "Weekly report",
-    "uploadFile": "Upload file"
+    "txuAdmin": "Admin",
+    "txuAccount": "Account",
+    "txuDepartment": "Department",
+    "txuWeeklyReport": "Weekly report",
+    "txuReport": "Report",
+    "txuSummaryReport": "Summary report",
+    "txuUser": "User"
   }
 }

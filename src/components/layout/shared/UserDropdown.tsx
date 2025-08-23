@@ -57,7 +57,7 @@ type AccountDataType = {
   firstName: string
   email: string
   phoneNumber: string
-  avatar: string
+  avatarUrl: string
   department: DepartmentDataType
   newpassword: string
 }
@@ -135,7 +135,7 @@ const UserDropdown = () => {
       <Badge
         ref={anchorRef}
         overlap='circular'
-        badgeContent={userLogined.avatar != '' ? <BadgeContentSpan onClick={handleDropdownOpen} /> : null}
+        badgeContent={userLogined.avatarUrl != '' ? <BadgeContentSpan onClick={handleDropdownOpen} /> : null}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         className='mis-2'
       >
@@ -144,7 +144,7 @@ const UserDropdown = () => {
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
           alt={userLogined.lastName + userLogined.firstName || ''}
-          src={userLogined.avatar || ''}
+          src={userLogined.avatarUrl || ''}
         />
       </Badge>
       <Popper
@@ -167,7 +167,10 @@ const UserDropdown = () => {
                 <MenuList>
                   <div className='flex items-center plb-2 pli-6 gap-2' tabIndex={-1}>
                     {/* <Avatar alt={session?.user?.name || ''} src={session?.user?.image || ''} /> */}
-                    <Avatar alt={userLogined.lastName + userLogined.firstName || ''} src={userLogined.avatar || ''} />
+                    <Avatar
+                      alt={userLogined.lastName + userLogined.firstName || ''}
+                      src={userLogined.avatarUrl || ''}
+                    />
 
                     <div className='flex items-start flex-col'>
                       <Typography className='font-medium' color='text.primary'>
@@ -179,22 +182,22 @@ const UserDropdown = () => {
                     </div>
                   </div>
                   <Divider className='mlb-1' />
-                  <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/pages/user-profile')}>
+                  <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/user/profile')}>
                     <i className='tabler-user' />
                     <Typography color='text.primary'>My Profile</Typography>
                   </MenuItem>
-                  <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/pages/account-settings')}>
+                  <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/user/settings')}>
                     <i className='tabler-settings' />
                     <Typography color='text.primary'>Settings</Typography>
                   </MenuItem>
-                  <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/pages/pricing')}>
+                  {/* <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/pages/pricing')}>
                     <i className='tabler-currency-dollar' />
                     <Typography color='text.primary'>Pricing</Typography>
                   </MenuItem>
                   <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/pages/faq')}>
                     <i className='tabler-help-circle' />
                     <Typography color='text.primary'>FAQ</Typography>
-                  </MenuItem>
+                  </MenuItem> */}
                   <div className='flex items-center plb-2 pli-3'>
                     <Button
                       fullWidth

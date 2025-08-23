@@ -81,18 +81,6 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        {/* Author: Vo Van Tung; 25/7/2025 */}
-        <SubMenu label={dictionary['navigation'].admin} icon={<i className='txu-admin' />}>
-          <MenuItem href={`/${locale}/admin/account`} icon={<i className='txu-account' />}>
-            {dictionary['navigation'].account}
-          </MenuItem>
-          <MenuItem href={`/${locale}/admin/department`} icon={<i className='txu-department' />}>
-            {dictionary['navigation'].department}
-          </MenuItem>
-          <MenuItem href={`/${locale}/admin/weekly-report`} icon={<i className='txu-weekly-report' />}>
-            {dictionary['navigation'].weeklyReport}
-          </MenuItem>
-        </SubMenu>
         <SubMenu
           label={dictionary['navigation'].dashboards}
           icon={<i className='tabler-smart-home' />}

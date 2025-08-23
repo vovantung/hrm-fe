@@ -505,7 +505,7 @@ const DepartmentView = () => {
             >
               <Button
                 variant='contained'
-                startIcon={<i className='fluent-mdl2-add-group' />}
+                startIcon={<i className='lets-icons-group-add-fill' />}
                 onClick={handleViewCreateDepartment}
               >
                 Thêm đơn vị
@@ -605,7 +605,7 @@ const DepartmentView = () => {
               <div style={{ textAlign: 'center', marginTop: '15px' }}>
                 <Button
                   variant='contained'
-                  startIcon={<i className='fluent-mdl2-add-group' />}
+                  startIcon={<i className='lets-icons-group-add-fill' />}
                   sx={{ mr: 3.5 }}
                   color='primary'
                   onClick={handleCreateDepartment}

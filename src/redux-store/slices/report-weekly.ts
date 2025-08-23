@@ -12,9 +12,13 @@ type DepartmentDataType = {
 type WeeklyReportDataType = {
   id: number
   filename: string
+  originName: string
   url: string
   uploadedAt: string
   department: DepartmentDataType
+  urlReportEx: string
+  originNameReportEx: string
+  dateReportEx: string
 }
 
 interface ReportWeeklyState {

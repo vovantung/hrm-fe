@@ -1,6 +1,6 @@
 'use client'
 
-import WeeklyReportView from '@/views/admin/weekly-report/WeeklyReport'
+import WeeklyReportView from '@/views/admin/report/WeeklyReport'
 
 // import { useParams } from 'next/navigation'
 

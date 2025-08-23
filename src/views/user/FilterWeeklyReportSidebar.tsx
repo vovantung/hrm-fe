@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 // import { Card, CardContent, Tooltip, useMediaQuery } from '@mui/material'
-import { Tooltip, useMediaQuery } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
 import type { Theme } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
 import { startOfWeek, endOfWeek, format, startOfMonth, endOfMonth, addDays, isBefore } from 'date-fns'
@@ -15,13 +15,13 @@ import { setReportedWeekly } from '@/redux-store/slices/report-weekly'
 
 // import { setLoading } from '@/redux-store/slices/common'
 
-type DepartmentDataType = {
-  id: number
-  name: string
-  description: string
-  createdAt: string
-  updateAt: string
-}
+// type DepartmentDataType = {
+//   id: number
+//   name: string
+//   description: string
+//   createdAt: string
+//   updateAt: string
+// }
 
 const FilterWeeklyReportSidebar = () => {
   const route = useRouter()
@@ -30,10 +30,11 @@ const FilterWeeklyReportSidebar = () => {
   const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
   const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
   const [selectedMonth, setSelectedMonth] = useState<Date | null | undefined>(new Date())
-  const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
+  const [weeks, setWeeks] = useState<{ start: Date; end: Date }[]>([])
   const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
+  const tab = useSelector((state: any) => state.common.tab) as number
 
   useEffect(() => {
     if (!init) {
@@ -73,9 +74,7 @@ const FilterWeeklyReportSidebar = () => {
     }
   }
 
-  async function getWeeksInMonth(
-    date: Date
-  ): Promise<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]> {
+  async function getWeeksInMonth(date: Date): Promise<{ start: Date; end: Date }[]> {
     const weeks = []
 
     let currentWeekStart = startOfWeek(startOfMonth(date), { weekStartsOn: 1 })
@@ -84,12 +83,11 @@ const FilterWeeklyReportSidebar = () => {
     while (isBefore(currentWeekStart, monthEnd) || currentWeekStart.getTime() === monthEnd.getTime()) {
       const currentWeekEnd = endOfWeek(currentWeekStart, { weekStartsOn: 1 })
 
-      const notReportList = await getNotReportedFromTo(currentWeekStart, currentWeekEnd)
+      // const notReportList = await getNotReportedFromTo(currentWeekStart, currentWeekEnd)
 
       weeks.push({
         start: currentWeekStart,
-        end: currentWeekEnd,
-        notReportList: notReportList ?? [] // fallback nếu null
+        end: currentWeekEnd
       })
 
       currentWeekStart = addDays(currentWeekStart, 7)
@@ -115,7 +113,14 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', param)
+      const res = await fetch(
+        tab == 1
+          ? globalVariables.url_user + '/weekly-report/get-department-fromto'
+          : tab == 2
+            ? globalVariables.url_user + '/weekly-report/get-summary-fromto'
+            : '',
+        param
+      )
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -129,45 +134,6 @@ const FilterWeeklyReportSidebar = () => {
       if (reportedFromToList !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
         dispatch(setReportedWeekly(reportedFromToList))
-      }
-    } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
-  async function getNotReportedFromTo(start: Date, end: Date): Promise<DepartmentDataType[] | null | undefined> {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
-          from: start.toISOString(),
-          to: end.toISOString()
-        })
-      }
-
-      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
-
-      if (!res.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
-      }
-
-      const notReported = await res.json()
-
-      if (notReported !== undefined) {
-        // setNotReportedList(notReported)
-
-        return notReported
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -188,7 +154,7 @@ const FilterWeeklyReportSidebar = () => {
         {/* <span style={{ color: '#444477' }}>
           <strong>Filter</strong>
         </span> */}
-        <strong>Filter</strong>
+        <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
         <div style={{ marginTop: '00px', marginBottom: '10px' }}>
           <div style={{}}>
@@ -197,7 +163,7 @@ const FilterWeeklyReportSidebar = () => {
               id='basic-input'
               onChange={x => setDateFrom(x)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='From' fullWidth />}
+              customInput={<CustomTextField label='Từ ngày' fullWidth />}
             />
           </div>
           <div style={{ marginTop: '10px' }}>
@@ -206,7 +172,7 @@ const FilterWeeklyReportSidebar = () => {
               id='basic-input'
               onChange={(y: Date | null | undefined) => setDateTo(y)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='To' fullWidth />}
+              customInput={<CustomTextField label='đến ngày' fullWidth />}
             />
           </div>
           <div style={{ marginTop: '10px' }}>
@@ -216,7 +182,7 @@ const FilterWeeklyReportSidebar = () => {
               showMonthYearPicker
               dateFormat='MM/yyyy'
               onChange={(date: Date | null | undefined) => selectMonthYear(date)}
-              customInput={<CustomTextField label='Weeks of month' fullWidth />}
+              customInput={<CustomTextField label='Các tuần trong tháng' fullWidth />}
             />
           </div>
 
@@ -267,39 +233,6 @@ const FilterWeeklyReportSidebar = () => {
                   {format(week.end, 'dd/MM/yyyy')}
                 </span>
               </span>
-
-              <Tooltip
-                title={
-                  week.notReportList.length !== 0 ? (
-                    <div>
-                      <div style={{ fontWeight: 'bold', marginBottom: 4 }}>
-                        {week.notReportList.length} đơn vị không gửi báo cáo:
-                      </div>
-                      <ul style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                        {week.notReportList.map((d, i) => (
-                          <li key={i} style={{ fontSize: '13px' }}>
-                            {d.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : (
-                    ''
-                  )
-                }
-                placement='bottom'
-                arrow
-              >
-                <span
-                  style={{
-                    color: week.notReportList.length !== 0 ? '#a51919ff' : 'green',
-                    cursor: week.notReportList.length !== 0 ? 'pointer' : 'unset',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {week.notReportList.length !== 0 ? 'Incomplete' : 'Done'}
-                </span>
-              </Tooltip>
             </li>
           ))}
         </div>

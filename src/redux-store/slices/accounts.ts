@@ -17,7 +17,8 @@ type AccountDataType = {
   email: string
   phoneNumber: string
   role: RoleDataType
-  avatar: string
+  avatarUrl: string
+  avatarFilename: string
   department: DepartmentDataType
   newpassword: string
 }
@@ -49,7 +50,8 @@ const initialState: AccountState = {
       createdAt: '',
       updateAt: ''
     },
-    avatar: '',
+    avatarUrl: '',
+    avatarFilename: '',
     department: {
       id: 0,
       name: '',
@@ -88,7 +90,8 @@ const accountsSlice = createSlice({
           createdAt: '',
           updateAt: ''
         },
-        avatar: '',
+        avatarUrl: '',
+        avatarFilename: '',
         department: {
           id: 0,
           name: '',

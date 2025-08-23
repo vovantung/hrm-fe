@@ -28,6 +28,7 @@ import {
   setReportedWeeklyListOfPage
 } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
+import { setLoading } from '@/redux-store/slices/common'
 
 type ReportedWeeklyDataType = {
   id: number
@@ -133,6 +134,9 @@ const WeeklyReportView = () => {
 
       // Chỉ nạp danh sách báo cáo tuần hiện tại lần đâu tiên khi load trang
       handleReportedWeekly()
+
+      // Sau khi nạp dữ liệu xong, chuyển sang loading sang trạng thái true để dừng màn hình load
+      dispatch(setLoading(false))
     } else {
       // Để chắc chắn không thực hiện thêm báo cáo (upload file) lần đầu tiên khi nạp trang
       if (file) {
@@ -298,8 +302,8 @@ const WeeklyReportView = () => {
             justifyContent: 'center',
             alignItems: 'center',
             zIndex: 99999,
-            opacity: reportedWeeklyListOfPage.length === 0 && loading == false ? 1 : 0,
-            pointerEvents: reportedWeeklyListOfPage.length === 0 && loading == false ? 'auto' : 'none',
+            opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 1 : 0,
+            pointerEvents: reportedWeeklyListOfPage.length === 0 && loading == true ? 'auto' : 'none',
             transition: 'opacity 0.4s ease'
           }}
         >
@@ -308,7 +312,7 @@ const WeeklyReportView = () => {
 
         <div
           style={{
-            opacity: reportedWeeklyListOfPage.length === 0 && loading == false ? 0 : 1,
+            opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
             transition: 'opacity 0.2s ease'
           }}
         >

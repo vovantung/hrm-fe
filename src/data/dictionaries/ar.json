@@ -101,10 +101,12 @@
     "menuLevel2": "مستوى القائمة 2",
     "menuLevel3": "مستوى القائمة 3",
     "disabledMenu": "قائمة المعوقين",
-    "admin": "Admin",
-    "account": "Account",
-    "department": "Department",
-    "weeklyReport": "Weekly report",
-    "uploadFile": "Upload file"
+    "txuAdmin": "Admin",
+    "txuAccount": "Account",
+    "txuDepartment": "Department",
+    "txuWeeklyReport": "Weekly report",
+    "txuReport": "Report",
+    "txuSummaryReport": "Summary report",
+    "txuUser": "User"
   }
 }

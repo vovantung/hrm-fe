@@ -1,5 +1,5 @@
 import type { ComponentType, SyntheticEvent } from 'react'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -9,15 +9,7 @@ import { useTheme } from '@mui/material/styles'
 import { startOfWeek, endOfWeek, format } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setNotReportedWeekly, setReportedWeekly } from '@/redux-store/slices/report-weekly'
-
-type DepartmentDataType = {
-  id: number
-  name: string
-  description: string
-  createdAt: string
-  updateAt: string
-}
+import { setReportedWeekly } from '@/redux-store/slices/report-weekly'
 
 type TransitionProps = Omit<SlideProps, 'direction'>
 
@@ -35,8 +27,7 @@ const ThisWeek = () => {
 
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
-
-  const notReportedWeekly = useSelector((state: any) => state.reportWeekly.notReportedWeekly) as DepartmentDataType[]
+  const tab = useSelector((state: any) => state.common.tab) as number
 
   // Dữ liệu, cài đặt hông báo...
   const [transition, setTransition] = useState<ComponentType<TransitionProps>>()
@@ -59,48 +50,6 @@ const ThisWeek = () => {
     setOpenError(false)
   }
 
-  useEffect(() => {
-    getNotReportedFromTo()
-  }, [])
-
-  async function getNotReportedFromTo() {
-    try {
-      const auth = localStorage.getItem('Authorization') as string
-
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth
-        },
-        body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
-          from: weekStart.toISOString(),
-          to: weekEnd.toISOString()
-        })
-      }
-
-      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
-
-      if (!res.ok) {
-        const resError = await res.json()
-
-        handleErrorOpen("Can't get list not reported weekly current list, cause by " + resError.errorMessage)
-
-        return
-      }
-
-      const notReportedWeekly = await res.json()
-
-      if (notReportedWeekly !== undefined) {
-        dispatch(setNotReportedWeekly(notReportedWeekly))
-      }
-    } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
   async function getWeeklyReportsFromTo() {
     try {
       const auth = localStorage.getItem('Authorization') as string
@@ -118,7 +67,14 @@ const ThisWeek = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', param)
+      const res = await fetch(
+        tab == 1
+          ? globalVariables.url_user + '/weekly-report/get-department-fromto'
+          : tab == 2
+            ? globalVariables.url_user + '/weekly-report/get-summary-fromto'
+            : '',
+        param
+      )
 
       if (!res.ok) {
         const resError = await res.json()
@@ -154,7 +110,7 @@ const ThisWeek = () => {
         {/* <span style={{ color: '#444477' }}>
           <strong>This week</strong>
         </span> */}
-        <strong>This week</strong>
+        <strong>Tuần này</strong>
         <div style={{ marginTop: '10px', marginBottom: '10px' }}>
           <span
             style={{
@@ -171,44 +127,6 @@ const ThisWeek = () => {
             Từ {format(weekStart, 'dd/MM/yyyy')} đến {format(weekEnd, 'dd/MM/yyyy')}
           </span>
         </div>
-        {notReportedWeekly.length !== 0 ? (
-          <div style={{ marginTop: '10px', marginBottom: '0px' }}>
-            <div>Các đơn vị chưa gửi báo cáo:</div>
-
-            {notReportedWeekly.map(notReported => (
-              <li
-                key={notReported.id}
-                style={{
-                  textDecoration: 'none',
-                  fontSize: '14px',
-                  paddingTop: '10px'
-                }}
-              >
-                <span
-                  style={{
-                    color: '#a51919ff',
-                    textDecoration: 'none',
-                    fontSize: '14px',
-                    paddingTop: '10px'
-                  }}
-                >
-                  {notReported.name}
-                </span>
-              </li>
-            ))}
-          </div>
-        ) : (
-          <span
-            style={{
-              color: 'green',
-              textDecoration: 'none',
-              fontSize: '14px',
-              paddingTop: '10px'
-            }}
-          >
-            Tất cả đơn vị đã hoàn thành gửi báo cáo
-          </span>
-        )}
       </div>
       {/* Error */}
       <Fragment>

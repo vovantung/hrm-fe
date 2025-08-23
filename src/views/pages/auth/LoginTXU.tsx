@@ -93,6 +93,10 @@ const LoginTXU = () => {
     }
   }
 
+  // useEffect(() => {
+  //   localStorage.clear()
+  // }, [])
+
   return (
     <AuthIllustrationWrapper>
       <Card className='flex flex-col sm:is-[450px]'>

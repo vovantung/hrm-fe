@@ -23,6 +23,26 @@ import { setReportedWeekly } from '@/redux-store/slices/report-weekly'
 //   updateAt: string
 // }
 
+type AccountDataType = {
+  id: number
+  username: string
+  lastName: string
+  firstName: string
+  email: string
+  phoneNumber: string
+  avatarUrl: string
+  department: DepartmentDataType
+  newpassword: string
+}
+
+type DepartmentDataType = {
+  id: number
+  name: string
+  description: string
+  createdAt: string
+  updateAt: string
+}
+
 const FilterWeeklyReportSidebar = () => {
   const route = useRouter()
   const theme = useTheme() as Theme
@@ -35,6 +55,7 @@ const FilterWeeklyReportSidebar = () => {
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const tab = useSelector((state: any) => state.common.tab) as number
+  const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
   useEffect(() => {
     if (!init) {
@@ -151,9 +172,27 @@ const FilterWeeklyReportSidebar = () => {
           textAlign: 'justify'
         }}
       >
-        {/* <span style={{ color: '#444477' }}>
-          <strong>Filter</strong>
-        </span> */}
+        <span>
+          Xin chào{' '}
+          <span style={{ color: '#338844', fontSize: '15px' }}>
+            <strong>{userLogined.firstName}</strong>
+          </span>
+          {''}!
+        </span>
+        <br />
+        Bạn là nhân sự{' '}
+        <span style={{ color: '#b85d08', fontSize: '15px' }}>
+          <strong>{userLogined.department.name}</strong>
+        </span>
+        <hr
+          style={{
+            border: 'none',
+            borderTop: '0.8px solid #ccc',
+
+            marginTop: '10px',
+            marginBottom: '15px'
+          }}
+        />
         <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
         <div style={{ marginTop: '00px', marginBottom: '10px' }}>

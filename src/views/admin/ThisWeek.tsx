@@ -154,7 +154,7 @@ const ThisWeek = () => {
         {/* <span style={{ color: '#444477' }}>
           <strong>This week</strong>
         </span> */}
-        <strong>This week</strong>
+        <strong>Tuần này</strong>
         <div style={{ marginTop: '10px', marginBottom: '10px' }}>
           <span
             style={{

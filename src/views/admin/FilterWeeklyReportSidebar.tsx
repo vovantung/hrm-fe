@@ -23,6 +23,18 @@ type DepartmentDataType = {
   updateAt: string
 }
 
+type AccountDataType = {
+  id: number
+  username: string
+  lastName: string
+  firstName: string
+  email: string
+  phoneNumber: string
+  avatarUrl: string
+  department: DepartmentDataType
+  newpassword: string
+}
+
 const FilterWeeklyReportSidebar = () => {
   const route = useRouter()
   const theme = useTheme() as Theme
@@ -34,6 +46,7 @@ const FilterWeeklyReportSidebar = () => {
   const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
+  const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
   useEffect(() => {
     if (!init) {
@@ -185,10 +198,28 @@ const FilterWeeklyReportSidebar = () => {
           textAlign: 'justify'
         }}
       >
-        {/* <span style={{ color: '#444477' }}>
-          <strong>Filter</strong>
-        </span> */}
-        <strong>Filter</strong>
+        <span>
+          Xin chào{' '}
+          <span style={{ color: '#338844', fontSize: '15px' }}>
+            <strong>{userLogined.firstName}</strong>
+          </span>
+          {''}!
+        </span>
+        <br />
+        Bạn là nhân sự{' '}
+        <span style={{ color: '#b85d08', fontSize: '15px' }}>
+          <strong>{userLogined.department.name}</strong>
+        </span>
+        <hr
+          style={{
+            border: 'none',
+            borderTop: '0.8px solid #ccc',
+
+            marginTop: '10px',
+            marginBottom: '15px'
+          }}
+        />
+        <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
         <div style={{ marginTop: '00px', marginBottom: '10px' }}>
           <div style={{}}>
@@ -197,7 +228,7 @@ const FilterWeeklyReportSidebar = () => {
               id='basic-input'
               onChange={x => setDateFrom(x)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='From' fullWidth />}
+              customInput={<CustomTextField label='Từ ngày' fullWidth />}
             />
           </div>
           <div style={{ marginTop: '10px' }}>
@@ -206,7 +237,7 @@ const FilterWeeklyReportSidebar = () => {
               id='basic-input'
               onChange={(y: Date | null | undefined) => setDateTo(y)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='To' fullWidth />}
+              customInput={<CustomTextField label='đến' fullWidth />}
             />
           </div>
           <div style={{ marginTop: '10px' }}>
@@ -216,7 +247,7 @@ const FilterWeeklyReportSidebar = () => {
               showMonthYearPicker
               dateFormat='MM/yyyy'
               onChange={(date: Date | null | undefined) => selectMonthYear(date)}
-              customInput={<CustomTextField label='Weeks of month' fullWidth />}
+              customInput={<CustomTextField label='Các tuần trong tháng' fullWidth />}
             />
           </div>
 

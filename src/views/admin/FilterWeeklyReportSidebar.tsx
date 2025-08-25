@@ -201,7 +201,7 @@ const FilterWeeklyReportSidebar = () => {
         <span>
           Xin chào{' '}
           <span style={{ color: '#338844', fontSize: '15px' }}>
-            <strong>{userLogined.firstName}</strong>
+            <strong>{userLogined.lastName + ' ' + userLogined.firstName}</strong>
           </span>
           {''}!
         </span>

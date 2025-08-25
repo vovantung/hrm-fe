@@ -172,16 +172,16 @@ const FilterWeeklyReportSidebar = () => {
           textAlign: 'justify'
         }}
       >
-        <span>
+        <span style={{ fontSize: '14.5px' }}>
           Xin chào{' '}
-          <span style={{ color: '#338844', fontSize: '15px' }}>
+          <span style={{ color: '#338844', fontSize: '14.5px' }}>
             <strong>{userLogined.lastName + ' ' + userLogined.firstName}</strong>
           </span>
           {''}!
         </span>
         <br />
         Bạn là nhân sự{' '}
-        <span style={{ color: '#d1136c94', fontSize: '15px' }}>
+        <span style={{ color: '#bb15159b', fontSize: '14.5px' }}>
           <strong>{userLogined.department.name}</strong>
         </span>
         <hr

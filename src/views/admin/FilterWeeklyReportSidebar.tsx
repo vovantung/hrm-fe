@@ -206,10 +206,13 @@ const FilterWeeklyReportSidebar = () => {
           {''}!
         </span>
         <br />
-        Bạn là nhân sự{' '}
-        <span style={{ color: '#bb15159b', fontSize: '14.5px' }}>
-          <strong>{userLogined.department.name}</strong>
+        <span style={{ fontSize: '14.5px' }}>
+          Bạn là nhân sự{' '}
+          <span style={{ color: '#bb15159b', fontSize: '14.5px' }}>
+            <strong>{userLogined.department.name}</strong>
+          </span>
         </span>
+
         <hr
           style={{
             border: 'none',
@@ -222,7 +225,7 @@ const FilterWeeklyReportSidebar = () => {
         <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
         <div style={{ marginTop: '00px', marginBottom: '10px' }}>
-          <div style={{}}>
+          <div style={{ fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateFrom}
               id='basic-input'
@@ -231,7 +234,7 @@ const FilterWeeklyReportSidebar = () => {
               customInput={<CustomTextField label='Từ ngày' fullWidth />}
             />
           </div>
-          <div style={{ marginTop: '10px' }}>
+          <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateTo}
               id='basic-input'
@@ -240,7 +243,7 @@ const FilterWeeklyReportSidebar = () => {
               customInput={<CustomTextField label='đến' fullWidth />}
             />
           </div>
-          <div style={{ marginTop: '10px' }}>
+          <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={selectedMonth}
               id='month-picker'
@@ -255,7 +258,7 @@ const FilterWeeklyReportSidebar = () => {
             <li
               key={index}
               style={{
-                fontSize: '14px',
+                fontSize: '13.5px',
                 paddingTop: '10px',
                 display: 'flex',
                 justifyContent: 'space-between', // 👈 căn trái phải
@@ -266,6 +269,7 @@ const FilterWeeklyReportSidebar = () => {
             >
               <span
                 style={{
+                  fontSize: '13.5px',
                   cursor: 'pointer'
                 }}
                 id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
@@ -276,8 +280,7 @@ const FilterWeeklyReportSidebar = () => {
                   style={{
                     cursor: 'pointer',
                     color: '#0e6ac7ff',
-                    textDecoration: 'none',
-                    fontSize: '14px'
+                    textDecoration: 'none'
                   }}
                   id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
                   onClick={filterBySelectedWeekly}
@@ -325,10 +328,11 @@ const FilterWeeklyReportSidebar = () => {
                   style={{
                     color: week.notReportList.length !== 0 ? '#a51919ff' : 'green',
                     cursor: week.notReportList.length !== 0 ? 'pointer' : 'unset',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    fontSize: '13px'
                   }}
                 >
-                  {week.notReportList.length !== 0 ? 'Incomplete' : 'Done'}
+                  {week.notReportList.length !== 0 ? 'Chưa hoàn thành' : 'Hoàn thành'}
                 </span>
               </Tooltip>
             </li>

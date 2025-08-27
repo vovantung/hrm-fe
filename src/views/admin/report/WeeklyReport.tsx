@@ -5,9 +5,10 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, IconButton, Link, Slide, Snackbar } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Link, Slide, Snackbar } from '@mui/material'
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
+
+// import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
@@ -16,7 +17,6 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import type { SlideProps } from '@mui/material'
-import { Icon } from '@iconify/react/dist/iconify.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { endOfWeek, format, startOfWeek } from 'date-fns'
 
@@ -36,6 +36,7 @@ type ReportedWeeklyDataType = {
   url: string
   uploadedAt: string
   department: DepartmentDataType
+  originName: string
 }
 
 type DepartmentDataType = {
@@ -317,36 +318,38 @@ const WeeklyReportView = () => {
           }}
         >
           <Card>
-            <CardHeader title='WEEKLY REPORT' />
+            <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
+              BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
+            </h3>
+            {/* <CardHeader title='WEEKLY REPORT' /> */}
             <CardContent className='p-0'>
               <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
+
+                // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
               >
-                <Table className={tableStyles.table} stickyHeader>
+                <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
                       <TableCell>
-                        <b>Department</b>
+                        <b>Đơn vị</b>
                       </TableCell>
                       <TableCell>
-                        <b>Uploaded at</b>
+                        <b>Ngày báo cáo</b>
                       </TableCell>
                       <TableCell>
-                        <b>File name</b>
-                      </TableCell>
-                      <TableCell>
-                        <b>Action</b>
+                        <b>Tên báo cáo</b>
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {reportedWeeklyListOfPage.map(reportedWeekly => (
                       <TableRow key={reportedWeekly.id}>
-                        <TableCell style={{ fontSize: '14.5px' }}>{reportedWeekly.department.name} </TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>
-                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')}{' '}
-                        </TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
+                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
+                        </TableCell>
+                        <TableCell style={{ fontSize: '13.5px' }}>
                           <Link
                             href={reportedWeekly.url}
                             target='_blank'
@@ -354,37 +357,8 @@ const WeeklyReportView = () => {
                             underline='hover'
                             sx={{ display: 'inline-flex', alignItems: 'center' }}
                           >
-                            {reportedWeekly.filename}
+                            {reportedWeekly.originName}
                           </Link>
-                        </TableCell>
-                        <TableCell>
-                          <IconButton
-                            color='primary'
-                            size='small'
-                            sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
-                          >
-                            <Box
-                              sx={{
-                                width: 20,
-                                height: 20,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                            >
-                              <Icon
-                                icon='mingcute:delete-line'
-                                id={reportedWeekly.id + '_0'}
-                                style={{ width: '100%', height: '100%' }}
-                              />
-                            </Box>
-                          </IconButton>
-
-                          <IconButton
-                            color='primary'
-                            size='small'
-                            sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
-                          ></IconButton>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -406,12 +380,13 @@ const WeeklyReportView = () => {
               <Box display='flex' alignItems='center'>
                 <input type='file' hidden ref={inputRef} onChange={handleChange} />
                 <Button
+                  style={{ fontSize: '14px' }}
                   variant='contained'
                   size='medium'
                   startIcon={<i className='line-md-uploading-loop' />}
                   onClick={handleInputOpen}
                 >
-                  Upload report
+                  Tải báo cáo
                 </Button>
               </Box>
 

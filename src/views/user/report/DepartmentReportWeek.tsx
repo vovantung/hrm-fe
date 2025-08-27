@@ -275,14 +275,16 @@ const DepartmentReportWeekView = () => {
             transition: 'opacity 0.2s ease'
           }}
         >
-          <div>
+          <div style={{ fontSize: '14px' }}>
             <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px' }}>
               DEPARTMENT REPORT (WEEKLY)
             </h3>
             {/* <CardHeader title='DEPARTMENT REPORT (WEEKLY)' /> */}
             <CardContent className='p-0'>
               <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 350px)' }}
+
+                // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
               >
                 <Table className={tableStyles.table} stickyHeader>
                   <TableHead>
@@ -304,11 +306,11 @@ const DepartmentReportWeekView = () => {
                   <TableBody>
                     {reportedWeeklyListOfPage.map(reportedWeekly => (
                       <TableRow key={reportedWeekly.id}>
-                        <TableCell style={{ fontSize: '14.5px' }}>{reportedWeekly.department.name} </TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>
-                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')}{' '}
-                        </TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
+                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
+                        </TableCell>
+                        <TableCell style={{ fontSize: '13.5px' }}>
                           <Link
                             href={reportedWeekly.url}
                             target='_blank'
@@ -319,7 +321,7 @@ const DepartmentReportWeekView = () => {
                             {reportedWeekly.originName}
                           </Link>
                         </TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>
+                        <TableCell style={{ fontSize: '13.5px' }}>
                           {reportedWeekly.urlReportEx != null ? (
                             <Link
                               href={reportedWeekly.urlReportEx}
@@ -356,18 +358,18 @@ const DepartmentReportWeekView = () => {
                 <input type='file' hidden ref={inputRef} onChange={handleChange} />
                 <Button
                   variant='contained'
-                  size='medium'
                   startIcon={<i className='line-md-uploading-loop' />}
+                  style={{ fontSize: '14px' }}
                   onClick={handleInputOpen}
                 >
-                  Upload report
+                  Tải báo cáo
                 </Button>
               </Box>
 
               <Pagination
                 shape='rounded'
                 color='primary'
-                pageSize={8}
+                pageSize={6}
                 items={reportedWeeklyList}
                 onChangePage={onChangePage}
               />

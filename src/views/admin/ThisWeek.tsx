@@ -163,7 +163,7 @@ const ThisWeek = () => {
 
               // color: '#004080',
               textDecoration: 'none',
-              fontSize: '14px',
+              fontSize: '13.5px',
               paddingTop: '10px'
             }}
             onClick={getWeeklyReportsFromTo}
@@ -172,7 +172,7 @@ const ThisWeek = () => {
           </span>
         </div>
         {notReportedWeekly.length !== 0 ? (
-          <div style={{ marginTop: '10px', marginBottom: '0px' }}>
+          <div style={{ marginTop: '10px', marginBottom: '0px', fontSize: '13.5px' }}>
             <div>Các đơn vị chưa gửi báo cáo:</div>
 
             {notReportedWeekly.map(notReported => (
@@ -180,7 +180,7 @@ const ThisWeek = () => {
                 key={notReported.id}
                 style={{
                   textDecoration: 'none',
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   paddingTop: '10px'
                 }}
               >
@@ -188,7 +188,7 @@ const ThisWeek = () => {
                   style={{
                     color: '#a51919ff',
                     textDecoration: 'none',
-                    fontSize: '14px',
+                    fontSize: '13.5px',
                     paddingTop: '10px'
                   }}
                 >
@@ -202,7 +202,7 @@ const ThisWeek = () => {
             style={{
               color: 'green',
               textDecoration: 'none',
-              fontSize: '14px',
+              fontSize: '13.5px',
               paddingTop: '10px'
             }}
           >

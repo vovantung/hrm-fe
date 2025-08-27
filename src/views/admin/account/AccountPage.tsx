@@ -22,7 +22,8 @@ import {
 } from '@mui/material'
 
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
+
+// import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
@@ -509,6 +510,7 @@ const AccountPage = () => {
       if (!res.ok) {
         const resError = await res.json()
 
+        closeUpdateAccountDailog()
         handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
 
         return
@@ -654,6 +656,7 @@ const AccountPage = () => {
       if (!res.ok) {
         const resError = await res.json()
 
+        closeCreateAccountDailog()
         handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
 
         return
@@ -699,12 +702,15 @@ const AccountPage = () => {
 
         <div style={{ opacity: accountsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
           <Card>
-            <CardHeader title='ACCOUNT' />
+            <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
+              TÀI KHOẢN
+            </h3>
+            {/* <CardHeader title='ACCOUNT' /> */}
             <CardContent className='p-0'>
               <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
               >
-                <Table className={tableStyles.table} stickyHeader>
+                <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
                       <TableCell>
@@ -730,13 +736,13 @@ const AccountPage = () => {
                   <TableBody>
                     {accountsOfPage.map(account => (
                       <TableRow key={account.id}>
-                        <TableCell style={{ fontSize: '14.5px' }}>
+                        <TableCell style={{ fontSize: '14px' }}>
                           {account.lastName + ' ' + account.firstName}{' '}
                         </TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>{account.username}</TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>{account.department?.name ?? ''}</TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>{account.phoneNumber}</TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>{account.email}</TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>{account.username}</TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>{account.department?.name ?? ''}</TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>{account.phoneNumber}</TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>{account.email}</TableCell>
                         <TableCell>
                           <IconButton
                             color='primary'
@@ -745,8 +751,8 @@ const AccountPage = () => {
                           >
                             <Box
                               sx={{
-                                width: 20,
-                                height: 20,
+                                width: 18,
+                                height: 18,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
@@ -768,8 +774,8 @@ const AccountPage = () => {
                           >
                             <Box
                               sx={{
-                                width: 20,
-                                height: 20,
+                                width: 18,
+                                height: 18,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
@@ -801,13 +807,14 @@ const AccountPage = () => {
                 }}
               >
                 <Button
+                  style={{ fontSize: '14px' }}
                   variant='contained'
                   startIcon={<i className='wpf-add-user' />}
                   onClick={handleViewCreateAccount}
                 >
                   Thêm tài khoản
                 </Button>
-                <Pagination pageSize={8} items={accounts} onChangePage={onChangePage} />
+                <Pagination pageSize={6} items={accounts} onChangePage={onChangePage} />
               </Box>
             </CardContent>
 
@@ -925,6 +932,7 @@ const AccountPage = () => {
                 </Box>
                 <div style={{ textAlign: 'center', marginTop: '15px' }}>
                   <Button
+                    style={{ fontSize: '14px' }}
                     variant='contained'
                     startIcon={<i className='ic-round-save-alt' />}
                     sx={{ mr: 3.5 }}
@@ -1070,6 +1078,7 @@ const AccountPage = () => {
                 </Box>
                 <div style={{ textAlign: 'center', marginTop: '15px' }}>
                   <Button
+                    style={{ fontSize: '14px' }}
                     variant='contained'
                     startIcon={<i className='material-symbols-person-add-rounded' />}
                     sx={{ mr: 3.5 }}

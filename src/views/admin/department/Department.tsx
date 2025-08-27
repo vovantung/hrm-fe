@@ -20,7 +20,8 @@ import {
 } from '@mui/material'
 
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
+
+// import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
@@ -305,6 +306,8 @@ const DepartmentView = () => {
       if (!res.ok) {
         const resError = await res.json()
 
+        closeUpdateDepartmentDailog()
+
         handleErrorOpen('Can not update department, cause by ' + resError.errorMessage)
 
         return
@@ -356,6 +359,8 @@ const DepartmentView = () => {
       if (!res.ok) {
         const resError = await res.json()
 
+        closeCreateDepartmentDailog()
+
         handleErrorOpen('Can not add new department, cause by ' + resError.errorMessage)
 
         return
@@ -400,14 +405,17 @@ const DepartmentView = () => {
 
       <div style={{ opacity: departmentsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
         <Card>
-          <CardHeader title='DEPARTMENT' />
+          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>ĐƠN VỊ</h3>
+          {/* <CardHeader title='DEPARTMENT' /> */}
           <CardContent className='p-0'>
             <TableContainer
-              style={{
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)'
-              }}
+              style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
+
+              // style={{
+              //   maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)'
+              // }}
             >
-              <Table className={tableStyles.table} stickyHeader>
+              <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
                 <TableHead>
                   <TableRow>
                     <TableCell>
@@ -430,14 +438,14 @@ const DepartmentView = () => {
                 <TableBody>
                   {departmentsOfPage.map(department => (
                     <TableRow key={department.id}>
-                      <TableCell style={{ fontSize: '14.5px' }}>{department.name}</TableCell>
-                      <TableCell style={{ fontSize: '14.5px' }}>{department.description} </TableCell>
-                      <TableCell style={{ fontSize: '14.5px' }}>
-                        {format(new Date(department.createdAt), 'dd/MM/yyyy')}
+                      <TableCell style={{ fontSize: '14px' }}>{department.name}</TableCell>
+                      <TableCell style={{ fontSize: '14px' }}>{department.description} </TableCell>
+                      <TableCell style={{ fontSize: '14px' }}>
+                        {format(new Date(department.createdAt), 'dd/MM/yyyy hh:mm')}
                       </TableCell>
-                      <TableCell style={{ fontSize: '14.5px' }}>
+                      <TableCell style={{ fontSize: '14px' }}>
                         {' '}
-                        {format(new Date(department.updatedAt), 'dd/MM/yyyy')}
+                        {format(new Date(department.updatedAt), 'dd/MM/yyyy hh:mm')}
                       </TableCell>
 
                       <TableCell>
@@ -448,8 +456,8 @@ const DepartmentView = () => {
                         >
                           <Box
                             sx={{
-                              width: 20,
-                              height: 20,
+                              width: 18,
+                              height: 18,
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center'
@@ -471,8 +479,8 @@ const DepartmentView = () => {
                         >
                           <Box
                             sx={{
-                              width: 20,
-                              height: 20,
+                              width: 18,
+                              height: 18,
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center'
@@ -504,13 +512,14 @@ const DepartmentView = () => {
               }}
             >
               <Button
+                style={{ fontSize: '14px' }}
                 variant='contained'
                 startIcon={<i className='lets-icons-group-add-fill' />}
                 onClick={handleViewCreateDepartment}
               >
                 Thêm đơn vị
               </Button>
-              <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
+              <Pagination pageSize={6} items={departments} onChangePage={onChangePage} />
             </Box>
           </CardContent>
 
@@ -552,6 +561,7 @@ const DepartmentView = () => {
               </Box>
               <div style={{ textAlign: 'center', marginTop: '15px' }}>
                 <Button
+                  style={{ fontSize: '14px' }}
                   variant='contained'
                   startIcon={<i className='ic-round-save-alt' />}
                   sx={{ mr: 3.5 }}
@@ -604,6 +614,7 @@ const DepartmentView = () => {
               </Box>
               <div style={{ textAlign: 'center', marginTop: '15px' }}>
                 <Button
+                  style={{ fontSize: '14px' }}
                   variant='contained'
                   startIcon={<i className='lets-icons-group-add-fill' />}
                   sx={{ mr: 3.5 }}

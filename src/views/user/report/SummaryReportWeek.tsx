@@ -191,13 +191,15 @@ const SummaryReportWeekView = () => {
             transition: 'opacity 0.2s ease'
           }}
         >
-          <div>
+          <div style={{ fontSize: '14px' }}>
             {/* <CardHeader title='SUMMARY REPORT (WEEKLY)' /> */}
             <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px' }}>SUMMARY REPORT (WEEKLY)</h3>
 
             <CardContent className='p-0'>
               <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 350px)' }}
+
+                // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
               >
                 <Table className={tableStyles.table} stickyHeader>
                   <TableHead>
@@ -219,9 +221,9 @@ const SummaryReportWeekView = () => {
                   <TableBody>
                     {reportedWeeklyListOfPage.map(reportedWeekly => (
                       <TableRow key={reportedWeekly.id}>
-                        <TableCell style={{ fontSize: '14.5px' }}>{reportedWeekly.department.name} </TableCell>
-                        <TableCell style={{ fontSize: '14.5px' }}>
-                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy')}{' '}
+                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>
+                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
                         </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
                           <Link
@@ -267,7 +269,15 @@ const SummaryReportWeekView = () => {
                 marginRight: '20px'
               }}
             >
-              <Box display='flex' alignItems='center'></Box>
+              <Box display='flex' alignItems='center'>
+                {/* <Button
+                  variant='contained'
+                  startIcon={<i className='line-md-uploading-loop' />}
+                  style={{ fontSize: '14px' }}
+                >
+                  Tải báo cáo
+                </Button> */}
+              </Box>
 
               <Pagination
                 shape='rounded'

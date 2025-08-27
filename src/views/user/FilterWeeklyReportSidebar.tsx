@@ -180,9 +180,11 @@ const FilterWeeklyReportSidebar = () => {
           {''}!
         </span>
         <br />
-        Bạn là nhân sự{' '}
-        <span style={{ color: '#bb15159b', fontSize: '14.5px' }}>
-          <strong>{userLogined.department.name}</strong>
+        <span style={{ fontSize: '14.5px' }}>
+          Bạn là nhân sự{' '}
+          <span style={{ color: '#bb15159b', fontSize: '14.5px' }}>
+            <strong>{userLogined.department.name}</strong>
+          </span>
         </span>
         <hr
           style={{
@@ -196,7 +198,7 @@ const FilterWeeklyReportSidebar = () => {
         <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
         <div style={{ marginTop: '00px', marginBottom: '10px' }}>
-          <div style={{}}>
+          <div style={{ fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateFrom}
               id='basic-input'
@@ -205,16 +207,16 @@ const FilterWeeklyReportSidebar = () => {
               customInput={<CustomTextField label='Từ ngày' fullWidth />}
             />
           </div>
-          <div style={{ marginTop: '10px' }}>
+          <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateTo}
               id='basic-input'
               onChange={(y: Date | null | undefined) => setDateTo(y)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='đến ngày' fullWidth />}
+              customInput={<CustomTextField label='đến' fullWidth />}
             />
           </div>
-          <div style={{ marginTop: '10px' }}>
+          <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={selectedMonth}
               id='month-picker'
@@ -229,7 +231,7 @@ const FilterWeeklyReportSidebar = () => {
             <li
               key={index}
               style={{
-                fontSize: '14px',
+                fontSize: '13.5px',
                 paddingTop: '10px',
                 display: 'flex',
                 justifyContent: 'space-between', // 👈 căn trái phải
@@ -251,7 +253,7 @@ const FilterWeeklyReportSidebar = () => {
                     cursor: 'pointer',
                     color: '#0e6ac7ff',
                     textDecoration: 'none',
-                    fontSize: '14px'
+                    fontSize: '13.5px'
                   }}
                   id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
                   onClick={filterBySelectedWeekly}
@@ -264,7 +266,7 @@ const FilterWeeklyReportSidebar = () => {
                     cursor: 'pointer',
                     color: '#0e6ac7ff',
                     textDecoration: 'none',
-                    fontSize: '14px'
+                    fontSize: '13.5px'
                   }}
                   id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
                   onClick={filterBySelectedWeekly}

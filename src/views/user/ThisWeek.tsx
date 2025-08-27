@@ -119,7 +119,7 @@ const ThisWeek = () => {
 
               // color: '#004080',
               textDecoration: 'none',
-              fontSize: '14px',
+              fontSize: '13.5px',
               paddingTop: '10px'
             }}
             onClick={getWeeklyReportsFromTo}

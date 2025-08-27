@@ -66,10 +66,10 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
         <div
           style={{
             position: 'fixed',
-            top: settings.layout == 'horizontal' ? '115px' : '76px',
+            top: settings.layout == 'horizontal' ? '115px' : '78px',
             width: '420px',
             left: left,
-            zIndex: 999,
+            zIndex: 0,
             transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
             transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
           }}
@@ -80,7 +80,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               top: '0px',
               left: left,
               width: '420px',
-              zIndex: 9999
+              zIndex: 0
             }}
           >
             {/* Card thực sự: có background + shadow */}
@@ -97,8 +97,8 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               <div
                 style={{
                   overflowY: 'auto',
-                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 240px)' : 'calc(100vh - 195px)',
-                  minHeight: '110px'
+                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 236px)' : 'calc(100vh - 197px)',
+                  minHeight: '154px'
                 }}
               >
                 <aside>
@@ -124,7 +124,8 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
         <div
           style={{
             paddingRight: '396px',
-            top: settings.layout == 'horizontal' ? '115px' : '76px',
+
+            top: settings.layout == 'horizontal' ? '115px' : '78px',
             width: '100%',
             zIndex: 999,
             transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
@@ -138,10 +139,10 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               paddingRight: '396px'
             }}
           >
-            <Card style={{}}>
+            <div style={{}}>
               <div
                 style={{
-                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 200px)' : 'calc(100vh - 150px)',
+                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 185px)' : 'calc(100vh - 135px)',
                   minHeight: '150px'
                 }}
               >
@@ -149,12 +150,14 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
                   <main>{children}</main>
                 </aside>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </div>
     </div>
   ) : (
-    <main>{children}</main>
+    <>
+      <main>{children}</main>
+    </>
   )
 }

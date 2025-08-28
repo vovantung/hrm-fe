@@ -11,11 +11,6 @@ import { Card } from '@mui/material'
 
 import { useSettings } from '@/@core/hooks/useSettings'
 
-// import ThisWeek from '@/views/admin/ThisWeek'
-
-// import FilterWeeklyReportSidebar from '@/views/admin/FilterWeeklyReportSidebar'
-
-import ThisWeek from '@/views/user/ThisWeek'
 import FilterWeeklyReportSidebar from '@/views/user/FilterWeeklyReportSidebar'
 
 export default function PostLayout({ children }: { children: React.ReactNode }) {
@@ -116,17 +111,6 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           >
             <aside>
               <FilterWeeklyReportSidebar />
-              <hr
-                style={{
-                  border: 'none',
-                  borderTop: '0.8px solid #ccc',
-                  marginLeft: '17px',
-                  marginRight: '17px',
-                  marginTop: '15px',
-                  marginBottom: '5px'
-                }}
-              />
-              <ThisWeek />
             </aside>
           </div>
         </Card>

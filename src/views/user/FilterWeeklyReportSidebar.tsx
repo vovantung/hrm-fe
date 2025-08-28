@@ -43,7 +43,20 @@ type DepartmentDataType = {
   updateAt: string
 }
 
+type ReportedWeeklyDataType = {
+  id: number
+  filename: string
+  url: string
+  uploadedAt: string
+  department: DepartmentDataType
+  originName: string
+}
+
 const FilterWeeklyReportSidebar = () => {
+  const now = new Date()
+  const weekStart = startOfWeek(now, { weekStartsOn: 1 }) // Thứ 2, ngày đầu tuần (hiện tại)
+  const weekEnd = endOfWeek(now, { weekStartsOn: 1 }) // Chủ nhật, ngày cuối tuần (hiện tại)
+
   const route = useRouter()
   const theme = useTheme() as Theme
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
@@ -56,6 +69,7 @@ const FilterWeeklyReportSidebar = () => {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const tab = useSelector((state: any) => state.common.tab) as number
   const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
+  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
 
   useEffect(() => {
     if (!init) {
@@ -161,6 +175,11 @@ const FilterWeeklyReportSidebar = () => {
     }
   }
 
+  async function getWeeklyReportsFromTo() {
+    setDateFrom(weekStart)
+    setDateTo(weekEnd)
+  }
+
   return (
     <div style={{ margin: lgAbove ? '0px' : undefined, marginTop: '0px' }}>
       <div
@@ -174,7 +193,7 @@ const FilterWeeklyReportSidebar = () => {
       >
         <span style={{ fontSize: '14.5px' }}>
           Xin chào{' '}
-          <span style={{ color: '#338844', fontSize: '14.5px' }}>
+          <span style={{ color: '#be4414dd', fontSize: '14.5px' }}>
             <strong>{userLogined.lastName + ' ' + userLogined.firstName}</strong>
           </span>
           {''}!
@@ -182,10 +201,11 @@ const FilterWeeklyReportSidebar = () => {
         <br />
         <span style={{ fontSize: '14.5px' }}>
           Bạn là nhân sự{' '}
-          <span style={{ color: '#bb15159b', fontSize: '14.5px' }}>
+          <span style={{ color: '#338844', fontSize: '14.5px' }}>
             <strong>{userLogined.department.name}</strong>
           </span>
         </span>
+
         <hr
           style={{
             border: 'none',
@@ -232,7 +252,7 @@ const FilterWeeklyReportSidebar = () => {
               key={index}
               style={{
                 fontSize: '13.5px',
-                paddingTop: '10px',
+                paddingTop: '8px',
                 display: 'flex',
                 justifyContent: 'space-between', // 👈 căn trái phải
                 alignItems: 'center'
@@ -242,40 +262,83 @@ const FilterWeeklyReportSidebar = () => {
             >
               <span
                 style={{
+                  color: '#0e6ac7ff',
+                  fontSize: '13.5px',
                   cursor: 'pointer'
                 }}
                 id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
                 onClick={filterBySelectedWeekly}
               >
-                Từ{' '}
-                <span
-                  style={{
-                    cursor: 'pointer',
-                    color: '#0e6ac7ff',
-                    textDecoration: 'none',
-                    fontSize: '13.5px'
-                  }}
-                  id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
-                  onClick={filterBySelectedWeekly}
-                >
-                  {format(week.start, 'dd/MM/yyyy')}
-                </span>{' '}
-                đến{' '}
-                <span
-                  style={{
-                    cursor: 'pointer',
-                    color: '#0e6ac7ff',
-                    textDecoration: 'none',
-                    fontSize: '13.5px'
-                  }}
-                  id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
-                  onClick={filterBySelectedWeekly}
-                >
-                  {format(week.end, 'dd/MM/yyyy')}
-                </span>
+                Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.start, 'dd/MM/yyyy')}
               </span>
             </li>
           ))}
+        </div>
+        <hr
+          style={{
+            border: 'none',
+            borderTop: '0.8px solid #ccc',
+            marginTop: '10px',
+            marginBottom: '15px'
+          }}
+        />
+        <strong>Tuần này</strong>
+        <div style={{ marginTop: '0px', marginBottom: '5px' }}>
+          <span
+            style={{
+              cursor: 'pointer',
+              color: '#0e6ac7ff',
+
+              textDecoration: 'none',
+              fontSize: '13.5px',
+              paddingTop: '0px'
+            }}
+            onClick={getWeeklyReportsFromTo}
+          >
+            Từ {format(weekStart, 'dd/MM/yyyy')} đến {format(weekEnd, 'dd/MM/yyyy')}
+          </span>
+        </div>
+        <hr
+          style={{
+            border: 'none',
+            borderTop: '0.8px solid #ccc',
+            marginTop: '10px',
+            marginBottom: '15px'
+          }}
+        />
+        <strong style={{ display: 'flex' }}>Điều kiện, kết quả tìm kiếm</strong>
+        <div
+          style={{
+            backgroundColor: '#6acf8c42',
+            display: 'inline-block',
+            borderRadius: '4px',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            marginTop: '5px',
+            marginBottom: '5px'
+          }}
+        >
+          <span style={{ fontSize: '13.5px' }}>
+            Từ <strong>{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : ''}</strong> đến{' '}
+            <strong>{dateTo ? format(dateTo, 'dd/MM/yyyy') : ''}</strong>
+          </span>
+        </div>
+        <div
+          style={{
+            backgroundColor: '#6acf8c42',
+            display: 'inline-block',
+            borderRadius: '4px',
+            paddingLeft: '10px',
+            paddingRight: '10px'
+          }}
+        >
+          <span style={{ fontSize: '13.5px' }}>
+            Có{' '}
+            <strong>
+              {reportedWeeklyList.length < 10 ? '0' + reportedWeeklyList.length : reportedWeeklyList.length}
+            </strong>{' '}
+            báo cáo được tìm thấy
+          </span>
         </div>
       </div>
     </div>

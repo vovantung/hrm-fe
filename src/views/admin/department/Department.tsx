@@ -1,7 +1,7 @@
 'use client'
 
 import type { ComponentType, SyntheticEvent } from 'react'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -13,6 +13,7 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Portal,
   Slide,
   Snackbar,
   styled,
@@ -77,6 +78,7 @@ const DepartmentView = () => {
   const { settings } = useSettings()
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
+  const [container, setContainer] = useState<Element | null>(null)
 
   const auth = useSelector((state: any) => state.auth.auth) as {
     token: string
@@ -165,6 +167,8 @@ const DepartmentView = () => {
   }
 
   useEffect(() => {
+    // Load portal
+    setContainer(document.getElementById('toast-root'))
     initData()
   }, [])
 
@@ -626,326 +630,62 @@ const DepartmentView = () => {
               </div>
             </DialogContent>
           </Dialog>
-
-          {/* Alert */}
-          <Fragment>
-            <Snackbar
-              open={openAlert}
-              onClose={handleAlertClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-            >
-              <Alert
-                variant='filled'
-                severity='info'
-                style={{ color: 'white', backgroundColor: '#056abdff' }}
-                onClose={handleAlertClose}
-                sx={{ width: '100%' }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-          </Fragment>
-          {/* Error */}
-          <Fragment>
-            <Snackbar
-              open={openError}
-              onClose={handleErrorClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-            >
-              <Alert
-                variant='filled'
-                severity='error'
-                style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                onClose={handleErrorClose}
-                sx={{ width: '100%' }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-          </Fragment>
         </Card>
       </div>
+      {container && (
+        <Portal container={container}>
+          {/* Alert */}
+          <Snackbar
+            open={openAlert}
+            onClose={handleAlertClose}
+            autoHideDuration={2500}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            TransitionComponent={transition}
+            sx={{ zIndex: 9999 }}
+          >
+            <Alert
+              variant='filled'
+              severity='info'
+              style={{ color: 'white', backgroundColor: '#056abdff' }}
+              onClose={handleAlertClose}
+              sx={{
+                width: '100%',
+                maxWidth: '600px',
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+              }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+
+          {/* Error */}
+          <Snackbar
+            open={openError}
+            onClose={handleErrorClose}
+            autoHideDuration={2500}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            TransitionComponent={transition}
+            sx={{ zIndex: 9999 }}
+          >
+            <Alert
+              variant='filled'
+              severity='error'
+              style={{ color: 'white', backgroundColor: '#c51111a9' }}
+              onClose={handleErrorClose}
+              sx={{
+                width: '100%',
+                maxWidth: '600px',
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                // borderRadius: 2 // bo góc mềm hơn (optional)
+              }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+        </Portal>
+      )}
     </div>
   )
-
-  // if (departments.length == 0) return <>Đang load</>
-  // if (departments.length !== 0)
-  // return (
-  //   <Card>
-  //     {/* <Backdrop
-  //       sx={{ color: '#962121', zIndex: theme => theme.zIndex.drawer + 1 }}
-  //       open={departmentsOfPage.length == 0 ? true : true}
-  //     >
-  //       <CircularProgress color='inherit' />
-  //     </Backdrop> */}
-
-  //     <Button onClick={handleOpen}>Show backdrop</Button>
-  //     <Backdrop sx={theme => ({ color: 'red', zIndex: theme.zIndex.drawer + 1 })} open={opena} onClick={handleClosea}>
-  //       <CircularProgress color='inherit' />
-  //     </Backdrop>
-
-  //     <CardHeader title='DEPARTMENT' />
-  //     <CardContent className='p-0'>
-  //       <TableContainer
-  //         style={{
-  //           maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)'
-  //         }}
-  //       >
-  //         <Table className={tableStyles.table} stickyHeader>
-  //           <TableHead>
-  //             <TableRow>
-  //               <TableCell>
-  //                 <b>Đơn vị</b>
-  //               </TableCell>
-  //               <TableCell>
-  //                 <b>Mô tả</b>
-  //               </TableCell>
-  //               <TableCell>
-  //                 <b>Ngày tạo</b>
-  //               </TableCell>
-  //               <TableCell>
-  //                 <b>Ngày cập nhật</b>
-  //               </TableCell>
-  //               <TableCell>
-  //                 <b>Hành động</b>
-  //               </TableCell>
-  //             </TableRow>
-  //           </TableHead>
-  //           <TableBody>
-  //             {departmentsOfPage.map(department => (
-  //               <TableRow key={department.id}>
-  //                 <TableCell style={{ fontSize: '14.5px' }}>{department.name}</TableCell>
-  //                 <TableCell style={{ fontSize: '14.5px' }}>{department.description} </TableCell>
-  //                 <TableCell style={{ fontSize: '14.5px' }}>
-  //                   {format(new Date(department.createdAt), 'dd/MM/yyyy')}
-  //                 </TableCell>
-  //                 <TableCell style={{ fontSize: '14.5px' }}>
-  //                   {' '}
-  //                   {format(new Date(department.updatedAt), 'dd/MM/yyyy')}
-  //                 </TableCell>
-
-  //                 <TableCell>
-  //                   <IconButton
-  //                     color='primary'
-  //                     size='small'
-  //                     sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
-  //                   >
-  //                     <Box
-  //                       sx={{
-  //                         width: 20,
-  //                         height: 20,
-  //                         display: 'flex',
-  //                         alignItems: 'center',
-  //                         justifyContent: 'center'
-  //                       }}
-  //                     >
-  //                       <Icon
-  //                         icon='mingcute:delete-line'
-  //                         id={department.id + '_0'}
-  //                         onClick={handleRemoveDepartment}
-  //                         style={{ width: '100%', height: '100%' }}
-  //                       />
-  //                     </Box>
-  //                   </IconButton>
-  //                   |
-  //                   <IconButton
-  //                     color='primary'
-  //                     size='small'
-  //                     sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
-  //                   >
-  //                     <Box
-  //                       sx={{
-  //                         width: 20,
-  //                         height: 20,
-  //                         display: 'flex',
-  //                         alignItems: 'center',
-  //                         justifyContent: 'center'
-  //                       }}
-  //                     >
-  //                       <Icon
-  //                         id={department.id + '_0'}
-  //                         icon='wpf:create-new'
-  //                         onClick={handleViewUpdateDepartment}
-  //                         style={{ width: '100%', height: '100%' }}
-  //                       />
-  //                     </Box>
-  //                   </IconButton>
-  //                 </TableCell>
-  //               </TableRow>
-  //             ))}
-  //           </TableBody>
-  //         </Table>
-  //       </TableContainer>
-  //       <Box
-  //         sx={{
-  //           display: 'flex',
-  //           justifyContent: 'space-between',
-  //           alignItems: 'center',
-  //           marginLeft: '25px',
-  //           marginTop: '20px',
-  //           marginBottom: '20px',
-  //           marginRight: '20px'
-  //         }}
-  //       >
-  //         <Button
-  //           variant='contained'
-  //           startIcon={<i className='mingcute-add-fill' />}
-  //           onClick={handleViewCreateDepartment}
-  //         >
-  //           Thêm đơn vị
-  //         </Button>
-  //         <Pagination pageSize={8} items={departments} onChangePage={onChangePage} />
-  //       </Box>
-  //     </CardContent>
-
-  //     {/* Hộp thoại update department  */}
-  //     <Dialog
-  //       fullWidth
-  //       open={updateDepartmentDailog}
-  //       onClose={toggleUpdateDepartmentDailog}
-  //       sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-  //     >
-  //       <DialogContent>
-  //         <CustomCloseButton onClick={closeUpdateDepartmentDailog}>
-  //           <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-  //         </CustomCloseButton>
-  //         <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-  //           Department
-  //         </Typography>
-
-  //         <Box sx={{ overflow: 'auto' }}>
-  //           <CustomTextField
-  //             autoFocus
-  //             fullWidth
-  //             label='Name'
-  //             placeholder='Enter name'
-  //             value={updateDepartment.name ?? ''}
-  //             error={updateDepartment.name === ''}
-  //             helperText={updateDepartment.name === '' ? 'This field is required.' : ''}
-  //             onChange={e => setUpdateDepartment({ ...updateDepartment, name: e.target.value })}
-  //           />
-  //           <CustomTextField
-  //             style={{ marginTop: '15px' }}
-  //             autoFocus
-  //             fullWidth
-  //             label='Description'
-  //             placeholder='Enter description'
-  //             value={updateDepartment.description ?? ''}
-  //             onChange={e => setUpdateDepartment({ ...updateDepartment, description: e.target.value })}
-  //           />
-  //         </Box>
-  //         <div style={{ textAlign: 'center', marginTop: '15px' }}>
-  //           <Button
-  //             variant='contained'
-  //             startIcon={<i className='material-symbols-system-update-alt' />}
-  //             sx={{ mr: 3.5 }}
-  //             color='primary'
-  //             onClick={handleUpdateDepartment}
-  //           >
-  //             Cập nhật
-  //           </Button>
-  //         </div>
-  //       </DialogContent>
-  //     </Dialog>
-
-  //     {/* Hộp thoại thêm mới account */}
-
-  //     <Dialog
-  //       fullWidth
-  //       open={createDepartmentDailog}
-  //       onClose={toggleCreateDepartmentDailog}
-  //       sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-  //     >
-  //       <DialogContent>
-  //         <CustomCloseButton onClick={closeCreateDepartmentDailog}>
-  //           <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-  //         </CustomCloseButton>
-  //         <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-  //           Department
-  //         </Typography>
-
-  //         <Box sx={{ overflow: 'auto' }}>
-  //           <CustomTextField
-  //             autoFocus
-  //             fullWidth
-  //             label='Name'
-  //             placeholder='Enter name'
-  //             value={createDepartment.name ?? ''}
-  //             onChange={e => setCreateDepartment({ ...createDepartment, name: e.target.value })}
-  //             error={createDepartment.name === ''}
-  //             helperText={createDepartment.name === '' ? 'This field is required.' : ''}
-  //           />
-
-  //           <CustomTextField
-  //             style={{ marginTop: '15px' }}
-  //             autoFocus
-  //             fullWidth
-  //             label='Description'
-  //             placeholder='Enter description'
-  //             value={createDepartment.description ?? ''}
-  //             onChange={e => setCreateDepartment({ ...createDepartment, description: e.target.value })}
-  //           />
-  //         </Box>
-  //         <div style={{ textAlign: 'center', marginTop: '15px' }}>
-  //           <Button
-  //             variant='contained'
-  //             startIcon={<i className='gridicons-create' />}
-  //             sx={{ mr: 3.5 }}
-  //             color='primary'
-  //             onClick={handleCreateDepartment}
-  //           >
-  //             Tạo
-  //           </Button>
-  //         </div>
-  //       </DialogContent>
-  //     </Dialog>
-
-  //     {/* Alert */}
-  //     <Fragment>
-  //       <Snackbar
-  //         open={openAlert}
-  //         onClose={handleAlertClose}
-  //         autoHideDuration={2500}
-  //         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-  //         TransitionComponent={transition}
-  //       >
-  //         <Alert
-  //           variant='filled'
-  //           severity='info'
-  //           style={{ color: 'white', backgroundColor: '#056abdff' }}
-  //           onClose={handleAlertClose}
-  //           sx={{ width: '100%' }}
-  //         >
-  //           {message}
-  //         </Alert>
-  //       </Snackbar>
-  //     </Fragment>
-  //     {/* Error */}
-  //     <Fragment>
-  //       <Snackbar
-  //         open={openError}
-  //         onClose={handleErrorClose}
-  //         autoHideDuration={2500}
-  //         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-  //         TransitionComponent={transition}
-  //       >
-  //         <Alert
-  //           variant='filled'
-  //           severity='error'
-  //           style={{ color: 'white', backgroundColor: '#c51111a9' }}
-  //           onClose={handleErrorClose}
-  //           sx={{ width: '100%' }}
-  //         >
-  //           {message}
-  //         </Alert>
-  //       </Snackbar>
-  //     </Fragment>
-  //   </Card>
-  // )
 }
 
 export default DepartmentView

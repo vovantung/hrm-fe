@@ -1,11 +1,11 @@
 'use client'
 
 import type { ComponentType, SyntheticEvent } from 'react'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, Link, Slide, Snackbar } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
 import Card from '@mui/material/Card'
 
 // import CardHeader from '@mui/material/CardHeader'
@@ -54,6 +54,8 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const WeeklyReportView = () => {
+  const [container, setContainer] = useState<Element | null>(null)
+
   const { settings } = useSettings()
   const route = useRouter()
   const [init, setInit] = useState<boolean>(false)
@@ -132,6 +134,9 @@ const WeeklyReportView = () => {
   useEffect(() => {
     if (!init) {
       setInit(true)
+
+      // Load portal
+      setContainer(document.getElementById('toast-root'))
 
       // Chỉ nạp danh sách báo cáo tuần hiện tại lần đâu tiên khi load trang
       handleReportedWeekly()
@@ -257,7 +262,7 @@ const WeeklyReportView = () => {
 
       const reportWeekly = await res.json()
 
-      handleAlertOpen('Upload weekly report success. Url file: ' + reportWeekly.url)
+      handleAlertOpen('Upload ' + reportWeekly.originName + ' report success.')
       handleReportedWeekly() // Đặt lại danh sách đã gửi báo cáo để WeeklyReport hiện thị...
       handleNotReportedWeekly() // Đặt lại danh sách chưa gửi báo cáo tuần, component ThisWeek sẽ sử dụng danh sách này để hiện thị thông báo...
     } catch (error) {
@@ -293,6 +298,7 @@ const WeeklyReportView = () => {
         <div
           style={{
             position: 'absolute',
+
             top: 0,
             left: 0,
             right: 0,
@@ -302,7 +308,8 @@ const WeeklyReportView = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 99999,
+
+            // zIndex: 9,
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 1 : 0,
             pointerEvents: reportedWeeklyListOfPage.length === 0 && loading == true ? 'auto' : 'none',
             transition: 'opacity 0.4s ease'
@@ -311,135 +318,153 @@ const WeeklyReportView = () => {
           <CircularProgress sx={{ color: '#175ea1' }} size={36} thickness={4} />
         </div>
 
-        <div
+        {/* <div
+          style={{
+            opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
+            transition: 'opacity 0.2s ease'
+          }}
+        > */}
+        <Card
           style={{
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
             transition: 'opacity 0.2s ease'
           }}
         >
-          <Card>
-            <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
-              BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
-            </h3>
-            {/* <CardHeader title='WEEKLY REPORT' /> */}
-            <CardContent className='p-0'>
-              <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
+          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
+            BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
+          </h3>
+          {/* <CardHeader title='WEEKLY REPORT' /> */}
+          <CardContent className='p-0'>
+            <TableContainer
+              style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
 
-                // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-              >
-                <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <b>Đơn vị</b>
+              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+            >
+              <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <b>Đơn vị</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Ngày báo cáo</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Tên báo cáo</b>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {reportedWeeklyListOfPage.map(reportedWeekly => (
+                    <TableRow key={reportedWeekly.id}>
+                      <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
+                      <TableCell style={{ fontSize: '14px' }}>
+                        {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
                       </TableCell>
-                      <TableCell>
-                        <b>Ngày báo cáo</b>
-                      </TableCell>
-                      <TableCell>
-                        <b>Tên báo cáo</b>
+                      <TableCell style={{ fontSize: '13.5px' }}>
+                        <Link
+                          href={reportedWeekly.url}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          underline='hover'
+                          sx={{ display: 'inline-flex', alignItems: 'center' }}
+                        >
+                          {reportedWeekly.originName}
+                        </Link>
                       </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {reportedWeeklyListOfPage.map(reportedWeekly => (
-                      <TableRow key={reportedWeekly.id}>
-                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>
-                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
-                        </TableCell>
-                        <TableCell style={{ fontSize: '13.5px' }}>
-                          <Link
-                            href={reportedWeekly.url}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            underline='hover'
-                            sx={{ display: 'inline-flex', alignItems: 'center' }}
-                          >
-                            {reportedWeekly.originName}
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginLeft: '25px',
-                marginTop: '20px',
-                marginBottom: '20px',
-                marginRight: '20px'
-              }}
-            >
-              <Box display='flex' alignItems='center'>
-                <input type='file' hidden ref={inputRef} onChange={handleChange} />
-                <Button
-                  style={{ fontSize: '14px' }}
-                  variant='contained'
-                  size='medium'
-                  startIcon={<i className='line-md-uploading-loop' />}
-                  onClick={handleInputOpen}
-                >
-                  Tải báo cáo
-                </Button>
-              </Box>
-
-              <Pagination
-                shape='rounded'
-                color='primary'
-                pageSize={8}
-                items={reportedWeeklyList}
-                onChangePage={onChangePage}
-              />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginLeft: '25px',
+              marginTop: '20px',
+              marginBottom: '20px',
+              marginRight: '20px'
+            }}
+          >
+            <Box display='flex' alignItems='center'>
+              <input type='file' hidden ref={inputRef} onChange={handleChange} />
+              <Button
+                style={{ fontSize: '14px' }}
+                variant='contained'
+                size='medium'
+                startIcon={<i className='icon-park-outline-upload-logs' />}
+                onClick={handleInputOpen}
+              >
+                Tải báo cáo
+              </Button>
             </Box>
+
+            <Pagination
+              shape='rounded'
+              color='primary'
+              pageSize={8}
+              items={reportedWeeklyList}
+              onChangePage={onChangePage}
+            />
+          </Box>
+        </Card>
+        {/* </div> */}
+
+        {container && (
+          <Portal container={container}>
             {/* Alert */}
-            <Fragment>
-              <Snackbar
-                open={openAlert}
+            <Snackbar
+              open={openAlert}
+              onClose={handleAlertClose}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
+              sx={{ zIndex: 9999 }}
+            >
+              <Alert
+                variant='filled'
+                severity='info'
+                style={{ color: 'white', backgroundColor: '#056abdff' }}
                 onClose={handleAlertClose}
-                autoHideDuration={2500}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                TransitionComponent={transition}
+                sx={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                }}
               >
-                <Alert
-                  variant='filled'
-                  severity='info'
-                  style={{ color: 'white', backgroundColor: '#056abdff' }}
-                  onClose={handleAlertClose}
-                  sx={{ width: '100%' }}
-                >
-                  {message}
-                </Alert>
-              </Snackbar>
-            </Fragment>
+                {message}
+              </Alert>
+            </Snackbar>
+
             {/* Error */}
-            <Fragment>
-              <Snackbar
-                open={openError}
+            <Snackbar
+              open={openError}
+              onClose={handleErrorClose}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
+              sx={{ zIndex: 9999 }}
+            >
+              <Alert
+                variant='filled'
+                severity='error'
+                style={{ color: 'white', backgroundColor: '#c51111a9' }}
                 onClose={handleErrorClose}
-                autoHideDuration={2500}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                TransitionComponent={transition}
+                sx={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                  // borderRadius: 2 // bo góc mềm hơn (optional)
+                }}
               >
-                <Alert
-                  variant='filled'
-                  severity='error'
-                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                  onClose={handleErrorClose}
-                  sx={{ width: '100%' }}
-                >
-                  {message}
-                </Alert>
-              </Snackbar>
-            </Fragment>
-          </Card>
-        </div>
+                {message}
+              </Alert>
+            </Snackbar>
+          </Portal>
+        )}
       </div>
     )
 }

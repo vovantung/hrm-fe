@@ -58,88 +58,72 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
 
   return lgAbove ? (
     <div>
-      <div>
+      {/* Content page */}
+      <div
+        style={{
+          top: settings.layout == 'horizontal' ? '115px' : '76px',
+          transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
+          transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
+        }}
+      >
         <div
           style={{
             position: 'fixed',
-            top: settings.layout == 'horizontal' ? '115px' : '78px',
-            width: '420px',
-            left: left,
-            zIndex: 0,
-            transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
-            transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
-          }}
-        >
-          <div
-            style={{
-              position: 'fixed',
-              top: '0px',
-              left: left,
-              width: '420px',
-              zIndex: 0
-            }}
-          >
-            {/* Card thực sự: có background + shadow */}
-            <Card
-              style={{
-                marginTop: '20px',
-                marginBottom: '20px',
-                marginLeft: '24px',
-                marginRight: '24px',
-                paddingTop: '20px',
-                paddingBottom: '20px'
-              }}
-            >
-              <div
-                style={{
-                  overflowY: 'auto',
-                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 236px)' : 'calc(100vh - 197px)',
-                  minHeight: settings.layout == 'horizontal' ? '104px' : '102px'
-                }}
-              >
-                <aside>
-                  <SidebarAccount1 />
-                  <SidebarAccount2 />
-                </aside>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          style={{
-            paddingRight: '396px',
-
-            top: settings.layout == 'horizontal' ? '115px' : '78px',
             width: '100%',
-            zIndex: 999,
-            transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
-            transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
+            paddingRight: '396px',
+            zIndex: 9999,
+            maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 185px)' : 'calc(100vh - 135px)',
+            minHeight: '150px'
+          }}
+        >
+          <aside>
+            <main>{children}</main>
+          </aside>
+        </div>
+      </div>
+
+      {/* Right sidebar */}
+      <div
+        style={{
+          position: 'fixed',
+          top: settings.layout == 'horizontal' ? '115px' : '76px',
+          width: '420px',
+          left: left,
+          transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
+          transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
+        }}
+      >
+        <Card
+          style={{
+            marginTop: '20px',
+            marginBottom: '20px',
+            marginLeft: '24px',
+            marginRight: '24px',
+            paddingTop: '20px',
+            paddingBottom: '20px'
           }}
         >
           <div
             style={{
-              position: 'fixed',
-              width: '100%',
-              paddingRight: '396px'
+              overflowY: 'auto',
+              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 236px)' : 'calc(100vh - 197px)',
+              minHeight: settings.layout == 'horizontal' ? '104px' : '102px'
             }}
           >
-            <div style={{}}>
-              <div
-                style={{
-                  maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 185px)' : 'calc(100vh - 135px)',
-                  minHeight: '150px'
-                }}
-              >
-                <aside>
-                  <main>{children}</main>
-                </aside>
-              </div>
-            </div>
+            <aside>
+              <SidebarAccount1 />
+              <SidebarAccount2 />
+            </aside>
           </div>
-        </div>
+        </Card>
       </div>
+
+      <div
+        id='toast-root'
+        style={{
+          zIndex: 99999 // cao hơn mọi sidebar
+        }}
+      />
     </div>
   ) : (
     <>

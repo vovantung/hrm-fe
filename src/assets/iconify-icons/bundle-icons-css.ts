@@ -83,6 +83,7 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'icon-park-outline:upload-logs',
       'lets-icons:group-add-fill',
       'flowbite:users-group-solid',
       'heroicons:user-solid',

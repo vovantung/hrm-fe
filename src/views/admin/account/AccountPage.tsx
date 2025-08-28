@@ -1,7 +1,7 @@
 'use client'
 
 import type { ComponentType, SyntheticEvent } from 'react'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -15,6 +15,7 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  Portal,
   Slide,
   Snackbar,
   styled,
@@ -94,6 +95,8 @@ const TransitionUp = (props: TransitionProps) => {
 const AccountPage = () => {
   const route = useRouter()
   const { settings } = useSettings()
+
+  const [container, setContainer] = useState<Element | null>(null)
 
   // Data Accounts, Departments  Page
   const [accounts, setAccounts] = useState<AccountDataType[]>([])
@@ -224,7 +227,11 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
+    // Load portal
+    setContainer(document.getElementById('toast-root'))
+
     // Nạp danh sách accounts, roles, department lần đâu khi load trang
+
     initAccounts()
     initRolesDepartments()
   }, [])
@@ -1091,8 +1098,7 @@ const AccountPage = () => {
               </DialogContent>
             </Dialog>
 
-            {/* Alert */}
-            <Fragment>
+            {/* <Fragment>
               <Snackbar
                 open={openAlert}
                 onClose={handleAlertClose}
@@ -1111,7 +1117,7 @@ const AccountPage = () => {
                 </Alert>
               </Snackbar>
             </Fragment>
-            {/* Error */}
+
             <Fragment>
               <Snackbar
                 open={openError}
@@ -1130,9 +1136,62 @@ const AccountPage = () => {
                   {message}
                 </Alert>
               </Snackbar>
-            </Fragment>
+            </Fragment> */}
           </Card>
         </div>
+
+        {container && (
+          <Portal container={container}>
+            {/* Alert */}
+            <Snackbar
+              open={openAlert}
+              onClose={handleAlertClose}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
+              sx={{ zIndex: 9999 }}
+            >
+              <Alert
+                variant='filled'
+                severity='info'
+                style={{ color: 'white', backgroundColor: '#056abdff' }}
+                onClose={handleAlertClose}
+                sx={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+
+            {/* Error */}
+            <Snackbar
+              open={openError}
+              onClose={handleErrorClose}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
+              sx={{ zIndex: 9999 }}
+            >
+              <Alert
+                variant='filled'
+                severity='error'
+                style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                onClose={handleErrorClose}
+                sx={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                  // borderRadius: 2 // bo góc mềm hơn (optional)
+                }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+          </Portal>
+        )}
       </div>
     )
 }

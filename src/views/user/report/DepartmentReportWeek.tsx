@@ -1,11 +1,11 @@
 'use client'
 
 import type { ComponentType, SyntheticEvent } from 'react'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, Link, Slide, Snackbar } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
 
 import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
@@ -54,6 +54,7 @@ const DepartmentReportWeekView = () => {
   const { settings } = useSettings()
   const route = useRouter()
   const [init, setInit] = useState<boolean>(false)
+  const [container, setContainer] = useState<Element | null>(null)
 
   // Lấy ngày đầu tuần và cuối tuần hiện tại
   const now = new Date()
@@ -128,6 +129,9 @@ const DepartmentReportWeekView = () => {
 
   useEffect(() => {
     if (!init) {
+      // Load portal
+      setContainer(document.getElementById('toast-root'))
+
       dispatch(setTab(1))
       setInit(true)
 
@@ -216,7 +220,7 @@ const DepartmentReportWeekView = () => {
 
       const reportWeekly = await res.json()
 
-      handleAlertOpen('Upload weekly report success. Url file: ' + reportWeekly.url)
+      handleAlertOpen('Upload [' + reportWeekly.originName + '] report success.')
       handleReportedWeekly() // Đặt lại danh sách đã gửi báo cáo để WeeklyReport hiện thị...
     } catch (error) {
       route.replace('/pages/misc/500-server-error')
@@ -358,7 +362,7 @@ const DepartmentReportWeekView = () => {
                 <input type='file' hidden ref={inputRef} onChange={handleChange} />
                 <Button
                   variant='contained'
-                  startIcon={<i className='line-md-uploading-loop' />}
+                  startIcon={<i className='icon-park-outline-upload-logs' />}
                   style={{ fontSize: '14px' }}
                   onClick={handleInputOpen}
                 >
@@ -374,48 +378,60 @@ const DepartmentReportWeekView = () => {
                 onChangePage={onChangePage}
               />
             </Box>
-            {/* Alert */}
-            <Fragment>
-              <Snackbar
-                open={openAlert}
-                onClose={handleAlertClose}
-                autoHideDuration={2500}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                TransitionComponent={transition}
-              >
-                <Alert
-                  variant='filled'
-                  severity='info'
-                  style={{ color: 'white', backgroundColor: '#056abdff' }}
-                  onClose={handleAlertClose}
-                  sx={{ width: '100%' }}
-                >
-                  {message}
-                </Alert>
-              </Snackbar>
-            </Fragment>
-            {/* Error */}
-            <Fragment>
-              <Snackbar
-                open={openError}
-                onClose={handleErrorClose}
-                autoHideDuration={2500}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                TransitionComponent={transition}
-              >
-                <Alert
-                  variant='filled'
-                  severity='error'
-                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                  onClose={handleErrorClose}
-                  sx={{ width: '100%' }}
-                >
-                  {message}
-                </Alert>
-              </Snackbar>
-            </Fragment>
           </div>
         </div>
+        {container && (
+          <Portal container={container}>
+            {/* Alert */}
+            <Snackbar
+              open={openAlert}
+              onClose={handleAlertClose}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
+              sx={{ zIndex: 9999 }}
+            >
+              <Alert
+                variant='filled'
+                severity='info'
+                style={{ color: 'white', backgroundColor: '#056abdff' }}
+                onClose={handleAlertClose}
+                sx={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+
+            {/* Error */}
+            <Snackbar
+              open={openError}
+              onClose={handleErrorClose}
+              autoHideDuration={2500}
+              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+              TransitionComponent={transition}
+              sx={{ zIndex: 9999 }}
+            >
+              <Alert
+                variant='filled'
+                severity='error'
+                style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                onClose={handleErrorClose}
+                sx={{
+                  width: '100%',
+                  maxWidth: '600px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                  // borderRadius: 2 // bo góc mềm hơn (optional)
+                }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+          </Portal>
+        )}
       </div>
     )
 }

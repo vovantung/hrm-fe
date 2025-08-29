@@ -221,7 +221,7 @@ const FilterWeeklyReportSidebar = () => {
           <div style={{ fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateFrom}
-              id='basic-input'
+              id='date-from'
               onChange={x => setDateFrom(x)}
               placeholderText='Click to select a date'
               customInput={<CustomTextField label='Từ ngày' fullWidth />}
@@ -230,7 +230,7 @@ const FilterWeeklyReportSidebar = () => {
           <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateTo}
-              id='basic-input'
+              id='date-to'
               onChange={(y: Date | null | undefined) => setDateTo(y)}
               placeholderText='Click to select a date'
               customInput={<CustomTextField label='đến' fullWidth />}

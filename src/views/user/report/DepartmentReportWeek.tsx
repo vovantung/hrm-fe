@@ -424,6 +424,7 @@ const DepartmentReportWeekView = () => {
                   width: '100%',
                   maxWidth: '600px',
                   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                  // borderRadius: 2 // bo góc mềm hơn (optional)
                 }}
               >
                 {message}

@@ -224,7 +224,15 @@ const FilterWeeklyReportSidebar = () => {
               id='date-from'
               onChange={x => setDateFrom(x)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='Từ ngày' fullWidth />}
+              customInput={
+                <CustomTextField
+                  label='Từ ngày'
+                  fullWidth
+                  InputProps={{
+                    sx: { fontSize: '14px' }
+                  }}
+                />
+              }
             />
           </div>
           <div style={{ marginTop: '10px', fontSize: '14px' }}>
@@ -233,7 +241,15 @@ const FilterWeeklyReportSidebar = () => {
               id='date-to'
               onChange={(y: Date | null | undefined) => setDateTo(y)}
               placeholderText='Click to select a date'
-              customInput={<CustomTextField label='đến' fullWidth />}
+              customInput={
+                <CustomTextField
+                  label='đến'
+                  fullWidth
+                  InputProps={{
+                    sx: { fontSize: '14px' }
+                  }}
+                />
+              }
             />
           </div>
           <div style={{ marginTop: '10px', fontSize: '14px' }}>
@@ -243,7 +259,15 @@ const FilterWeeklyReportSidebar = () => {
               showMonthYearPicker
               dateFormat='MM/yyyy'
               onChange={(date: Date | null | undefined) => selectMonthYear(date)}
-              customInput={<CustomTextField label='Các tuần trong tháng' fullWidth />}
+              customInput={
+                <CustomTextField
+                  label='Các tuần trong tháng'
+                  fullWidth
+                  InputProps={{
+                    sx: { fontSize: '14px' }
+                  }}
+                />
+              }
             />
           </div>
 
@@ -309,7 +333,7 @@ const FilterWeeklyReportSidebar = () => {
         <strong style={{ display: 'flex' }}>Điều kiện, kết quả tìm kiếm</strong>
         <div
           style={{
-            backgroundColor: '#6acf8c42',
+            backgroundColor: '#d6691039',
             display: 'inline-block',
             borderRadius: '4px',
             paddingLeft: '10px',
@@ -325,7 +349,7 @@ const FilterWeeklyReportSidebar = () => {
         </div>
         <div
           style={{
-            backgroundColor: '#6acf8c42',
+            backgroundColor: '#d6691039',
             display: 'inline-block',
             borderRadius: '4px',
             paddingLeft: '10px',

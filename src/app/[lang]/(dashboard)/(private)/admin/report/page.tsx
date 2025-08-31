@@ -1,13 +1,34 @@
 'use client'
 
-import WeeklyReportView from '@/views/admin/report/WeeklyReport'
+import type { ReactElement } from 'react'
+
+// Next Imports
+import dynamic from 'next/dynamic'
+
+// import { Card } from '@mui/material'
+
+import { Card } from '@mui/material'
+
+import ReportAdmin from '@/views/admin/report'
 
 // import { useParams } from 'next/navigation'
 
-const WeeklyReportPage = () => {
-  // const { id } = useParams()
+const WeeklyReportViewTab = dynamic(() => import('@/views/admin/report/WeeklyReport'))
 
-  return <WeeklyReportView />
+const PreviewCardTab = dynamic(() => import('@/views/admin/report/preview/PreviewCard'))
+
+// Vars
+const tabContentList = (): { [key: string]: ReactElement } => ({
+  report: <WeeklyReportViewTab />,
+  reportReview: <PreviewCardTab />
+})
+
+const WeeklyReportPage = () => {
+  return (
+    <Card>
+      <ReportAdmin tabContentList={tabContentList()} />
+    </Card>
+  )
 }
 
 export default WeeklyReportPage

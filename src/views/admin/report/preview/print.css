@@ -1,0 +1,154 @@
+@page {
+  size: A4 portrait;
+
+  margin-block: 0mm 5mm;
+  margin-inline: 13mm 6mm;
+}
+
+@media print {
+  .MuiPaper-root,
+  .MuiCard-root,
+  .MuiCardContent-root {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+  }
+  /* 1) Ẩn mọi phần tử cấp 1 của body KHÔNG chứa #print-area */
+  /* body > *:not(:has(#print-area)) {
+    display: none !important;
+  } */
+
+  /* 2) Ở mỗi cấp, chỉ giữ lại nhánh đi xuống #print-area, ẩn các anh em còn lại */
+  *:has(#print-area) > :not(#print-area):not(:has(#print-area)) {
+    display: none !important;
+    box-shadow: none;
+  }
+
+  /* 3) Bỏ mọi ràng buộc layout có thể cắt nội dung từ các ancestor */
+  /* *:has(#print-area) {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    inline-size: 100%;
+    padding: 15px;
+    background: #fff;
+  } */
+
+  /* 4) Thiết lập vùng in */
+  #print-area {
+    position: fixed;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    inline-size: 100%;
+    padding: 15px;
+    background: #fff;
+  }
+}
+
+/* loại bỏ fixed + full height ở đây */
+.previewCard {
+  position: static !important;
+  overflow: visible !important;
+  inline-size: 100% !important;
+  margin-block: 0 !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  font-size: 13pt !important; /* cỡ chữ tương đương Word */
+  background: #fff;
+}
+
+.previewCard table {
+  inline-size: 100% !important;
+  border-collapse: collapse;
+  page-break-inside: auto;
+  font-size: 13pt !important;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.previewCard thead {
+  display: table-header-group;
+}
+
+.previewCard tr {
+  page-break-inside: avoid;
+  page-break-after: auto;
+}
+
+.previewCard th {
+  font-weight: bold;
+}
+
+.previewCard th,
+.previewCard td {
+  padding-block: 4px;
+  padding-inline: 4px;
+  text-align: start;
+  font-size: 13pt !important;
+  color: #000;
+  font-family: 'Times New Roman', Times, serif;
+  border: 1px solid #000;
+}
+
+/* Giới hạn cột "Tên báo cáo" */
+.previewCard td.report-name {
+  white-space: normal !important;
+  word-break: break-word;
+}
+
+.header-block {
+  display: inline-block;
+  text-align: center;
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  inline-size: 100%;
+  margin-block-end: 20px;
+}
+
+/* --- Bên trái --- */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+/* --- Bên phải --- */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+}
+
+/* custom font */
+.bold-txu {
+  font-weight: bold;
+}
+
+.italic-txu {
+  font-style: italic;
+}
+
+.font-txu {
+  font-size: 14pt !important;
+  color: #000;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.font-txu-0 {
+  font-size: 10pt !important;
+  color: #3b3737c9;
+  font-family: 'Times New Roman', Times, serif;
+}
+.font-txu-00 {
+  font-size: 10pt !important;
+  color: #f15120c9;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}
+.font-txu-1 {
+  font-size: 16pt !important;
+  color: #000;
+  font-family: 'Times New Roman', Times, serif;
+}

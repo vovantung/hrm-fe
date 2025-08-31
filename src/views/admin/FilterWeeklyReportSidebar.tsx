@@ -277,7 +277,6 @@ const FilterWeeklyReportSidebar = () => {
           style={{
             border: 'none',
             borderTop: '0.8px solid #ccc',
-
             marginTop: '10px',
             marginBottom: '15px'
           }}

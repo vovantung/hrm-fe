@@ -7,11 +7,11 @@
   body * {
     visibility: hidden;
   }
-  .print-container,
-  .print-container * {
+  .print-container2,
+  .print-container2 * {
     visibility: visible;
   }
-  .print-container {
+  .print-container2 {
     position: absolute;
     inset-inline-start: 0;
     inset-block-start: 0;

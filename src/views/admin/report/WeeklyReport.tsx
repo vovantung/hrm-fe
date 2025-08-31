@@ -336,7 +336,7 @@ const WeeklyReportView = () => {
           {/* <CardHeader title='WEEKLY REPORT' /> */}
           <CardContent className='p-0'>
             <TableContainer
-              style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
+              style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 410px)' : 'calc(100vh - 370px)' }}
 
               // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
             >

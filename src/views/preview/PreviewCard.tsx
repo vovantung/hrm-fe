@@ -37,7 +37,7 @@ const PreviewCard = ({ reportData }: { reportData?: ReportedWeeklyDataType[] }) 
   return (
     <Card style={{ display: 'flex', justifyContent: 'center' }}>
       <CardContent style={{ maxWidth: '1000px' }}>
-        <div className=' print-container' id='print-area'>
+        <div className=' print-container2' id='print-area2'>
           <Grid container spacing={6}>
             <div className='headerWrapper'>
               {/* Cột bên trái */}

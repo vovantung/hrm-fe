@@ -40,6 +40,8 @@ const PreviewCard = () => {
   const { settings } = useSettings()
   const now = new Date()
   const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+  const dateFrom = useSelector((state: any) => state.common.dateFrom) as Date | null | undefined
+  const dateTo = useSelector((state: any) => state.common.dateTo) as Date | null | undefined
 
   // Handle Print Button Click
   const handleButtonClick = () => {
@@ -49,18 +51,18 @@ const PreviewCard = () => {
   return (
     <div
       style={{
-        height: settings.layout == 'horizontal' ? 'calc(100vh - 270px)' : 'calc(100vh - 230px)',
-        minHeight: '70px'
+        height: settings.layout == 'horizontal' ? 'calc(100vh - 274px)' : 'calc(100vh - 230px)',
+        minHeight: '156px'
       }}
     >
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
-          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 310px)' : 'calc(100vh - 330px)',
+          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 314px)' : 'calc(100vh - 330px)',
           overflowY: 'auto',
           marginBottom: '20px',
-          height: settings.layout == 'horizontal' ? 'calc(100vh - 370px)' : 'calc(100vh - 300px)'
+          height: settings.layout == 'horizontal' ? 'calc(100vh - 374px)' : 'calc(100vh - 300px)'
         }}
       >
         <div style={{ maxWidth: '950px' }}>
@@ -129,7 +131,8 @@ const PreviewCard = () => {
                 <p> THỐNG KÊ BÁO CÁO TUẦN CỦA CÁC ĐƠN VỊ</p>
 
                 <p style={{ fontWeight: 'normal' }} className='italic-txu font-txu'>
-                  (Từ ngày {'...'} đến ngày {'....'})
+                  (Từ ngày {dateFrom ? format(dateFrom, 'dd/MM/yyyy') : '....'} đến ngày{' '}
+                  {dateTo ? format(dateTo, 'dd/MM/yyyy') : '....'})
                 </p>
               </div>
 

@@ -6,10 +6,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { Alert, Box, Button, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
-import Card from '@mui/material/Card'
+
+// import Card from '@mui/material/Card'
 
 // import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
+// import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -133,8 +134,6 @@ const WeeklyReportView = () => {
 
   useEffect(() => {
     if (!init) {
-      setInit(true)
-
       // Load portal
       setContainer(document.getElementById('toast-root'))
 
@@ -143,6 +142,7 @@ const WeeklyReportView = () => {
 
       // Sau khi nạp dữ liệu xong, chuyển sang loading sang trạng thái true để dừng màn hình load
       dispatch(setLoading(false))
+      setInit(true)
     } else {
       // Để chắc chắn không thực hiện thêm báo cáo (upload file) lần đầu tiên khi nạp trang
       if (file) {
@@ -157,6 +157,8 @@ const WeeklyReportView = () => {
   // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
   async function handleReportedWeekly() {
+    if (reportedWeeklyList.length !== 0) return
+
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
@@ -317,102 +319,130 @@ const WeeklyReportView = () => {
         >
           <CircularProgress sx={{ color: '#175ea1' }} size={36} thickness={4} />
         </div>
-
         {/* <div
           style={{
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
             transition: 'opacity 0.2s ease'
           }}
         > */}
-        <Card
+        <div
           style={{
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
             transition: 'opacity 0.2s ease'
           }}
         >
-          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
+          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
             BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
           </h3>
           {/* <CardHeader title='WEEKLY REPORT' /> */}
-          <CardContent className='p-0'>
-            <TableContainer
-              style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 410px)' : 'calc(100vh - 370px)' }}
 
-              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-            >
-              <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <b>Đơn vị</b>
-                    </TableCell>
-                    <TableCell>
-                      <b>Ngày báo cáo</b>
-                    </TableCell>
-                    <TableCell>
-                      <b>Tên báo cáo</b>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {reportedWeeklyListOfPage.map(reportedWeekly => (
-                    <TableRow key={reportedWeekly.id}>
-                      <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
-                      <TableCell style={{ fontSize: '14px' }}>
-                        {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
-                      </TableCell>
-                      <TableCell style={{ fontSize: '13.5px' }}>
-                        <Link
-                          href={reportedWeekly.url}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                          underline='hover'
-                          sx={{ display: 'inline-flex', alignItems: 'center' }}
-                        >
-                          {reportedWeekly.originName}
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginLeft: '25px',
-              marginTop: '20px',
-              marginBottom: '20px',
-              marginRight: '20px'
+          <div
+            style={{
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 320px)' : 'calc(100vh - 276px)',
+
+              minHeight: '111px'
             }}
           >
-            <Box display='flex' alignItems='center'>
-              <input type='file' hidden ref={inputRef} onChange={handleChange} />
-              <Button
-                style={{ fontSize: '14px' }}
-                variant='contained'
-                size='medium'
-                startIcon={<i className='icon-park-outline-upload-logs' />}
-                onClick={handleInputOpen}
+            <div
+              className='p-0'
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 420px)' : 'calc(100vh - 376px)',
+                overflowY: 'auto',
+                marginBottom: '20px',
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 420px)' : 'calc(100vh - 346px)'
+              }}
+            >
+              <TableContainer
+
+              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 410px)' : 'calc(100vh - 370px)' }}
+
+              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
               >
-                Tải báo cáo
-              </Button>
-            </Box>
-
-            <Pagination
-              shape='rounded'
-              color='primary'
-              pageSize={8}
-              items={reportedWeeklyList}
-              onChangePage={onChangePage}
+                <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <b>Đơn vị</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Ngày báo cáo</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Tên báo cáo</b>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {reportedWeeklyListOfPage.map(reportedWeekly => (
+                      <TableRow key={reportedWeekly.id}>
+                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
+                        <TableCell style={{ fontSize: '14px' }}>
+                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
+                        </TableCell>
+                        <TableCell style={{ fontSize: '13.5px' }}>
+                          <Link
+                            href={reportedWeekly.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            underline='hover'
+                            sx={{ display: 'inline-flex', alignItems: 'center' }}
+                          >
+                            {reportedWeekly.originName}
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+            <hr
+              style={{
+                border: 'none',
+                borderTop: '0.6px solid #cccccc97',
+                marginTop: '10px'
+              }}
             />
-          </Box>
-        </Card>
-        {/* </div> */}
+            <div style={{}}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
 
+                  // alignItems: 'center',
+                  marginLeft: '25px',
+                  marginTop: '20px',
+                  marginBottom: '20px',
+                  marginRight: '20px'
+                }}
+              >
+                <Box display='flex' alignItems='center'>
+                  <input type='file' hidden ref={inputRef} onChange={handleChange} />
+                  <Button
+                    style={{ fontSize: '14px' }}
+                    variant='contained'
+                    size='medium'
+                    startIcon={<i className='icon-park-outline-upload-logs' />}
+                    onClick={handleInputOpen}
+                  >
+                    Tải báo cáo
+                  </Button>
+                </Box>
+
+                <Pagination
+                  shape='rounded'
+                  color='primary'
+                  pageSize={10}
+                  items={reportedWeeklyList}
+                  onChangePage={onChangePage}
+                />
+              </Box>
+            </div>
+          </div>
+        </div>
+        {/* </div> */}
         {container && (
           <Portal container={container}>
             {/* Alert */}

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
 import { setNotReportedWeekly, setReportedWeekly } from '@/redux-store/slices/report-weekly'
+import { setDateFrom, setDateTo } from '@/redux-store/slices/common'
 
 // import { setLoading } from '@/redux-store/slices/common'
 
@@ -48,13 +49,17 @@ const FilterWeeklyReportSidebar = () => {
   const now = new Date()
   const weekStart = startOfWeek(now, { weekStartsOn: 1 }) // Thứ 2, ngày đầu tuần (hiện tại)
   const weekEnd = endOfWeek(now, { weekStartsOn: 1 }) // Chủ nhật, ngày cuối tuần (hiện tại)
+  const dateFrom = useSelector((state: any) => state.common.dateFrom) as Date | null | undefined
+  const dateTo = useSelector((state: any) => state.common.dateTo) as Date | null | undefined
+
   const notReportedWeekly = useSelector((state: any) => state.reportWeekly.notReportedWeekly) as DepartmentDataType[]
 
   const route = useRouter()
   const theme = useTheme() as Theme
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
-  const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
-  const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
+
+  // const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
+  // const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
   const [selectedMonth, setSelectedMonth] = useState<Date | null | undefined>(new Date())
   const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
   const [init, setInit] = useState<boolean>(false)
@@ -86,8 +91,11 @@ const FilterWeeklyReportSidebar = () => {
       const start = new Date(startYear, startMonth - 1, startDay)
       const end = new Date(endYear, endMonth - 1, endDay + 1)
 
-      setDateFrom(start)
-      setDateTo(end)
+      dispatch(setDateFrom(start))
+      dispatch(setDateTo(end))
+
+      // setDateFrom(start)
+      // setDateTo(end)
 
       // dispatch(setLoading(true))
     }
@@ -288,7 +296,7 @@ const FilterWeeklyReportSidebar = () => {
             <AppReactDatepicker
               selected={dateFrom}
               id='from-date'
-              onChange={x => setDateFrom(x)}
+              onChange={x => dispatch(setDateFrom(x))}
               placeholderText='Click to select a date'
               customInput={
                 <CustomTextField
@@ -305,7 +313,7 @@ const FilterWeeklyReportSidebar = () => {
             <AppReactDatepicker
               selected={dateTo}
               id='to-date'
-              onChange={(y: Date | null | undefined) => setDateTo(y)}
+              onChange={(y: Date | null | undefined) => dispatch(setDateTo(y))}
               placeholderText='Click to select a date'
               customInput={
                 <CustomTextField

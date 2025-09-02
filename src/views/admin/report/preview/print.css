@@ -11,7 +11,7 @@
   .MuiCardContent-root {
     box-shadow: none !important;
     border-radius: 0 !important;
-    background: #fff !important;
+    background: #ffffff00 !important;
   }
   /* 1) Ẩn mọi phần tử cấp 1 của body KHÔNG chứa #print-area */
   /* body > *:not(:has(#print-area)) {
@@ -41,7 +41,7 @@
     inset-block-start: 0;
     inline-size: 100%;
     padding: 15px;
-    background: #fff;
+    background: #ffffff00;
   }
 }
 
@@ -54,7 +54,7 @@
   margin-inline: auto !important;
   padding: 0 !important;
   font-size: 13pt !important; /* cỡ chữ tương đương Word */
-  background: #fff;
+  background: #ffffff00;
 }
 
 .previewCard table {

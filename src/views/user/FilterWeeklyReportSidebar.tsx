@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
 // import { Card, CardContent, Tooltip, useMediaQuery } from '@mui/material'
+import type { TextFieldProps } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import type { Theme } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
@@ -11,7 +12,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
-import { setReportedWeeklyForUser } from '@/redux-store/slices/report-weekly'
+import { setReportedWeeklyForUserDepartment, setReportedWeeklyForUserSummary } from '@/redux-store/slices/report-weekly'
+import './week.css'
+import { setDateFromForUser, setDateToForUser } from '@/redux-store/slices/common'
 
 // import { setLoading } from '@/redux-store/slices/common'
 
@@ -22,6 +25,11 @@ import { setReportedWeeklyForUser } from '@/redux-store/slices/report-weekly'
 //   createdAt: string
 //   updateAt: string
 // }
+type CustomInputProps = TextFieldProps & {
+  label: string
+  end: Date | number
+  start: Date | number
+}
 
 type AccountDataType = {
   id: number
@@ -60,8 +68,11 @@ const FilterWeeklyReportSidebar = () => {
   const route = useRouter()
   const theme = useTheme() as Theme
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
-  const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
-  const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
+
+  // const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
+  // const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
+  const dateFrom = useSelector((state: any) => state.common.dateFromForUser) as Date | null | undefined
+  const dateTo = useSelector((state: any) => state.common.dateToForUser) as Date | null | undefined
   const [selectedMonth, setSelectedMonth] = useState<Date | null | undefined>(new Date())
   const [weeks, setWeeks] = useState<{ start: Date; end: Date }[]>([])
   const [init, setInit] = useState<boolean>(false)
@@ -70,8 +81,12 @@ const FilterWeeklyReportSidebar = () => {
   const tab = useSelector((state: any) => state.common.tab) as number
   const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
-  const reportedWeeklyList = useSelector(
-    (state: any) => state.reportWeekly.reportedWeeklyForUser
+  const reportedWeeklyList1 = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForUserDepartment
+  ) as ReportedWeeklyDataType[]
+
+  const reportedWeeklyList2 = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForUserSummary
   ) as ReportedWeeklyDataType[]
 
   useEffect(() => {
@@ -93,10 +108,15 @@ const FilterWeeklyReportSidebar = () => {
       const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
       const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
       const start = new Date(startYear, startMonth - 1, startDay)
-      const end = new Date(endYear, endMonth - 1, endDay + 1)
+      const end = new Date(endYear, endMonth - 1, endDay)
 
-      setDateFrom(start)
-      setDateTo(end)
+      // Lấy đến cuối ngày cuối cùng
+      if (end != null) {
+        end.setHours(23, 59, 59, 999)
+      }
+
+      dispatch(setDateFromForUser(start))
+      dispatch(setDateToForUser(end))
 
       // dispatch(setLoading(true))
     }
@@ -151,27 +171,35 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res = await fetch(
-        tab == 1
-          ? globalVariables.url_user + '/weekly-report/get-department-fromto'
-          : tab == 2
-            ? globalVariables.url_user + '/weekly-report/get-summary-fromto'
-            : '',
-        param
-      )
+      const res1 = await fetch(globalVariables.url_user + '/weekly-report/get-department-fromto', param)
 
-      if (!res.ok) {
+      if (!res1.ok) {
         // const rs = await res.json()
         // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
         // Thông báo hoặc log lỗi ở đây
         return
       }
 
-      const reportedFromToList = await res.json()
+      const reportedFromToList1 = await res1.json()
 
-      if (reportedFromToList !== undefined) {
+      if (reportedFromToList1 !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeeklyForUser(reportedFromToList))
+        dispatch(setReportedWeeklyForUserDepartment(reportedFromToList1))
+      }
+
+      const res2 = await fetch(globalVariables.url_user + '/weekly-report/get-summary-fromto', param)
+
+      if (!res2.ok) {
+        // const rs = await res.json()
+        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+        // Thông báo hoặc log lỗi ở đây
+        return
+      }
+
+      const reportedFromToList2 = await res2.json()
+
+      if (reportedFromToList2 !== undefined) {
+        dispatch(setReportedWeeklyForUserSummary(reportedFromToList2))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -179,9 +207,37 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function getWeeklyReportsFromTo() {
-    setDateFrom(weekStart)
-    setDateTo(weekEnd)
+    if (weekEnd != null) {
+      weekEnd.setHours(23, 59, 59, 999)
+    }
+
+    dispatch(setDateFromForUser(weekStart))
+
+    dispatch(setDateToForUser(weekEnd))
   }
+
+  const handleOnChange = (dates: any) => {
+    const [start, end] = dates
+
+    // Lấy đến cuối ngày cuối cùng
+    if (end != null) {
+      end.setHours(23, 59, 59, 999)
+    }
+
+    dispatch(setDateFromForUser(start))
+    dispatch(setDateToForUser(end))
+  }
+
+  const CustomInput = forwardRef((props: CustomInputProps, ref) => {
+    const { label, start, end, ...rest } = props
+
+    const startDate = format(start, 'dd/MM/yyyy')
+    const endDate = end !== null ? ` - ${format(end, 'dd/MM/yyyy')}` : null
+
+    const value = `${startDate}${endDate !== null ? endDate : ''}`
+
+    return <CustomTextField fullWidth inputRef={ref} {...rest} label={label} value={value} />
+  })
 
   return (
     <div style={{ margin: lgAbove ? '0px' : undefined, marginTop: '0px' }}>
@@ -196,7 +252,7 @@ const FilterWeeklyReportSidebar = () => {
       >
         <span style={{ fontSize: '14.5px' }}>
           Xin chào{' '}
-          <span style={{ color: '#0e7c0ab9', fontSize: '14.5px' }}>
+          <span style={{ color: theme.palette.success.dark, fontSize: '14.5px' }}>
             <strong>{userLogined.lastName + ' ' + userLogined.firstName}</strong>
           </span>
           {''}!
@@ -226,48 +282,35 @@ const FilterWeeklyReportSidebar = () => {
           style={{
             border: 'none',
             borderTop: '0.8px solid #ccc',
-
             marginTop: '10px',
             marginBottom: '15px'
           }}
         />
         <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
-        <div style={{ marginTop: '00px', marginBottom: '10px' }}>
+        <div style={{ marginTop: '5px', marginBottom: '10px' }}>
           <div style={{ fontSize: '14px' }}>
             <AppReactDatepicker
+              selectsRange
+              endDate={dateTo as Date}
               selected={dateFrom}
-              id='date-from'
-              onChange={x => setDateFrom(x)}
-              placeholderText='Click to select a date'
+              startDate={dateFrom as Date}
+              id='date-range-picker'
+              onChange={handleOnChange}
+              shouldCloseOnSelect={false}
               customInput={
-                <CustomTextField
-                  label='Từ ngày'
-                  fullWidth
+                <CustomInput
                   InputProps={{
                     sx: { fontSize: '14px' }
                   }}
+                  label='Khoảng thời gian'
+                  start={dateFrom as Date | number}
+                  end={dateTo as Date}
                 />
               }
             />
           </div>
-          <div style={{ marginTop: '10px', fontSize: '14px' }}>
-            <AppReactDatepicker
-              selected={dateTo}
-              id='date-to'
-              onChange={(y: Date | null | undefined) => setDateTo(y)}
-              placeholderText='Click to select a date'
-              customInput={
-                <CustomTextField
-                  label='đến'
-                  fullWidth
-                  InputProps={{
-                    sx: { fontSize: '14px' }
-                  }}
-                />
-              }
-            />
-          </div>
+
           <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={selectedMonth}
@@ -301,15 +344,16 @@ const FilterWeeklyReportSidebar = () => {
               onClick={filterBySelectedWeekly}
             >
               <span
+                className='week-item'
                 style={{
-                  color: '#0e6ac7ff',
+                  color: theme.palette.primary.dark,
                   fontSize: '13.5px',
                   cursor: 'pointer'
                 }}
                 id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
                 onClick={filterBySelectedWeekly}
               >
-                Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.start, 'dd/MM/yyyy')}
+                Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.end, 'dd/MM/yyyy')}
               </span>
             </li>
           ))}
@@ -325,11 +369,10 @@ const FilterWeeklyReportSidebar = () => {
         <strong>Tuần này</strong>
         <div style={{ marginTop: '0px', marginBottom: '5px' }}>
           <span
+            className='week-item'
             style={{
               cursor: 'pointer',
-              color: '#0e6ac7ff',
-
-              textDecoration: 'none',
+              color: theme.palette.primary.dark,
               fontSize: '13.5px',
               paddingTop: '0px'
             }}
@@ -346,7 +389,7 @@ const FilterWeeklyReportSidebar = () => {
             marginBottom: '15px'
           }}
         />
-        <strong style={{ display: 'flex' }}>Điều kiện, kết quả tìm kiếm</strong>
+        <strong style={{ display: 'flex' }}>Kết quả tìm kiếm</strong>
         <div
           style={{
             backgroundColor: '#b6b4b350',
@@ -363,24 +406,28 @@ const FilterWeeklyReportSidebar = () => {
             Từ <strong>{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : ''}</strong> đến{' '}
             <strong>{dateTo ? format(dateTo, 'dd/MM/yyyy') : ''}</strong>
           </span>
-        </div>
-        <div
-          style={{
-            backgroundColor: '#b6b4b350',
-            display: 'inline-block',
-            borderRadius: '2px',
-            paddingLeft: '7px',
-            paddingRight: '7px',
-            paddingTop: '1px',
-            paddingBottom: '1px'
-          }}
-        >
           <span style={{ fontSize: '13.5px' }}>
-            Có{' '}
+            {(reportedWeeklyList1.length == 0 && tab == 1) || (reportedWeeklyList2.length == 0 && tab == 2)
+              ? ''
+              : ' có '}
             <strong>
-              {reportedWeeklyList.length < 10 ? '0' + reportedWeeklyList.length : reportedWeeklyList.length}
+              {tab == 1
+                ? reportedWeeklyList1?.length == 0
+                  ? ' không có báo cáo'
+                  : reportedWeeklyList1?.length < 10
+                    ? '0' + reportedWeeklyList1.length
+                    : reportedWeeklyList1.length
+                : tab == 2
+                  ? reportedWeeklyList2?.length == 0
+                    ? ' không có báo cáo'
+                    : reportedWeeklyList2?.length < 10
+                      ? '0' + reportedWeeklyList2.length
+                      : reportedWeeklyList2.length
+                  : ''}
             </strong>{' '}
-            báo cáo được tìm thấy
+            {(reportedWeeklyList1.length == 0 && tab == 1) || (reportedWeeklyList2.length == 0 && tab == 2)
+              ? ''
+              : ' báo cáo'}
           </span>
         </div>
       </div>

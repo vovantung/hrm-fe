@@ -24,16 +24,22 @@ type WeeklyReportDataType = {
 interface ReportWeeklyState {
   notReportedWeekly: DepartmentDataType[]
   reportedWeeklyForAdmin: WeeklyReportDataType[]
-  reportedWeeklyForUser: WeeklyReportDataType[]
+  reportedWeeklyForUserDepartment: WeeklyReportDataType[]
+  reportedWeeklyForUserSummary: WeeklyReportDataType[]
 
   reportedWeeklyListOfPage: WeeklyReportDataType[]
+  reportedWeeklyListOfPageDepartment: WeeklyReportDataType[]
+  reportedWeeklyListOfPageSummary: WeeklyReportDataType[]
 }
 
 const initialState: ReportWeeklyState = {
   notReportedWeekly: [],
   reportedWeeklyForAdmin: [],
-  reportedWeeklyForUser: [],
-  reportedWeeklyListOfPage: []
+  reportedWeeklyForUserDepartment: [],
+  reportedWeeklyForUserSummary: [],
+  reportedWeeklyListOfPage: [],
+  reportedWeeklyListOfPageDepartment: [],
+  reportedWeeklyListOfPageSummary: []
 }
 
 const reportWeeklySlice = createSlice({
@@ -58,11 +64,29 @@ const reportWeeklySlice = createSlice({
     clearReportedWeeklyListOfPage(state) {
       state.reportedWeeklyListOfPage = []
     },
-    setReportedWeeklyForUser(state, action: PayloadAction<WeeklyReportDataType[]>) {
-      state.reportedWeeklyForUser = action.payload
+    setReportedWeeklyListOfPageDepartment(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyListOfPageDepartment = action.payload
     },
-    clearReportedWeeklyForUser(state) {
-      state.reportedWeeklyForUser = []
+    cleaReportedWeeklyListOfPageDepartment(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyListOfPageDepartment = action.payload
+    },
+    setReportedWeeklyListOfPageSummary(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyListOfPageSummary = action.payload
+    },
+    cleaReportedWeeklyListOfPageSummary(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyListOfPageSummary = action.payload
+    },
+    setReportedWeeklyForUserDepartment(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyForUserDepartment = action.payload
+    },
+    clearReportedWeeklyForUserDepartment(state) {
+      state.reportedWeeklyForUserDepartment = []
+    },
+    setReportedWeeklyForUserSummary(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyForUserSummary = action.payload
+    },
+    clearReportedWeeklyForUserSummary(state) {
+      state.reportedWeeklyForUserSummary = []
     }
   }
 })
@@ -72,9 +96,15 @@ export const {
   clearNotReportedWeekly,
   setReportedWeeklyForAdmin,
   clearReportedWeeklyForAdmin,
-  setReportedWeeklyForUser,
-  clearReportedWeeklyForUser,
+  setReportedWeeklyForUserDepartment,
+  clearReportedWeeklyForUserDepartment,
+  setReportedWeeklyForUserSummary,
+  clearReportedWeeklyForUserSummary,
   setReportedWeeklyListOfPage,
-  clearReportedWeeklyListOfPage
+  clearReportedWeeklyListOfPage,
+  setReportedWeeklyListOfPageDepartment,
+  cleaReportedWeeklyListOfPageDepartment,
+  setReportedWeeklyListOfPageSummary,
+  cleaReportedWeeklyListOfPageSummary
 } = reportWeeklySlice.actions
 export default reportWeeklySlice.reducer

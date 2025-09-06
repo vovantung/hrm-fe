@@ -1,0 +1,4 @@
+.week-item:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}

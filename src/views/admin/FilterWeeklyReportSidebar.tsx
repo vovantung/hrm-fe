@@ -102,6 +102,10 @@ const FilterWeeklyReportSidebar = () => {
       const start = new Date(startYear, startMonth - 1, startDay)
       const end = new Date(endYear, endMonth - 1, endDay)
 
+      if (end != null) {
+        end.setHours(23, 59, 59, 999)
+      }
+
       dispatch(setDateFrom(start))
       dispatch(setDateTo(end))
 
@@ -259,12 +263,20 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function getWeeklyReportsFromTo() {
+    if (weekEnd != null) {
+      weekEnd.setHours(23, 59, 59, 999)
+    }
+
     dispatch(setDateFrom(weekStart))
     dispatch(setDateTo(weekEnd))
   }
 
   const handleOnChange = (dates: any) => {
     const [start, end] = dates
+
+    if (end != null) {
+      end.setHours(23, 59, 59, 999)
+    }
 
     dispatch(setDateFrom(start))
     dispatch(setDateTo(end))
@@ -330,29 +342,29 @@ const FilterWeeklyReportSidebar = () => {
         />
         <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
-        <div style={{ marginTop: '00px', marginBottom: '10px' }}>
-          <div style={{ marginTop: '10px' }}>
-            <AppReactDatepicker
-              selectsRange
-              endDate={dateTo as Date}
-              selected={dateFrom}
-              startDate={dateFrom as Date}
-              id='date-range-picker'
-              onChange={handleOnChange}
-              shouldCloseOnSelect={false}
-              customInput={
-                <CustomInput
-                  InputProps={{
-                    sx: { fontSize: '14px' }
-                  }}
-                  label='Khoảng thời gian'
-                  start={dateFrom as Date | number}
-                  end={dateTo as Date}
-                />
-              }
-            />
-          </div>
-          {/* <div style={{ fontSize: '14px' }}>
+
+        <div style={{ marginTop: '5px', marginBottom: '10px' }}>
+          <AppReactDatepicker
+            selectsRange
+            endDate={dateTo as Date}
+            selected={dateFrom}
+            startDate={dateFrom as Date}
+            id='date-range-picker'
+            onChange={handleOnChange}
+            shouldCloseOnSelect={false}
+            customInput={
+              <CustomInput
+                InputProps={{
+                  sx: { fontSize: '14px' }
+                }}
+                label='Khoảng thời gian'
+                start={dateFrom as Date | number}
+                end={dateTo as Date}
+              />
+            }
+          />
+        </div>
+        {/* <div style={{ fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateFrom}
               id='from-date'
@@ -386,149 +398,87 @@ const FilterWeeklyReportSidebar = () => {
               }
             />
           </div> */}
-          <div style={{ marginTop: '10px', fontSize: '14px' }}>
-            <AppReactDatepicker
-              selected={selectedMonth}
-              id='month-picker'
-              showMonthYearPicker
-              dateFormat='MM/yyyy'
-              onChange={(date: Date | null | undefined) => selectMonthYear(date)}
-              customInput={
-                <CustomTextField
-                  label='Các tuần trong tháng'
-                  fullWidth
-                  InputProps={{
-                    sx: { fontSize: '14px' }
-                  }}
-                />
-              }
-            />
-          </div>
+        <div style={{ marginTop: '10px', fontSize: '14px' }}>
+          <AppReactDatepicker
+            selected={selectedMonth}
+            id='month-picker'
+            showMonthYearPicker
+            dateFormat='MM/yyyy'
+            onChange={(date: Date | null | undefined) => selectMonthYear(date)}
+            customInput={
+              <CustomTextField
+                label='Các tuần trong tháng'
+                fullWidth
+                InputProps={{
+                  sx: { fontSize: '14px' }
+                }}
+              />
+            }
+          />
+        </div>
 
-          {weeks.map((week, index) => (
-            <li
-              key={index}
+        {weeks.map((week, index) => (
+          <li
+            key={index}
+            style={{
+              fontSize: '13.5px',
+              paddingTop: '8px',
+              display: 'flex',
+              justifyContent: 'space-between', // 👈 căn trái phải
+              alignItems: 'center'
+            }}
+            id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
+            onClick={filterBySelectedWeekly}
+          >
+            <span
+              className='week-item'
               style={{
+                color: theme.palette.primary.dark,
                 fontSize: '13.5px',
-                paddingTop: '8px',
-                display: 'flex',
-                justifyContent: 'space-between', // 👈 căn trái phải
-                alignItems: 'center'
+                cursor: 'pointer'
               }}
               id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
               onClick={filterBySelectedWeekly}
             >
-              <span
-                className='week-item'
-                style={{
-                  color: theme.palette.primary.dark,
-                  fontSize: '13.5px',
-                  cursor: 'pointer'
-                }}
-                id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
-                onClick={filterBySelectedWeekly}
-              >
-                Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.end, 'dd/MM/yyyy')}
-              </span>
+              Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.end, 'dd/MM/yyyy')}
+            </span>
 
-              <Tooltip
-                title={
-                  week.notReportList.length !== 0 ? (
-                    <div>
-                      <div style={{ fontWeight: 'bold', marginBottom: 4 }}>
-                        {week.notReportList.length} đơn vị không gửi báo cáo:
-                      </div>
-                      <ul style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                        {week.notReportList.map((d, i) => (
-                          <li key={i} style={{ fontSize: '13px' }}>
-                            {d.name}
-                          </li>
-                        ))}
-                      </ul>
+            <Tooltip
+              title={
+                week.notReportList.length !== 0 ? (
+                  <div>
+                    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>
+                      {week.notReportList.length} đơn vị không gửi báo cáo:
                     </div>
-                  ) : (
-                    ''
-                  )
-                }
-                placement='bottom'
-                arrow
+                    <ul style={{ margin: 0, paddingLeft: '1.2rem' }}>
+                      {week.notReportList.map((d, i) => (
+                        <li key={i} style={{ fontSize: '13px' }}>
+                          {d.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  ''
+                )
+              }
+              placement='bottom'
+              arrow
+            >
+              <span
+                style={{
+                  color: week.notReportList.length !== 0 ? theme.palette.error.dark : theme.palette.success.dark,
+                  cursor: week.notReportList.length !== 0 ? 'pointer' : 'unset',
+                  whiteSpace: 'nowrap',
+                  fontSize: '13px'
+                }}
               >
-                <span
-                  style={{
-                    color: week.notReportList.length !== 0 ? theme.palette.error.dark : theme.palette.success.dark,
-                    cursor: week.notReportList.length !== 0 ? 'pointer' : 'unset',
-                    whiteSpace: 'nowrap',
-                    fontSize: '13px'
-                  }}
-                >
-                  {week.notReportList.length !== 0 ? 'Chưa hoàn thành' : 'Hoàn thành'}
-                </span>
-              </Tooltip>
-            </li>
-          ))}
-          <hr
-            style={{
-              border: 'none',
-              borderTop: '0.8px solid #ccc',
-              marginTop: '10px',
-              marginBottom: '15px'
-            }}
-          />
-
-          <strong>Tuần này</strong>
-          <div style={{ marginTop: '5px' }}>
-            <span
-              style={{
-                cursor: 'pointer',
-                color: '#0e6ac7ff',
-                textDecoration: 'none',
-                fontSize: '13.5px'
-              }}
-              onClick={getWeeklyReportsFromTo}
-            >
-              Từ {format(weekStart, 'dd/MM/yyyy')} đến {format(weekEnd, 'dd/MM/yyyy')}
-            </span>
-          </div>
-          {notReportedWeekly.length !== 0 ? (
-            <div style={{ marginTop: '5px', marginBottom: '0px', fontSize: '13.5px' }}>
-              <div>Các đơn vị chưa gửi báo cáo:</div>
-
-              {notReportedWeekly.map(notReported => (
-                <li
-                  key={notReported.id}
-                  style={{
-                    textDecoration: 'none',
-                    fontSize: '13.5px',
-                    paddingTop: '8px'
-                  }}
-                >
-                  <span
-                    style={{
-                      color: theme.palette.error.dark,
-                      textDecoration: 'none',
-                      fontSize: '13.5px',
-                      paddingTop: '10px'
-                    }}
-                  >
-                    {notReported.name}
-                  </span>
-                </li>
-              ))}
-            </div>
-          ) : (
-            <span
-              style={{
-                color: theme.palette.success.dark,
-                textDecoration: 'none',
-                fontSize: '13.5px',
-                paddingTop: '10px'
-              }}
-            >
-              Tất cả đơn vị đã hoàn thành gửi báo cáo
-            </span>
-          )}
-        </div>
-        {/* <hr
+                {week.notReportList.length !== 0 ? 'Chưa hoàn thành' : 'Hoàn thành'}
+              </span>
+            </Tooltip>
+          </li>
+        ))}
+        <hr
           style={{
             border: 'none',
             borderTop: '0.8px solid #ccc',
@@ -536,43 +486,60 @@ const FilterWeeklyReportSidebar = () => {
             marginBottom: '15px'
           }}
         />
-        <strong style={{ display: 'flex' }}>Điều kiện, kết quả tìm kiếm</strong>
-        <div
-          style={{
-            backgroundColor: theme.palette.secondary.lightOpacity,
-            display: 'inline-block',
-            borderRadius: '2px',
-            paddingLeft: '7px',
-            paddingRight: '7px',
-            paddingTop: '1px',
-            paddingBottom: '1px',
-            marginBottom: '3px'
-          }}
-        >
-          <span style={{ fontSize: '13.5px' }}>
-            Từ <strong>{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : ''}</strong> đến{' '}
-            <strong>{dateTo ? format(dateTo, 'dd/MM/yyyy') : ''}</strong>
+
+        <strong>Tuần này</strong>
+        <div style={{ marginTop: '5px' }}>
+          <span
+            className='week-item'
+            style={{
+              cursor: 'pointer',
+              color: theme.palette.primary.dark,
+
+              fontSize: '13.5px'
+            }}
+            onClick={getWeeklyReportsFromTo}
+          >
+            Từ {format(weekStart, 'dd/MM/yyyy')} đến {format(weekEnd, 'dd/MM/yyyy')}
           </span>
         </div>
-        <div
-          style={{
-            backgroundColor: theme.palette.secondary.lightOpacity,
-            display: 'inline-block',
-            borderRadius: '2px',
-            paddingLeft: '7px',
-            paddingRight: '7px',
-            paddingTop: '1px',
-            paddingBottom: '1px'
-          }}
-        >
-          <span style={{ fontSize: '13.5px' }}>
-            Có{' '}
-            <strong>
-              {reportedWeeklyList.length < 10 ? '0' + reportedWeeklyList.length : reportedWeeklyList.length}
-            </strong>{' '}
-            báo cáo được tìm thấy
+        {notReportedWeekly.length !== 0 ? (
+          <div style={{ marginTop: '5px', marginBottom: '0px', fontSize: '13.5px' }}>
+            <div>Các đơn vị chưa gửi báo cáo:</div>
+
+            {notReportedWeekly.map(notReported => (
+              <li
+                key={notReported.id}
+                style={{
+                  textDecoration: 'none',
+                  fontSize: '13.5px',
+                  paddingTop: '8px'
+                }}
+              >
+                <span
+                  style={{
+                    color: theme.palette.error.dark,
+                    textDecoration: 'none',
+                    fontSize: '13.5px',
+                    paddingTop: '10px'
+                  }}
+                >
+                  {notReported.name}
+                </span>
+              </li>
+            ))}
+          </div>
+        ) : (
+          <span
+            style={{
+              color: theme.palette.success.dark,
+              textDecoration: 'none',
+              fontSize: '13.5px',
+              paddingTop: '10px'
+            }}
+          >
+            Tất cả đơn vị đã hoàn thành gửi báo cáo
           </span>
-        </div> */}
+        )}
       </div>
     </div>
   )

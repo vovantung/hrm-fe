@@ -19,9 +19,12 @@ import { endOfWeek, format, startOfWeek } from 'date-fns'
 
 import tableStyles from '@core/styles/table.module.css'
 import Pagination from '../../admin/PaginationTXU'
-import { setReportedWeeklyForUser, setReportedWeeklyListOfPage } from '@/redux-store/slices/report-weekly'
+import {
+  setReportedWeeklyForUserDepartment,
+  setReportedWeeklyListOfPageDepartment
+} from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
-import { setLoading, setTab } from '@/redux-store/slices/common'
+import { setDateFromForUser, setDateToForUser, setLoading, setTab } from '@/redux-store/slices/common'
 
 type ReportedWeeklyDataType = {
   id: number
@@ -66,11 +69,11 @@ const DepartmentReportWeekView = () => {
   // Danh sách (state) báo cáo tuần lưu dưới dạng chia sẻ giữa các component, dưới đây biến
   // sẽ được lấy để sử dụng trong component này
   const reportedWeeklyList = useSelector(
-    (state: any) => state.reportWeekly.reportedWeeklyForUser
+    (state: any) => state.reportWeekly.reportedWeeklyForUserDepartment
   ) as ReportedWeeklyDataType[]
 
   const reportedWeeklyListOfPage = useSelector(
-    (state: any) => state.reportWeekly.reportedWeeklyListOfPage
+    (state: any) => state.reportWeekly.reportedWeeklyListOfPageDepartment
   ) as ReportedWeeklyDataType[]
 
   // const [reportedWeeklyListOfPage, setReportedWeeklyListOfPage] = useState<ReportedWeeklyDataType[]>([])
@@ -123,7 +126,7 @@ const DepartmentReportWeekView = () => {
   }
 
   function onChangePage(reportedWeeklyOfPage: any) {
-    dispatch(setReportedWeeklyListOfPage(reportedWeeklyOfPage))
+    dispatch(setReportedWeeklyListOfPageDepartment(reportedWeeklyOfPage))
 
     // setReportedWeeklyListOfPage(reportedWeeklyOfPage)
   }
@@ -155,6 +158,11 @@ const DepartmentReportWeekView = () => {
   // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
   async function handleReportedWeekly() {
+    if (reportedWeeklyList.length !== 0) return
+
+    dispatch(setDateFromForUser(weekStart))
+    dispatch(setDateToForUser(weekEnd))
+
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
@@ -185,7 +193,7 @@ const DepartmentReportWeekView = () => {
 
       if (reportedWeeklys !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeeklyForUser(reportedWeeklys))
+        dispatch(setReportedWeeklyForUserDepartment(reportedWeeklys))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -282,33 +290,28 @@ const DepartmentReportWeekView = () => {
             transition: 'opacity 0.2s ease'
           }}
         >
-          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
-            BÁO CÁO TUẦN (ĐƠN VỊ)
-          </h3>
           <div
             style={{
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 320px)' : 'calc(100vh - 276px)',
-
-              minHeight: '80px'
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 266px)' : 'calc(100vh - 226px)',
+              minHeight: '114px'
             }}
           >
             <div
-              className='p-0'
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 344px)',
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)',
+                minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
-                marginBottom: '0px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 344px)'
+
+                marginBottom: '20px',
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
               }}
             >
-              <TableContainer
-
-              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 350px)' }}
-
-              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-              >
+              <TableContainer>
+                <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
+                  BÁO CÁO TUẦN (ĐƠN VỊ)
+                </h3>
                 <Table className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
@@ -389,111 +392,128 @@ const DepartmentReportWeekView = () => {
                 justifyContent: 'space-between',
                 display: 'flex',
                 marginLeft: '25px',
-                marginTop: '15px',
+
+                // marginTop: settings.layout == 'horizontal' ? '16px' : '14px',
                 marginRight: '20px'
               }}
             >
-              <Box alignItems='center'>
-                <input type='file' hidden ref={inputRef} onChange={handleChange} />
-                <Button
-                  style={{ fontSize: '14px', borderRadius: 4, height: '36px' }}
-                  startIcon={<i className='icon-park-outline-upload-logs' />}
-                  color='primary'
-                  size='medium'
-                  variant='contained'
-                  onClick={handleInputOpen}
-                >
-                  Tải báo cáo
-                </Button>
-              </Box>
+              <div
+                style={{
+                  // color: theme.palette.primary.main,
 
-              {/*
-            <Box
-              sx={{
-                justifyContent: 'space-between',
-                display: 'flex',
-                marginLeft: '25px',
-                marginBottom: '15px',
-                marginTop: '15px',
-                marginRight: '20px'
-              }}
-            >
-              <Box alignItems='center'>
-                <input type='file' hidden ref={inputRef} onChange={handleChange} />
-                <Button
-                  style={{ fontSize: '13.5px', borderRadius: 4, height: '35px' }}
-                  startIcon={<i className='icon-park-outline-upload-logs' />}
-                  color='primary'
-                  size='medium'
-                  variant='contained'
-                  onClick={handleInputOpen}
+                  margin: '0px',
+                  padding: '0px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}
                 >
-                  Tải báo cáo
-                </Button>
-              </Box> */}
+                  <input type='file' hidden ref={inputRef} onChange={handleChange} />
 
-              <Pagination
-                shape='rounded'
-                color='primary'
-                pageSize={6}
-                items={reportedWeeklyList}
-                onChangePage={onChangePage}
-              />
+                  <Button
+                    style={{
+                      borderRadius: 4
+                    }}
+                    startIcon={<i style={{ height: '20px' }} className='icon-park-outline-upload-logs' />}
+                    color='primary'
+                    size='medium'
+                    variant='contained'
+                    onClick={handleInputOpen}
+                  >
+                    Tải báo cáo
+                  </Button>
+                </div>
+              </div>
+
+              <Box
+                sx={{
+                  height: '70px'
+                }}
+              ></Box>
+
+              <div
+                style={{
+                  margin: '0px',
+                  padding: '0px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}
+                >
+                  <Pagination
+                    shape='rounded'
+                    color='primary'
+                    pageSize={6}
+                    items={reportedWeeklyList}
+                    onChangePage={onChangePage}
+                  />
+                </div>
+              </div>
             </Box>
+            {container && (
+              <Portal container={container}>
+                {/* Alert */}
+                <Snackbar
+                  open={openAlert}
+                  onClose={handleAlertClose}
+                  autoHideDuration={2500}
+                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                  TransitionComponent={transition}
+                  sx={{ zIndex: 9999 }}
+                >
+                  <Alert
+                    variant='filled'
+                    severity='info'
+                    style={{ color: 'white', backgroundColor: '#056abdff' }}
+                    onClose={handleAlertClose}
+                    sx={{
+                      width: '100%',
+                      maxWidth: '600px',
+                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                    }}
+                  >
+                    {message}
+                  </Alert>
+                </Snackbar>
+
+                {/* Error */}
+                <Snackbar
+                  open={openError}
+                  onClose={handleErrorClose}
+                  autoHideDuration={2500}
+                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                  TransitionComponent={transition}
+                  sx={{ zIndex: 9999 }}
+                >
+                  <Alert
+                    variant='filled'
+                    severity='error'
+                    style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                    onClose={handleErrorClose}
+                    sx={{
+                      width: '100%',
+                      maxWidth: '600px',
+                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                      // borderRadius: 2 // bo góc mềm hơn (optional)
+                    }}
+                  >
+                    {message}
+                  </Alert>
+                </Snackbar>
+              </Portal>
+            )}
           </div>
         </div>
-        {container && (
-          <Portal container={container}>
-            {/* Alert */}
-            <Snackbar
-              open={openAlert}
-              onClose={handleAlertClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-              sx={{ zIndex: 9999 }}
-            >
-              <Alert
-                variant='filled'
-                severity='info'
-                style={{ color: 'white', backgroundColor: '#056abdff' }}
-                onClose={handleAlertClose}
-                sx={{
-                  width: '100%',
-                  maxWidth: '600px',
-                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-
-            {/* Error */}
-            <Snackbar
-              open={openError}
-              onClose={handleErrorClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-              sx={{ zIndex: 9999 }}
-            >
-              <Alert
-                variant='filled'
-                severity='error'
-                style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                onClose={handleErrorClose}
-                sx={{
-                  width: '100%',
-                  maxWidth: '600px',
-                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                  // borderRadius: 2 // bo góc mềm hơn (optional)
-                }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-          </Portal>
-        )}
       </div>
     )
 }

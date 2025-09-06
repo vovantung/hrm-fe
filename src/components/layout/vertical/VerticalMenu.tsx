@@ -25,8 +25,8 @@ import useVerticalNav from '@menu/hooks/useVerticalNav'
 import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNavExpandIcon'
 
 // Style Imports
-import menuItemStyles from '@core/styles/vertical/menuItemStyles'
 import menuSectionStyles from '@core/styles/vertical/menuSectionStyles'
+import menuItemStyles from '@/@core/styles/vertical/menuItemStyles'
 
 // Menu Data Imports
 // import menuData from '@/data/navigation/verticalMenuData'

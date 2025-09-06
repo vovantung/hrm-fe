@@ -70,9 +70,10 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
             position: 'fixed',
             width: '100%',
             paddingRight: '396px',
-            zIndex: 9999,
-            maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 185px)' : 'calc(100vh - 135px)',
-            minHeight: '150px'
+            zIndex: 9999
+
+            // maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 185px)' : 'calc(100vh - 135px)',
+            // minHeight: '150px'
           }}
         >
           <aside>
@@ -99,15 +100,16 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
             marginLeft: '24px',
             marginRight: '24px',
             paddingTop: '20px',
-            paddingBottom: '20px'
+            paddingBottom: '20px',
+            borderRadius: 2
           }}
         >
           <div
             style={{
               overflowY: 'auto',
-              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 236px)' : 'calc(100vh - 197px)',
-              minHeight: settings.layout == 'horizontal' ? '190px' : '190px',
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 240px)' : 'calc(100vh - 190px)'
+              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 233px)' : 'calc(100vh - 193px)',
+              minHeight: settings.layout == 'horizontal' ? '147px' : '147px',
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 233px)' : 'calc(100vh - 193px)'
             }}
           >
             <aside>

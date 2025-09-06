@@ -35,7 +35,7 @@ const tabContentList = (): { [key: string]: ReactElement } => ({
 
 const ReportSettingsPage = () => {
   return (
-    <Card>
+    <Card style={{ borderRadius: 2 }}>
       <ReportSettings tabContentList={tabContentList()} />
     </Card>
   )

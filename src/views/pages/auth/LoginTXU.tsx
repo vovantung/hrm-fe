@@ -151,7 +151,7 @@ const LoginTXU = () => {
                 Forgot password?
               </Typography>
             </div>
-            <Button fullWidth variant='contained' onClick={handleSave}>
+            <Button style={{ fontSize: '13.5px', borderRadius: 4 }} fullWidth variant='contained' onClick={handleSave}>
               {/* <Button fullWidth variant='contained' type='submit'></Button> */}
               Login
             </Button>

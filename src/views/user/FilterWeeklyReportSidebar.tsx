@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
-import { setReportedWeekly } from '@/redux-store/slices/report-weekly'
+import { setReportedWeeklyForUser } from '@/redux-store/slices/report-weekly'
 
 // import { setLoading } from '@/redux-store/slices/common'
 
@@ -69,7 +69,10 @@ const FilterWeeklyReportSidebar = () => {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const tab = useSelector((state: any) => state.common.tab) as number
   const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
-  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+
+  const reportedWeeklyList = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForUser
+  ) as ReportedWeeklyDataType[]
 
   useEffect(() => {
     if (!init) {
@@ -168,7 +171,7 @@ const FilterWeeklyReportSidebar = () => {
 
       if (reportedFromToList !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(reportedFromToList))
+        dispatch(setReportedWeeklyForUser(reportedFromToList))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -193,7 +196,7 @@ const FilterWeeklyReportSidebar = () => {
       >
         <span style={{ fontSize: '14.5px' }}>
           Xin chào{' '}
-          <span style={{ color: '#be4414dd', fontSize: '14.5px' }}>
+          <span style={{ color: '#0e7c0ab9', fontSize: '14.5px' }}>
             <strong>{userLogined.lastName + ' ' + userLogined.firstName}</strong>
           </span>
           {''}!
@@ -201,9 +204,22 @@ const FilterWeeklyReportSidebar = () => {
         <br />
         <span style={{ fontSize: '14.5px' }}>
           Bạn là nhân sự{' '}
-          <span style={{ color: '#338844', fontSize: '14.5px' }}>
-            <strong>{userLogined.department.name}</strong>
-          </span>
+          <div
+            style={{
+              // backgroundColor: '#b6b4b350',
+              display: 'inline-block',
+              borderRadius: '2px',
+              paddingLeft: '7px',
+              paddingRight: '7px',
+              paddingTop: '1px',
+              paddingBottom: '2px',
+              textDecoration: 'underline'
+            }}
+          >
+            <span style={{ fontSize: '14.5px' }}>
+              <strong>{userLogined.department.name}</strong>
+            </span>
+          </div>
         </span>
 
         <hr
@@ -333,13 +349,14 @@ const FilterWeeklyReportSidebar = () => {
         <strong style={{ display: 'flex' }}>Điều kiện, kết quả tìm kiếm</strong>
         <div
           style={{
-            backgroundColor: '#d6691039',
+            backgroundColor: '#b6b4b350',
             display: 'inline-block',
-            borderRadius: '4px',
-            paddingLeft: '10px',
-            paddingRight: '10px',
-            marginTop: '5px',
-            marginBottom: '5px'
+            borderRadius: '2px',
+            paddingLeft: '7px',
+            paddingRight: '7px',
+            paddingTop: '1px',
+            paddingBottom: '1px',
+            marginBottom: '3px'
           }}
         >
           <span style={{ fontSize: '13.5px' }}>
@@ -349,11 +366,13 @@ const FilterWeeklyReportSidebar = () => {
         </div>
         <div
           style={{
-            backgroundColor: '#d6691039',
+            backgroundColor: '#b6b4b350',
             display: 'inline-block',
-            borderRadius: '4px',
-            paddingLeft: '10px',
-            paddingRight: '10px'
+            borderRadius: '2px',
+            paddingLeft: '7px',
+            paddingRight: '7px',
+            paddingTop: '1px',
+            paddingBottom: '1px'
           }}
         >
           <span style={{ fontSize: '13.5px' }}>

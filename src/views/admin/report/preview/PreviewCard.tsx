@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2'
 
 // import Divider from '@mui/material/Divider'
 import { format } from 'date-fns'
-import { Button, Icon } from '@mui/material'
+import { Box, Button, useTheme } from '@mui/material'
 
 // Component Imports
 
@@ -37,9 +37,14 @@ type DepartmentDataType = {
 }
 
 const PreviewCard = () => {
+  const theme = useTheme()
   const { settings } = useSettings()
   const now = new Date()
-  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+
+  const reportedWeeklyList = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForAdmin
+  ) as ReportedWeeklyDataType[]
+
   const dateFrom = useSelector((state: any) => state.common.dateFrom) as Date | null | undefined
   const dateTo = useSelector((state: any) => state.common.dateTo) as Date | null | undefined
 
@@ -51,23 +56,31 @@ const PreviewCard = () => {
   return (
     <div
       style={{
-        height: settings.layout == 'horizontal' ? 'calc(100vh - 274px)' : 'calc(100vh - 230px)',
-        minHeight: '156px'
+        height: settings.layout == 'horizontal' ? 'calc(100vh - 266px)' : 'calc(100vh - 226px)',
+        minHeight: '114px'
       }}
     >
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
-          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 314px)' : 'calc(100vh - 330px)',
+          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)',
+          minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
           overflowY: 'auto',
+
           marginBottom: '20px',
-          height: settings.layout == 'horizontal' ? 'calc(100vh - 374px)' : 'calc(100vh - 300px)'
+          height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
         }}
       >
-        <div style={{ maxWidth: '950px' }}>
+        <div
+          style={{
+            maxWidth: '950px'
+
+            //  padding: '10px'
+          }}
+        >
           <div id='print-area'>
-            <Grid container spacing={6}>
+            <Grid container spacing={6} sx={{ padding: '10px', minHeight: '100px' }}>
               <div className='headerWrapper'>
                 {/* Cột bên trái */}
                 <div className='leftCol'>
@@ -82,8 +95,8 @@ const PreviewCard = () => {
                     <hr
                       style={{
                         border: 'none',
-                        borderTop: '0.8px solid #000000',
-                        marginTop: '3px',
+                        borderTop: '0.8px solid ',
+                        marginTop: '4px',
                         marginLeft: '60px',
                         marginRight: '60px'
                       }}
@@ -105,7 +118,7 @@ const PreviewCard = () => {
                     <hr
                       style={{
                         border: 'none',
-                        borderTop: '0.8px solid #000000',
+                        borderTop: '0.8px solid',
                         marginTop: '0px',
                         marginLeft: '60px',
                         marginRight: '60px',
@@ -141,23 +154,35 @@ const PreviewCard = () => {
                   <table>
                     <thead>
                       <tr>
-                        <th>
-                          <strong>Đơn vị</strong>
+                        <th style={{ textAlign: 'center' }}>
+                          <strong>STT</strong>
                         </th>
-                        <th>
-                          <strong>Tên báo cáo</strong>
+                        <th style={{ textAlign: 'center' }}>
+                          <strong>ĐƠN VỊ</strong>
                         </th>
-                        <th>
-                          <strong>Ngày báo cáo</strong>
+                        <th style={{ textAlign: 'center' }}>
+                          <strong>TÊN BÁO CÁO</strong>
+                        </th>
+                        <th style={{ textAlign: 'center' }}>
+                          <strong>NGÀY BÁO CÁO</strong>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       {reportedWeeklyList?.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.department.name}</td>
-                          <td className='report-name'>{item.originName}</td>
-                          <td>{format(new Date(item.uploadedAt), 'dd/MM/yyyy HH:mm')}</td>
+                          <td style={{ textAlign: 'center' }}> {index + 1 < 10 ? '0' + (index + 1) : index + 1}</td>
+                          <td style={{ paddingLeft: '6px' }}>{item.department.name}</td>
+                          <td
+                            style={{ paddingLeft: '6px' }}
+
+                            //  className='report-name'
+                          >
+                            {item.originName}
+                          </td>
+                          <td style={{ textAlign: 'center' }}>
+                            {format(new Date(item.uploadedAt), 'dd/MM/yyyy HH:mm')}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -193,24 +218,89 @@ const PreviewCard = () => {
           </div>
         </div>
       </div>
+      {/* Tiếp ở đây */}
       <hr
         style={{
           border: 'none',
           borderTop: '0.6px solid #cccccc97',
-          marginTop: '10px'
+          marginTop: '0px'
         }}
       />
-      <div style={{ padding: '20px', paddingLeft: '24px' }}>
-        <Button
-          startIcon={<Icon className='ph-printer-bold'></Icon>}
-          color='primary'
-          size='medium'
-          variant='contained'
-          onClick={handleButtonClick}
+
+      <Box
+        sx={{
+          justifyContent: 'space-between',
+          display: 'flex',
+          marginLeft: '25px',
+
+          // marginTop: settings.layout == 'horizontal' ? '16px' : '14px',
+          marginRight: '20px'
+        }}
+      >
+        <div
+          style={{
+            color: theme.palette.primary.main,
+            margin: '0px',
+            padding: '0px'
+          }}
         >
-          Print
-        </Button>
-      </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%'
+            }}
+          >
+            <Button
+              style={{
+                borderRadius: 4
+              }}
+              startIcon={<i style={{ height: '20px' }} className='ph-printer-bold' />}
+              color='primary'
+              size='medium'
+              variant='contained'
+              onClick={handleButtonClick}
+            >
+              In thống kê
+            </Button>
+          </div>
+        </div>
+
+        <Box
+          sx={{
+            height: '70px'
+
+            //  visibility: 'hidden'
+          }}
+        ></Box>
+        <div
+          style={{
+            color: theme.palette.primary.main,
+
+            margin: '0px',
+            padding: '0px'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%'
+            }}
+          >
+            <span style={{ fontSize: '13.5px', fontStyle: 'revert' }}>
+              Từ <strong>{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : ''}</strong> đến{' '}
+              <strong>{dateTo ? format(dateTo, 'dd/MM/yyyy') : ''}</strong> có{' '}
+              <strong>
+                {reportedWeeklyList.length < 10 ? '0' + reportedWeeklyList.length : reportedWeeklyList.length}
+              </strong>{' '}
+              báo cáo
+            </span>
+          </div>
+        </div>
+      </Box>
     </div>
   )
 }

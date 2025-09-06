@@ -143,7 +143,8 @@ const StyledHeader = styled.header<StyledHeaderProps>`
 
     .${verticalLayoutClasses.navbar} {
       background-color: var(--mui-palette-background-paper);
-      border-radius: var(--border-radius);
+      /* border-radius: var(--border-radius); */
+      border-radius: 4px;
       padding-inline: 16px;
       box-shadow: var(--mui-customShadows-sm);
 

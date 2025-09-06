@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -9,21 +9,30 @@ import { useTheme } from '@mui/material/styles'
 import { startOfWeek, endOfWeek, format, startOfMonth, endOfMonth, addDays, isBefore } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 
+import type { TextFieldProps } from '@mui/material/TextField'
+
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
-import { setNotReportedWeekly, setReportedWeekly } from '@/redux-store/slices/report-weekly'
+import { setNotReportedWeekly, setReportedWeeklyForAdmin } from '@/redux-store/slices/report-weekly'
 import { setDateFrom, setDateTo } from '@/redux-store/slices/common'
+import './week.css'
+
+type CustomInputProps = TextFieldProps & {
+  label: string
+  end: Date | number
+  start: Date | number
+}
 
 // import { setLoading } from '@/redux-store/slices/common'
 
-type ReportedWeeklyDataType = {
-  id: number
-  filename: string
-  url: string
-  uploadedAt: string
-  department: DepartmentDataType
-  originName: string
-}
+// type ReportedWeeklyDataType = {
+//   id: number
+//   filename: string
+//   url: string
+//   uploadedAt: string
+//   department: DepartmentDataType
+//   originName: string
+// }
 
 type DepartmentDataType = {
   id: number
@@ -67,7 +76,9 @@ const FilterWeeklyReportSidebar = () => {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
-  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+  // const reportedWeeklyList = useSelector(
+  //   (state: any) => state.reportWeekly.reportedWeeklyForAdmin
+  // ) as ReportedWeeklyDataType[]
 
   useEffect(() => {
     if (!init) {
@@ -89,13 +100,10 @@ const FilterWeeklyReportSidebar = () => {
       const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
       const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
       const start = new Date(startYear, startMonth - 1, startDay)
-      const end = new Date(endYear, endMonth - 1, endDay + 1)
+      const end = new Date(endYear, endMonth - 1, endDay)
 
       dispatch(setDateFrom(start))
       dispatch(setDateTo(end))
-
-      // setDateFrom(start)
-      // setDateTo(end)
 
       // dispatch(setLoading(true))
     }
@@ -166,7 +174,7 @@ const FilterWeeklyReportSidebar = () => {
 
       if (reportedFromToList !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(reportedFromToList))
+        dispatch(setReportedWeeklyForAdmin(reportedFromToList))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -251,9 +259,27 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function getWeeklyReportsFromTo() {
-    setDateFrom(weekStart)
-    setDateTo(weekEnd)
+    dispatch(setDateFrom(weekStart))
+    dispatch(setDateTo(weekEnd))
   }
+
+  const handleOnChange = (dates: any) => {
+    const [start, end] = dates
+
+    dispatch(setDateFrom(start))
+    dispatch(setDateTo(end))
+  }
+
+  const CustomInput = forwardRef((props: CustomInputProps, ref) => {
+    const { label, start, end, ...rest } = props
+
+    const startDate = format(start, 'dd/MM/yyyy')
+    const endDate = end !== null ? ` - ${format(end, 'dd/MM/yyyy')}` : null
+
+    const value = `${startDate}${endDate !== null ? endDate : ''}`
+
+    return <CustomTextField fullWidth inputRef={ref} {...rest} label={label} value={value} />
+  })
 
   return (
     <div style={{ margin: lgAbove ? '0px' : undefined, marginTop: '0px' }}>
@@ -268,7 +294,7 @@ const FilterWeeklyReportSidebar = () => {
       >
         <span style={{ fontSize: '14.5px' }}>
           Xin chào{' '}
-          <span style={{ color: '#be4414dd', fontSize: '14.5px' }}>
+          <span style={{ color: theme.palette.success.dark, fontSize: '14.5px' }}>
             <strong>{userLogined.lastName + ' ' + userLogined.firstName}</strong>
           </span>
           {''}!
@@ -276,9 +302,22 @@ const FilterWeeklyReportSidebar = () => {
         <br />
         <span style={{ fontSize: '14.5px' }}>
           Bạn là nhân sự{' '}
-          <span style={{ color: '#338844', fontSize: '14.5px' }}>
-            <strong>{userLogined.department.name}</strong>
-          </span>
+          <div
+            style={{
+              // backgroundColor: theme.palette.secondary.lightOpacity,
+              display: 'inline-block',
+              borderRadius: '2px',
+              paddingLeft: '7px',
+              paddingRight: '7px',
+              paddingTop: '1px',
+              paddingBottom: '2px',
+              textDecoration: 'underline'
+            }}
+          >
+            <span style={{ fontSize: '14.5px' }}>
+              <strong>{userLogined.department.name}</strong>
+            </span>
+          </div>
         </span>
 
         <hr
@@ -292,7 +331,28 @@ const FilterWeeklyReportSidebar = () => {
         <strong>Tìm kiếm theo thời gian</strong>
         {/* <br /> */}
         <div style={{ marginTop: '00px', marginBottom: '10px' }}>
-          <div style={{ fontSize: '14px' }}>
+          <div style={{ marginTop: '10px' }}>
+            <AppReactDatepicker
+              selectsRange
+              endDate={dateTo as Date}
+              selected={dateFrom}
+              startDate={dateFrom as Date}
+              id='date-range-picker'
+              onChange={handleOnChange}
+              shouldCloseOnSelect={false}
+              customInput={
+                <CustomInput
+                  InputProps={{
+                    sx: { fontSize: '14px' }
+                  }}
+                  label='Khoảng thời gian'
+                  start={dateFrom as Date | number}
+                  end={dateTo as Date}
+                />
+              }
+            />
+          </div>
+          {/* <div style={{ fontSize: '14px' }}>
             <AppReactDatepicker
               selected={dateFrom}
               id='from-date'
@@ -325,7 +385,7 @@ const FilterWeeklyReportSidebar = () => {
                 />
               }
             />
-          </div>
+          </div> */}
           <div style={{ marginTop: '10px', fontSize: '14px' }}>
             <AppReactDatepicker
               selected={selectedMonth}
@@ -359,15 +419,16 @@ const FilterWeeklyReportSidebar = () => {
               onClick={filterBySelectedWeekly}
             >
               <span
+                className='week-item'
                 style={{
-                  color: '#0e6ac7ff',
+                  color: theme.palette.primary.dark,
                   fontSize: '13.5px',
                   cursor: 'pointer'
                 }}
                 id={'id_' + format(week.start, 'dd/MM/yyyy') + '_' + format(week.end, 'dd/MM/yyyy')}
                 onClick={filterBySelectedWeekly}
               >
-                Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.start, 'dd/MM/yyyy')}
+                Từ {format(week.start, 'dd/MM/yyyy')} đến {format(week.end, 'dd/MM/yyyy')}
               </span>
 
               <Tooltip
@@ -394,7 +455,7 @@ const FilterWeeklyReportSidebar = () => {
               >
                 <span
                   style={{
-                    color: week.notReportList.length !== 0 ? '#a51919ff' : 'green',
+                    color: week.notReportList.length !== 0 ? theme.palette.error.dark : theme.palette.success.dark,
                     cursor: week.notReportList.length !== 0 ? 'pointer' : 'unset',
                     whiteSpace: 'nowrap',
                     fontSize: '13px'
@@ -420,8 +481,6 @@ const FilterWeeklyReportSidebar = () => {
               style={{
                 cursor: 'pointer',
                 color: '#0e6ac7ff',
-
-                // color: '#004080',
                 textDecoration: 'none',
                 fontSize: '13.5px'
               }}
@@ -445,7 +504,7 @@ const FilterWeeklyReportSidebar = () => {
                 >
                   <span
                     style={{
-                      color: '#a51919ff',
+                      color: theme.palette.error.dark,
                       textDecoration: 'none',
                       fontSize: '13.5px',
                       paddingTop: '10px'
@@ -459,7 +518,7 @@ const FilterWeeklyReportSidebar = () => {
           ) : (
             <span
               style={{
-                color: 'green',
+                color: theme.palette.success.dark,
                 textDecoration: 'none',
                 fontSize: '13.5px',
                 paddingTop: '10px'
@@ -469,7 +528,7 @@ const FilterWeeklyReportSidebar = () => {
             </span>
           )}
         </div>
-        <hr
+        {/* <hr
           style={{
             border: 'none',
             borderTop: '0.8px solid #ccc',
@@ -480,13 +539,14 @@ const FilterWeeklyReportSidebar = () => {
         <strong style={{ display: 'flex' }}>Điều kiện, kết quả tìm kiếm</strong>
         <div
           style={{
-            backgroundColor: '#d6691039',
+            backgroundColor: theme.palette.secondary.lightOpacity,
             display: 'inline-block',
-            borderRadius: '4px',
-            paddingLeft: '10px',
-            paddingRight: '10px',
-            marginTop: '5px',
-            marginBottom: '5px'
+            borderRadius: '2px',
+            paddingLeft: '7px',
+            paddingRight: '7px',
+            paddingTop: '1px',
+            paddingBottom: '1px',
+            marginBottom: '3px'
           }}
         >
           <span style={{ fontSize: '13.5px' }}>
@@ -496,11 +556,13 @@ const FilterWeeklyReportSidebar = () => {
         </div>
         <div
           style={{
-            backgroundColor: '#d6691039',
+            backgroundColor: theme.palette.secondary.lightOpacity,
             display: 'inline-block',
-            borderRadius: '4px',
-            paddingLeft: '10px',
-            paddingRight: '10px'
+            borderRadius: '2px',
+            paddingLeft: '7px',
+            paddingRight: '7px',
+            paddingTop: '1px',
+            paddingBottom: '1px'
           }}
         >
           <span style={{ fontSize: '13.5px' }}>
@@ -510,7 +572,7 @@ const FilterWeeklyReportSidebar = () => {
             </strong>{' '}
             báo cáo được tìm thấy
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   )

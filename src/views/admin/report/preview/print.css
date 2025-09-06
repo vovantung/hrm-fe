@@ -1,6 +1,5 @@
 @page {
   size: A4 portrait;
-
   margin-block: 0mm 5mm;
   margin-inline: 13mm 6mm;
 }
@@ -43,6 +42,70 @@
     padding: 15px;
     background: #ffffff00;
   }
+
+  .previewCard th,
+  .previewCard td {
+    padding-block: 4px;
+    padding-inline: 4px;
+    text-align: start;
+    font-size: 13pt !important;
+    color: #000;
+    font-family: 'Times New Roman', Times, serif;
+    border: 1px solid #000;
+  }
+
+  /* Giới hạn cột "Tên báo cáo" */
+  .previewCard td.report-name {
+    /* white-space: normal !important;
+    word-break: break-word; */
+  }
+
+  .header-block {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .headerWrapper {
+    display: flex;
+    justify-content: space-between;
+    inline-size: 100%;
+    margin-block-end: 20px;
+  }
+
+  /* --- Bên trái --- */
+  .leftCol {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+  }
+
+  /* --- Bên phải --- */
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+  }
+
+  /* custom font */
+  .bold-txu {
+    font-weight: bold;
+  }
+
+  .italic-txu {
+    font-style: italic;
+  }
+
+  .font-txu {
+    font-size: 14pt !important;
+    color: #000;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  .font-txu-1 {
+    font-size: 16pt !important;
+    color: #000;
+    font-family: 'Times New Roman', Times, serif;
+  }
 }
 
 /* loại bỏ fixed + full height ở đây */
@@ -84,15 +147,16 @@
   padding-inline: 4px;
   text-align: start;
   font-size: 13pt !important;
-  color: #000;
+  /* color: #000; */
   font-family: 'Times New Roman', Times, serif;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
+  border: 1px solid;
 }
 
 /* Giới hạn cột "Tên báo cáo" */
 .previewCard td.report-name {
-  white-space: normal !important;
-  word-break: break-word;
+  /* white-space: normal !important;
+  word-break: break-word; */
 }
 
 .header-block {
@@ -132,7 +196,7 @@
 
 .font-txu {
   font-size: 14pt !important;
-  color: #000;
+  /* color: #000; */
   font-family: 'Times New Roman', Times, serif;
 }
 
@@ -149,6 +213,6 @@
 }
 .font-txu-1 {
   font-size: 16pt !important;
-  color: #000;
+  /* color: #000; */
   font-family: 'Times New Roman', Times, serif;
 }

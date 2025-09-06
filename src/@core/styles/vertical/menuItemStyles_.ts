@@ -27,8 +27,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
           }),
       [`&.${menuClasses.subMenuRoot}.${menuClasses.open} > .${menuClasses.button}, &.${menuClasses.subMenuRoot} > .${menuClasses.button}.${menuClasses.active}`]:
         {
-          // backgroundColor: 'var(--mui-palette-action-selected) !important'
-          backgroundColor: 'var(--mui-palette-primary-lightOpacity)'
+          backgroundColor: 'var(--mui-palette-action-selected) !important'
         },
       [`&.${menuClasses.disabled} > .${menuClasses.button}`]: {
         color: 'var(--mui-palette-text-disabled)',
@@ -64,10 +63,8 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
     }),
     button: ({ level, active }) => ({
       paddingBlock: '8px',
-      paddingInline: '8px',
-
-      // borderRadius: 'var(--border-radius)',
-      borderRadius: 2,
+      paddingInline: '12px',
+      borderRadius: 'var(--border-radius)',
       ...(!(isCollapsed && !isHovered) && {
         '&:has(.MuiChip-root)': {
           paddingBlock: theme.spacing(1.75)
@@ -75,14 +72,12 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
       }),
 
       ...((!isPopoutWhenCollapsed || popoutExpanded || (popoutCollapsed && level === 0)) && {
-        // borderRadius: 'var(--mui-shape-borderRadius)',
-        borderRadius: 2,
+        borderRadius: 'var(--mui-shape-borderRadius)',
         transition: `padding-inline-start ${transitionDuration}ms ease-in-out`
       }),
       ...(!active && {
         '&:hover, &:focus-visible': {
-          // backgroundColor: 'var(--mui-palette-action-hover)'
-          backgroundColor: 'var(--mui-palette-primary-lighterOpacity)'
+          backgroundColor: 'var(--mui-palette-action-hover)'
         },
         '&[aria-expanded="true"]': {
           backgroundColor: 'var(--mui-palette-action-selected)'
@@ -95,8 +90,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
         fontSize: '1.375rem'
       }),
       ...(level > 0 && {
-        // fontSize: '0.75rem',
-        fontSize: '1rem',
+        fontSize: '0.75rem',
         color: 'var(--mui-palette-text-secondary)'
       }),
       ...(level === 0 && {
@@ -146,9 +140,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
     },
     subMenuContent: ({ level }) => ({
       zIndex: 'calc(var(--drawer-z-index) + 1)',
-
-      // borderRadius: 'var(--border-radius)',
-      borderRadius: 2,
+      borderRadius: 'var(--border-radius)',
       backgroundColor: popoutCollapsed ? 'var(--mui-palette-background-paper)' : 'transparent',
       ...(popoutCollapsed && {
         '& > ul, & > div > ul': {

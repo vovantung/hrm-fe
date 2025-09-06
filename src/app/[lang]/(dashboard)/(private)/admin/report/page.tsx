@@ -25,7 +25,7 @@ const tabContentList = (): { [key: string]: ReactElement } => ({
 
 const WeeklyReportPage = () => {
   return (
-    <Card>
+    <Card style={{ borderRadius: 2 }}>
       <ReportAdmin tabContentList={tabContentList()} />
     </Card>
   )

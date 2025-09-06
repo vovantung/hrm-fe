@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 
 import { Alert, Box, Button, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
 
-import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -20,7 +19,7 @@ import { endOfWeek, format, startOfWeek } from 'date-fns'
 
 import tableStyles from '@core/styles/table.module.css'
 import Pagination from '../../admin/PaginationTXU'
-import { setReportedWeekly, setReportedWeeklyListOfPage } from '@/redux-store/slices/report-weekly'
+import { setReportedWeeklyForUser, setReportedWeeklyListOfPage } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 import { setLoading, setTab } from '@/redux-store/slices/common'
 
@@ -66,7 +65,9 @@ const DepartmentReportWeekView = () => {
 
   // Danh sách (state) báo cáo tuần lưu dưới dạng chia sẻ giữa các component, dưới đây biến
   // sẽ được lấy để sử dụng trong component này
-  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+  const reportedWeeklyList = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForUser
+  ) as ReportedWeeklyDataType[]
 
   const reportedWeeklyListOfPage = useSelector(
     (state: any) => state.reportWeekly.reportedWeeklyListOfPage
@@ -184,7 +185,7 @@ const DepartmentReportWeekView = () => {
 
       if (reportedWeeklys !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(reportedWeeklys))
+        dispatch(setReportedWeeklyForUser(reportedWeeklys))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -255,6 +256,7 @@ const DepartmentReportWeekView = () => {
         <div
           style={{
             position: 'absolute',
+
             top: 0,
             left: 0,
             right: 0,
@@ -264,7 +266,8 @@ const DepartmentReportWeekView = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 99999,
+
+            // zIndex: 9,
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 1 : 0,
             pointerEvents: reportedWeeklyListOfPage.length === 0 && loading == true ? 'auto' : 'none',
             transition: 'opacity 0.4s ease'
@@ -279,20 +282,39 @@ const DepartmentReportWeekView = () => {
             transition: 'opacity 0.2s ease'
           }}
         >
-          <div style={{ fontSize: '14px' }}>
-            <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px' }}>
-              DEPARTMENT REPORT (WEEKLY)
-            </h3>
-            {/* <CardHeader title='DEPARTMENT REPORT (WEEKLY)' /> */}
-            <CardContent className='p-0'>
-              <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 350px)' }}
+          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
+            BÁO CÁO TUẦN (ĐƠN VỊ)
+          </h3>
+          <div
+            style={{
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 320px)' : 'calc(100vh - 276px)',
 
-                // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
+              minHeight: '80px'
+            }}
+          >
+            <div
+              className='p-0'
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 344px)',
+                overflowY: 'auto',
+                marginBottom: '0px',
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 344px)'
+              }}
+            >
+              <TableContainer
+
+              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 350px)' }}
+
+              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
               >
                 <Table className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
+                      <TableCell>
+                        <b>STT</b>
+                      </TableCell>
                       <TableCell>
                         <b>Đơn vị</b>
                       </TableCell>
@@ -308,8 +330,15 @@ const DepartmentReportWeekView = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {reportedWeeklyListOfPage.map(reportedWeekly => (
-                      <TableRow key={reportedWeekly.id}>
+                    {reportedWeeklyListOfPage.map((reportedWeekly, index) => (
+                      <TableRow key={index}>
+                        <TableCell
+                          style={{
+                            fontSize: '14px'
+                          }}
+                        >
+                          {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                        </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
                           {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
@@ -346,29 +375,62 @@ const DepartmentReportWeekView = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </CardContent>
+            </div>
+            <hr
+              style={{
+                border: 'none',
+                borderTop: '0.6px solid #cccccc97',
+                marginTop: '0px'
+              }}
+            />
+
             <Box
               sx={{
-                display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                display: 'flex',
                 marginLeft: '25px',
-                marginTop: '20px',
-                marginBottom: '20px',
+                marginTop: '15px',
                 marginRight: '20px'
               }}
             >
-              <Box display='flex' alignItems='center'>
+              <Box alignItems='center'>
                 <input type='file' hidden ref={inputRef} onChange={handleChange} />
                 <Button
-                  variant='contained'
+                  style={{ fontSize: '14px', borderRadius: 4, height: '36px' }}
                   startIcon={<i className='icon-park-outline-upload-logs' />}
-                  style={{ fontSize: '14px' }}
+                  color='primary'
+                  size='medium'
+                  variant='contained'
                   onClick={handleInputOpen}
                 >
                   Tải báo cáo
                 </Button>
               </Box>
+
+              {/*
+            <Box
+              sx={{
+                justifyContent: 'space-between',
+                display: 'flex',
+                marginLeft: '25px',
+                marginBottom: '15px',
+                marginTop: '15px',
+                marginRight: '20px'
+              }}
+            >
+              <Box alignItems='center'>
+                <input type='file' hidden ref={inputRef} onChange={handleChange} />
+                <Button
+                  style={{ fontSize: '13.5px', borderRadius: 4, height: '35px' }}
+                  startIcon={<i className='icon-park-outline-upload-logs' />}
+                  color='primary'
+                  size='medium'
+                  variant='contained'
+                  onClick={handleInputOpen}
+                >
+                  Tải báo cáo
+                </Button>
+              </Box> */}
 
               <Pagination
                 shape='rounded'

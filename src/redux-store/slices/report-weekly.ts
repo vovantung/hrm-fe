@@ -23,13 +23,16 @@ type WeeklyReportDataType = {
 
 interface ReportWeeklyState {
   notReportedWeekly: DepartmentDataType[]
-  reportedWeekly: WeeklyReportDataType[]
+  reportedWeeklyForAdmin: WeeklyReportDataType[]
+  reportedWeeklyForUser: WeeklyReportDataType[]
+
   reportedWeeklyListOfPage: WeeklyReportDataType[]
 }
 
 const initialState: ReportWeeklyState = {
   notReportedWeekly: [],
-  reportedWeekly: [],
+  reportedWeeklyForAdmin: [],
+  reportedWeeklyForUser: [],
   reportedWeeklyListOfPage: []
 }
 
@@ -40,8 +43,8 @@ const reportWeeklySlice = createSlice({
     setNotReportedWeekly(state, action: PayloadAction<DepartmentDataType[]>) {
       state.notReportedWeekly = action.payload
     },
-    setReportedWeekly(state, action: PayloadAction<WeeklyReportDataType[]>) {
-      state.reportedWeekly = action.payload
+    setReportedWeeklyForAdmin(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyForAdmin = action.payload
     },
     setReportedWeeklyListOfPage(state, action: PayloadAction<WeeklyReportDataType[]>) {
       state.reportedWeeklyListOfPage = action.payload
@@ -49,11 +52,17 @@ const reportWeeklySlice = createSlice({
     clearNotReportedWeekly(state) {
       state.notReportedWeekly = []
     },
-    clearReportedWeekly(state) {
-      state.reportedWeekly = []
+    clearReportedWeeklyForAdmin(state) {
+      state.reportedWeeklyForAdmin = []
     },
     clearReportedWeeklyListOfPage(state) {
       state.reportedWeeklyListOfPage = []
+    },
+    setReportedWeeklyForUser(state, action: PayloadAction<WeeklyReportDataType[]>) {
+      state.reportedWeeklyForUser = action.payload
+    },
+    clearReportedWeeklyForUser(state) {
+      state.reportedWeeklyForUser = []
     }
   }
 })
@@ -61,8 +70,10 @@ const reportWeeklySlice = createSlice({
 export const {
   setNotReportedWeekly,
   clearNotReportedWeekly,
-  setReportedWeekly,
-  clearReportedWeekly,
+  setReportedWeeklyForAdmin,
+  clearReportedWeeklyForAdmin,
+  setReportedWeeklyForUser,
+  clearReportedWeeklyForUser,
   setReportedWeeklyListOfPage,
   clearReportedWeeklyListOfPage
 } = reportWeeklySlice.actions

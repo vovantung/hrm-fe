@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { Alert, Box, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
-import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -19,7 +18,7 @@ import { endOfWeek, format, startOfWeek } from 'date-fns'
 
 import tableStyles from '@core/styles/table.module.css'
 import Pagination from '../../admin/PaginationTXU'
-import { setReportedWeekly, setReportedWeeklyListOfPage } from '@/redux-store/slices/report-weekly'
+import { setReportedWeeklyForUser, setReportedWeeklyListOfPage } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 import { setLoading, setTab } from '@/redux-store/slices/common'
 
@@ -61,7 +60,9 @@ const SummaryReportWeekView = () => {
 
   // Danh sách (state) báo cáo tuần lưu dưới dạng chia sẻ giữa các component, dưới đây biến
   // sẽ được lấy để sử dụng trong component này
-  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+  const reportedWeeklyList = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForUser
+  ) as ReportedWeeklyDataType[]
 
   const reportedWeeklyListOfPage = useSelector(
     (state: any) => state.reportWeekly.reportedWeeklyListOfPage
@@ -158,7 +159,7 @@ const SummaryReportWeekView = () => {
 
       if (reportedWeeklys !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(reportedWeeklys))
+        dispatch(setReportedWeeklyForUser(reportedWeeklys))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -171,6 +172,7 @@ const SummaryReportWeekView = () => {
         <div
           style={{
             position: 'absolute',
+
             top: 0,
             left: 0,
             right: 0,
@@ -180,7 +182,8 @@ const SummaryReportWeekView = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 99999,
+
+            // zIndex: 9,
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 1 : 0,
             pointerEvents: reportedWeeklyListOfPage.length === 0 && loading == true ? 'auto' : 'none',
             transition: 'opacity 0.4s ease'
@@ -195,19 +198,34 @@ const SummaryReportWeekView = () => {
             transition: 'opacity 0.2s ease'
           }}
         >
-          <div style={{ fontSize: '14px' }}>
-            {/* <CardHeader title='SUMMARY REPORT (WEEKLY)' /> */}
-            <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px' }}>SUMMARY REPORT (WEEKLY)</h3>
+          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
+            BÁO CÁO TỔNG HỢP
+          </h3>
+          <div
+            style={{
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 320px)' : 'calc(100vh - 276px)',
 
-            <CardContent className='p-0'>
-              <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 390px)' : 'calc(100vh - 350px)' }}
-
-                // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-              >
+              minHeight: '80px'
+            }}
+          >
+            <div
+              className='p-0'
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 400px)' : 'calc(100vh - 344px)',
+                overflowY: 'auto',
+                marginBottom: '0px',
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 400px)' : 'calc(100vh - 344px)'
+              }}
+            >
+              <TableContainer>
                 <Table className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
+                      <TableCell>
+                        <b>STT</b>
+                      </TableCell>
                       <TableCell>
                         <b>Đơn vị</b>
                       </TableCell>
@@ -223,8 +241,15 @@ const SummaryReportWeekView = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {reportedWeeklyListOfPage.map(reportedWeekly => (
-                      <TableRow key={reportedWeekly.id}>
+                    {reportedWeeklyListOfPage.map((reportedWeekly, index) => (
+                      <TableRow key={index}>
+                        <TableCell
+                          style={{
+                            fontSize: '14px'
+                          }}
+                        >
+                          {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                        </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
                           {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
@@ -261,27 +286,25 @@ const SummaryReportWeekView = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </CardContent>
+            </div>
+            <hr
+              style={{
+                border: 'none',
+                borderTop: '0.6px solid #cccccc97',
+                marginTop: '0px'
+              }}
+            />
+
             <Box
               sx={{
-                display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                display: 'flex',
                 marginLeft: '25px',
-                marginTop: '20px',
-                marginBottom: '20px',
+                marginTop: '15px',
                 marginRight: '20px'
               }}
             >
-              <Box display='flex' alignItems='center'>
-                {/* <Button
-                  variant='contained'
-                  startIcon={<i className='line-md-uploading-loop' />}
-                  style={{ fontSize: '14px' }}
-                >
-                  Tải báo cáo
-                </Button> */}
-              </Box>
+              <Box alignItems='center'></Box>
 
               <Pagination
                 shape='rounded'

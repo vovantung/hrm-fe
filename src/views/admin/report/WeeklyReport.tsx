@@ -25,7 +25,7 @@ import tableStyles from '@core/styles/table.module.css'
 import Pagination from '../PaginationTXU'
 import {
   setNotReportedWeekly,
-  setReportedWeekly,
+  setReportedWeeklyForAdmin,
   setReportedWeeklyListOfPage
 } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
@@ -71,7 +71,9 @@ const WeeklyReportView = () => {
 
   // Danh sách (state) báo cáo tuần lưu dưới dạng chia sẻ giữa các component, dưới đây biến
   // sẽ được lấy để sử dụng trong component này
-  const reportedWeeklyList = useSelector((state: any) => state.reportWeekly.reportedWeekly) as ReportedWeeklyDataType[]
+  const reportedWeeklyList = useSelector(
+    (state: any) => state.reportWeekly.reportedWeeklyForAdmin
+  ) as ReportedWeeklyDataType[]
 
   const reportedWeeklyListOfPage = useSelector(
     (state: any) => state.reportWeekly.reportedWeeklyListOfPage
@@ -189,7 +191,7 @@ const WeeklyReportView = () => {
 
       if (reportedWeeklys !== undefined) {
         // Danh sách uploadFiles được lưu chia sẽ giữa các thành phần, nên có thể đặt lại state này ở bất cứ component nào
-        dispatch(setReportedWeekly(reportedWeeklys))
+        dispatch(setReportedWeeklyForAdmin(reportedWeeklys))
       }
     } catch (exception) {
       route.replace('/pages/misc/500-server-error')
@@ -319,50 +321,41 @@ const WeeklyReportView = () => {
         >
           <CircularProgress sx={{ color: '#175ea1' }} size={36} thickness={4} />
         </div>
-        {/* <div
-          style={{
-            opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
-            transition: 'opacity 0.2s ease'
-          }}
-        > */}
+
         <div
           style={{
             opacity: reportedWeeklyListOfPage.length === 0 && loading == true ? 0 : 1,
             transition: 'opacity 0.2s ease'
           }}
         >
-          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
-            BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
-          </h3>
-          {/* <CardHeader title='WEEKLY REPORT' /> */}
-
           <div
             style={{
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 320px)' : 'calc(100vh - 276px)',
-
-              minHeight: '111px'
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 266px)' : 'calc(100vh - 226px)',
+              minHeight: '114px'
             }}
           >
             <div
-              className='p-0'
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 420px)' : 'calc(100vh - 376px)',
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)',
+                minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
+
                 marginBottom: '20px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 420px)' : 'calc(100vh - 346px)'
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
               }}
             >
-              <TableContainer
-
-              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 410px)' : 'calc(100vh - 370px)' }}
-
-              // style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)' }}
-              >
+              <TableContainer>
+                <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '0px' }}>
+                  BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
+                </h3>
                 <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
+                      <TableCell>
+                        <b>STT</b>
+                      </TableCell>
                       <TableCell>
                         <b>Đơn vị</b>
                       </TableCell>
@@ -375,11 +368,24 @@ const WeeklyReportView = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {reportedWeeklyListOfPage.map(reportedWeekly => (
+                    {reportedWeeklyListOfPage.map((reportedWeekly, index) => (
                       <TableRow key={reportedWeekly.id}>
-                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: '14px'
+                          }}
+                        >
+                          {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: '14px'
+                          }}
+                        >
+                          {reportedWeekly.department.name}
+                        </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
-                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
+                          {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}
                         </TableCell>
                         <TableCell style={{ fontSize: '13.5px' }}>
                           <Link
@@ -398,103 +404,145 @@ const WeeklyReportView = () => {
                 </Table>
               </TableContainer>
             </div>
+
             <hr
               style={{
                 border: 'none',
                 borderTop: '0.6px solid #cccccc97',
-                marginTop: '10px'
+                marginTop: '0px'
               }}
             />
-            <div style={{}}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
 
-                  // alignItems: 'center',
-                  marginLeft: '25px',
-                  marginTop: '20px',
-                  marginBottom: '20px',
-                  marginRight: '20px'
+            <Box
+              sx={{
+                justifyContent: 'space-between',
+                display: 'flex',
+                marginLeft: '25px',
+
+                // marginTop: settings.layout == 'horizontal' ? '16px' : '14px',
+                marginRight: '20px'
+              }}
+            >
+              <div
+                style={{
+                  // color: theme.palette.primary.main,
+
+                  margin: '0px',
+                  padding: '0px'
                 }}
               >
-                <Box display='flex' alignItems='center'>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}
+                >
                   <input type='file' hidden ref={inputRef} onChange={handleChange} />
+
                   <Button
-                    style={{ fontSize: '14px' }}
-                    variant='contained'
+                    style={{
+                      borderRadius: 4
+                    }}
+                    startIcon={<i style={{ height: '20px' }} className='icon-park-outline-upload-logs' />}
+                    color='primary'
                     size='medium'
-                    startIcon={<i className='icon-park-outline-upload-logs' />}
+                    variant='contained'
                     onClick={handleInputOpen}
                   >
                     Tải báo cáo
                   </Button>
-                </Box>
+                </div>
+              </div>
 
-                <Pagination
-                  shape='rounded'
-                  color='primary'
-                  pageSize={10}
-                  items={reportedWeeklyList}
-                  onChangePage={onChangePage}
-                />
-              </Box>
-            </div>
+              <Box
+                sx={{
+                  height: '70px'
+
+                  //  visibility: 'hidden'
+                }}
+              ></Box>
+
+              <div
+                style={{
+                  // color: theme.palette.primary.main,
+                  margin: '0px',
+                  padding: '0px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}
+                >
+                  <Pagination
+                    shape='rounded'
+                    color='primary'
+                    pageSize={10}
+                    items={reportedWeeklyList}
+                    onChangePage={onChangePage}
+                  />
+                </div>
+              </div>
+            </Box>
+            {container && (
+              <Portal container={container}>
+                {/* Alert */}
+                <Snackbar
+                  open={openAlert}
+                  onClose={handleAlertClose}
+                  autoHideDuration={2500}
+                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                  TransitionComponent={transition}
+                  sx={{ zIndex: 9999 }}
+                >
+                  <Alert
+                    variant='filled'
+                    severity='info'
+                    style={{ color: 'white', backgroundColor: '#056abdff' }}
+                    onClose={handleAlertClose}
+                    sx={{
+                      width: '100%',
+                      maxWidth: '600px',
+                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                    }}
+                  >
+                    {message}
+                  </Alert>
+                </Snackbar>
+
+                {/* Error */}
+                <Snackbar
+                  open={openError}
+                  onClose={handleErrorClose}
+                  autoHideDuration={2500}
+                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                  TransitionComponent={transition}
+                  sx={{ zIndex: 9999 }}
+                >
+                  <Alert
+                    variant='filled'
+                    severity='error'
+                    style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                    onClose={handleErrorClose}
+                    sx={{
+                      width: '100%',
+                      maxWidth: '600px',
+                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                      // borderRadius: 2 // bo góc mềm hơn (optional)
+                    }}
+                  >
+                    {message}
+                  </Alert>
+                </Snackbar>
+              </Portal>
+            )}
           </div>
         </div>
-        {/* </div> */}
-        {container && (
-          <Portal container={container}>
-            {/* Alert */}
-            <Snackbar
-              open={openAlert}
-              onClose={handleAlertClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-              sx={{ zIndex: 9999 }}
-            >
-              <Alert
-                variant='filled'
-                severity='info'
-                style={{ color: 'white', backgroundColor: '#056abdff' }}
-                onClose={handleAlertClose}
-                sx={{
-                  width: '100%',
-                  maxWidth: '600px',
-                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-
-            {/* Error */}
-            <Snackbar
-              open={openError}
-              onClose={handleErrorClose}
-              autoHideDuration={2500}
-              anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-              TransitionComponent={transition}
-              sx={{ zIndex: 9999 }}
-            >
-              <Alert
-                variant='filled'
-                severity='error'
-                style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                onClose={handleErrorClose}
-                sx={{
-                  width: '100%',
-                  maxWidth: '600px',
-                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                  // borderRadius: 2 // bo góc mềm hơn (optional)
-                }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
-          </Portal>
-        )}
       </div>
     )
 }

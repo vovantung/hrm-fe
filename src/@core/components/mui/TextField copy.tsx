@@ -31,20 +31,15 @@ const TextFieldStyled = styled(TextField)<TextFieldProps>(({ theme }) => ({
   },
   '& .MuiInputBase-root': {
     backgroundColor: 'transparent !important',
-    borderColor: 'var(--mui-palette-primary-main)',
-
-    // border: `1px solid var(--mui-palette-customColors-inputBorder)`,
-    border: `1px solid var(--mui-palette-secondary-main)`,
+    border: `1px solid var(--mui-palette-customColors-inputBorder)`,
     '&:not(.Mui-focused):not(.Mui-disabled):not(.Mui-error):hover': {
-      // borderColor: 'var(--mui-palette-action-active)'
-      borderColor: 'var(--mui-palette-primary-main)'
+      borderColor: 'var(--mui-palette-action-active)'
     },
     '&:before, &:after': {
       display: 'none'
     },
     '&.MuiInputBase-sizeSmall': {
-      // borderRadius: 'var(--mui-shape-borderRadius)'
-      borderRadius: 4
+      borderRadius: 'var(--mui-shape-borderRadius)'
     },
     '&.Mui-error': {
       borderColor: 'var(--mui-palette-error-main)'
@@ -55,7 +50,7 @@ const TextFieldStyled = styled(TextField)<TextFieldProps>(({ theme }) => ({
         transform: 'translateX(4px)'
       },
       '& :not(textarea).MuiFilledInput-input': {
-        // padding: '6.25px 13px'
+        padding: '6.25px 13px'
       },
       '&:not(.Mui-error).MuiInputBase-colorPrimary': {
         borderColor: 'var(--mui-palette-primary-main)',
@@ -149,8 +144,7 @@ const TextFieldStyled = styled(TextField)<TextFieldProps>(({ theme }) => ({
     }
   },
   '& :not(.MuiInputBase-sizeSmall).MuiInputBase-root': {
-    // borderRadius: '8px',
-    borderRadius: '4px',
+    borderRadius: '8px',
     fontSize: '17px',
     lineHeight: '1.41',
     '& .MuiInputBase-input': {

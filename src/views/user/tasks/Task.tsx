@@ -20,12 +20,12 @@ type AccountDataType = {
   newpassword: string
 }
 
-type WorkflowType = {
-  id: number
-  name: string
-  description: string
-  type: string
-}
+// type WorkflowType = {
+//   id: number
+//   name: string
+//   description: string
+//   type: string
+// }
 
 type TaskDataType = {
   id: number

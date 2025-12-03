@@ -97,14 +97,20 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      // const res = await fetch(globalVariables.url + '/get-role', r)
+      const res = await fetch(globalVariables.url + '/get-role', r)
 
-      const res = await fetch(globalVariables.url_auth + '/get-role', r)
+      // const res = await fetch(globalVariables.url_auth + '/get-role', r)
 
       if (!res.ok) {
         // const resError = await res.json()
         setRole('guest')
       }
+
+      // if (role === null || role === '') {
+      //   // Vì lý do gọi get-role trong  auth luôn trả về 200 kể cả khi không có token, nghĩa là không có role vẫn trả về 200
+      //   // Khi gọi get-role trong kong thì sẽ gặp lỗi lỗi truy cập khi không có token, nghĩa là điều kiện !res.ok ỏ trên đã đủ
+      //   setRole('guest')
+      // }
 
       const result = await res.json()
 
@@ -146,6 +152,8 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
   }
 
   if (role) {
+    // alert(pathname.substring(4, 9))
+
     // Kiểm tra các path admin và post với quyền (role), nếu hợp lệ thì cho qua, nếu không hợp lệ thì chuyển đến trang login
     if (pathname.substring(4, 9) == 'admin' && !allowed_admin.includes(role)) {
       redirect(pathname === login ? login : pathname === homePage ? login : redirectUrl)

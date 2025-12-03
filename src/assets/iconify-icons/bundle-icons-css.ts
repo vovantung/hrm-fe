@@ -83,6 +83,7 @@ async function generateIconsCSS() {
     ],
 
     icons: [
+      'fluent:task-list-square-24-regular',
       'ph:printer-bold',
       'icon-park-outline:upload-logs',
       'lets-icons:group-add-fill',

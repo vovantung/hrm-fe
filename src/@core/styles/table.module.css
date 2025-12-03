@@ -4,6 +4,23 @@
   font-size: 0.8125rem;
   white-space: nowrap;
 
+  /* border: 1px solid var(--border-color); */
+  thead th,
+  tbody td {
+    border: 1px solid var(--border-color); /* Khung từng ô (ngang + dọc) */
+  }
+
+  /* 🚀 Xóa viền dọc ngoài */
+  thead th:first-child,
+  tbody td:first-child {
+    border-inline-start: none;
+  }
+
+  thead th:last-child,
+  tbody td:last-child {
+    border-inline-end: none;
+  }
+
   [align='right'] > * {
     text-align: end;
   }

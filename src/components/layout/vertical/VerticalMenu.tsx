@@ -99,6 +99,12 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           <MenuItem href={`/${locale}/user/report`} icon={<i className='fluent-mdl2-report-warning' />}>
             {dictionary['navigation'].txuReport}
           </MenuItem>
+          <MenuItem href={`/${locale}/user/tasks`} icon={<i className='fluent-task-list-square-24-regular' />}>
+            Tasks
+          </MenuItem>
+          <MenuItem href={`/${locale}/user/task-details`} icon={<i className='fluent-task-list-square-24-regular' />}>
+            Task Details
+          </MenuItem>
         </SubMenu>
 
         <MenuSection label={dictionary['navigation'].appsPages}>

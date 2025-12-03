@@ -97,11 +97,16 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      const response = await fetch(globalVariables.url + '/get-role', r)
+      // const res = await fetch(globalVariables.url + '/get-role', r)
 
-      // const response = await fetch(globalVariables.url_auth + '/get-role', r)
+      const res = await fetch(globalVariables.url_auth + '/get-role', r)
 
-      const result = await response.json()
+      if (!res.ok) {
+        // const resError = await res.json()
+        setRole('guest')
+      }
+
+      const result = await res.json()
 
       if (result !== undefined) {
         setRole(result.role)

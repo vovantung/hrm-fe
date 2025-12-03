@@ -108,6 +108,9 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           <MenuItem href={`/${locale}/user/report`} icon={<i className='fluent-mdl2-report-warning' />}>
             {dictionary['navigation'].txuReport}
           </MenuItem>
+          <MenuItem href={`/${locale}/user/task`} icon={<i className='fluent-task-list-square-24-regular' />}>
+            Task
+          </MenuItem>
         </SubMenu>
 
         <SubMenu label={dictionary['navigation'].dashboards} icon={<i className='tabler-smart-home' />}>

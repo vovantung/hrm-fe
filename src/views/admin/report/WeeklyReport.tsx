@@ -5,7 +5,9 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
+
+// import { Icon } from '@iconify/react/dist/iconify.js'
 
 // import Card from '@mui/material/Card'
 
@@ -17,7 +19,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
-import type { SlideProps } from '@mui/material'
+import type { SlideProps, Theme } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { endOfWeek, format, startOfWeek } from 'date-fns'
 
@@ -30,6 +32,7 @@ import {
 } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 import { setLoading } from '@/redux-store/slices/common'
+import './link-custom.css'
 
 type ReportedWeeklyDataType = {
   id: number
@@ -55,6 +58,7 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const WeeklyReportView = () => {
+  const theme = useTheme() as Theme
   const [container, setContainer] = useState<Element | null>(null)
 
   const { settings } = useSettings()
@@ -246,27 +250,71 @@ const WeeklyReportView = () => {
     formData.append('file', file)
 
     try {
-      const param = {
+      const param1 = {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: auth.token
         },
-        body: formData
+        body: JSON.stringify({
+          filename: file.name
+        })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/create', param)
+      const res1 = await fetch(globalVariables.url_admin + '/weekly-report/get-presignedurl-for-put', param1)
 
-      if (!res.ok) {
-        const resError = await res.json()
+      if (!res1.ok) {
+        const resError = await res1.json()
 
-        handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const reportWeekly = await res.json()
+      const rs1 = await res1.json()
 
-      handleAlertOpen('Upload ' + reportWeekly.originName + ' report success.')
+      // alert(rs1.pre_signed_url)
+
+      if (rs1 !== undefined) {
+        const res2 = await fetch(rs1.pre_signed_url, { method: 'PUT', body: file })
+
+        if (!res2.ok) {
+          const resError = await res2.json()
+
+          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        // const rs2 = await res2.json()
+
+        const param3 = {
+          method: 'POST',
+          headers: {
+            Authorization: auth.token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            filename: rs1.filename,
+            filenameOrigin: file.name
+          })
+        }
+
+        const res3 = await fetch(globalVariables.url_admin + '/weekly-report/add', param3)
+
+        if (!res3.ok) {
+          const resError = await res3.json()
+
+          handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        const reportWeekly = await res3.json()
+
+        handleAlertOpen('Upload ' + reportWeekly.originName + ' report success.')
+      }
+
       handleReportedWeekly() // Đặt lại danh sách đã gửi báo cáo để WeeklyReport hiện thị...
       handleNotReportedWeekly() // Đặt lại danh sách chưa gửi báo cáo tuần, component ThisWeek sẽ sử dụng danh sách này để hiện thị thông báo...
     } catch (error) {
@@ -293,6 +341,43 @@ const WeeklyReportView = () => {
 
       // Sau khi đã kích hoạt hàm thêm báo cáo với file được chọn, đặt lại giá trị rỗng để đưa filename về giá trị rỗng
       // Việc này có làm thay đổi state file, tuy nhiên không làm lại hàm xử lý thêm báo cáo vì giá trị file được đặt giá trị null
+    }
+  }
+
+  async function handleLink(event: any) {
+    try {
+      const filename = event.target.id.substring(0, event.target.id.length - 2)
+
+      if (!(filename == 0 || filename == undefined)) {
+        const param = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: auth.token
+          },
+          body: JSON.stringify({
+            filename: filename
+          })
+        }
+
+        const res = await fetch(globalVariables.url_admin + '/weekly-report/get-presignedurl-for-get', param)
+
+        if (!res.ok) {
+          const resError = await res.json()
+
+          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        const department = await res.json()
+
+        if (department !== undefined) {
+          window.open(department.pre_signed_url, '_blank')
+        }
+      }
+    } catch (error) {
+      route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -346,20 +431,20 @@ const WeeklyReportView = () => {
                 height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
               }}
             >
-              <TableContainer>
+              <TableContainer style={{}}>
                 <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '0px' }}>
                   BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
                 </h3>
                 <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
+                      <TableCell style={{ alignContent: 'center', textAlign: 'center' }}>
                         <b>STT</b>
                       </TableCell>
                       <TableCell>
                         <b>Đơn vị</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ alignContent: 'center', textAlign: 'center' }}>
                         <b>Ngày báo cáo</b>
                       </TableCell>
                       <TableCell>
@@ -370,11 +455,7 @@ const WeeklyReportView = () => {
                   <TableBody>
                     {reportedWeeklyListOfPage.map((reportedWeekly, index) => (
                       <TableRow key={reportedWeekly.id}>
-                        <TableCell
-                          style={{
-                            fontSize: '14px'
-                          }}
-                        >
+                        <TableCell style={{ alignContent: 'center', textAlign: 'center', fontSize: '14px' }}>
                           {index + 1 < 10 ? '0' + (index + 1) : index + 1}
                         </TableCell>
                         <TableCell
@@ -384,19 +465,22 @@ const WeeklyReportView = () => {
                         >
                           {reportedWeekly.department.name}
                         </TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>
+                        <TableCell style={{ alignContent: 'center', textAlign: 'center', fontSize: '14px' }}>
                           {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}
                         </TableCell>
                         <TableCell style={{ fontSize: '13.5px' }}>
-                          <Link
-                            href={reportedWeekly.url}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            underline='hover'
-                            sx={{ display: 'inline-flex', alignItems: 'center' }}
+                          <span
+                            className='link-custom'
+                            style={{
+                              color: theme.palette.primary.dark,
+                              fontSize: '13.5px',
+                              cursor: 'pointer'
+                            }}
+                            id={reportedWeekly.filename + '_0'}
+                            onClick={handleLink}
                           >
                             {reportedWeekly.originName}
-                          </Link>
+                          </span>
                         </TableCell>
                       </TableRow>
                     ))}

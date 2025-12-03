@@ -10,9 +10,6 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { Card } from '@mui/material'
 
 import { useSettings } from '@/@core/hooks/useSettings'
-import FilterWeeklyReportSidebar from '@/views/user/FilterWeeklyReportSidebar'
-
-// import FilterWeeklyReportSidebar from '@/views/user/FilterWeeklyReportSidebar'
 
 export default function PostLayout({ children }: { children: React.ReactNode }) {
   const { settings } = useSettings()
@@ -112,9 +109,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
               height: settings.layout == 'horizontal' ? 'calc(100vh - 233px)' : 'calc(100vh - 193px)'
             }}
           >
-            <aside>
-              <FilterWeeklyReportSidebar />
-            </aside>
+            <aside>Sidebar</aside>
           </div>
         </Card>
       </div>

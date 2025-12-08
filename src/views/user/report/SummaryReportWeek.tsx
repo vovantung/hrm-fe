@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, CircularProgress, Link, Portal, Slide, Snackbar } from '@mui/material'
+import { Alert, Box, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
-import type { SlideProps } from '@mui/material'
+import type { SlideProps, Theme } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { endOfWeek, format, startOfWeek } from 'date-fns'
 
@@ -21,6 +21,7 @@ import Pagination from '../../admin/PaginationTXU'
 import { setReportedWeeklyForUserSummary, setReportedWeeklyListOfPageSummary } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 import { setDateFromForUser, setDateToForUser, setLoading, setTab } from '@/redux-store/slices/common'
+import './link-custom.css'
 
 type ReportedWeeklyDataType = {
   id: number
@@ -30,6 +31,7 @@ type ReportedWeeklyDataType = {
   uploadedAt: string
   department: DepartmentDataType
   urlReportEx: string
+  filenameReportEx: string
   originNameReportEx: string
   dateReportEx: string
 }
@@ -49,6 +51,7 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const SummaryReportWeekView = () => {
+  const theme = useTheme() as Theme
   const { settings } = useSettings()
   const route = useRouter()
   const [container, setContainer] = useState<Element | null>(null)
@@ -171,6 +174,43 @@ const SummaryReportWeekView = () => {
     }
   }
 
+  async function handleLink(event: any) {
+    try {
+      const filename = event.target.id.substring(0, event.target.id.length - 2)
+
+      if (!(filename == 0 || filename == undefined)) {
+        const param = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: auth.token
+          },
+          body: JSON.stringify({
+            filename: filename
+          })
+        }
+
+        const res = await fetch(globalVariables.url_user + '/weekly-report/get-presignedurl-for-get', param)
+
+        if (!res.ok) {
+          const resError = await res.json()
+
+          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        const department = await res.json()
+
+        if (department !== undefined) {
+          window.open(department.pre_signed_url, '_blank')
+        }
+      }
+    } catch (error) {
+      route.replace('/pages/misc/500-server-error')
+    }
+  }
+
   if (reportedWeeklyList)
     return (
       <div style={{ position: 'relative', minHeight: '100%' }}>
@@ -260,28 +300,33 @@ const SummaryReportWeekView = () => {
                           {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
                         </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
-                          <Link
-                            href={reportedWeekly.url}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            underline='hover'
-                            sx={{ display: 'inline-flex', alignItems: 'center' }}
+                          <span
+                            className='link-custom'
+                            style={{
+                              color: theme.palette.primary.dark,
+                              fontSize: '13.5px',
+                              cursor: 'pointer'
+                            }}
+                            id={reportedWeekly.filename + '_0'}
+                            onClick={handleLink}
                           >
                             {reportedWeekly.originName}
-                          </Link>
+                          </span>
                         </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>
                           {reportedWeekly.urlReportEx != null ? (
-                            <Link
-                              href={reportedWeekly.urlReportEx}
-                              target='_blank'
-                              rel='noopener noreferrer'
-                              underline='hover'
-                              sx={{ display: 'inline-flex', alignItems: 'center' }}
+                            <span
+                              className='link-custom'
+                              style={{
+                                color: theme.palette.primary.dark,
+                                fontSize: '13.5px',
+                                cursor: 'pointer'
+                              }}
+                              id={reportedWeekly.filenameReportEx + '_0'}
+                              onClick={handleLink}
                             >
-                              {/* Xem báo cáo {format(new Date(reportedWeekly.dateReportEx), 'dd/MM/yyyy')} */}
                               {reportedWeekly.originNameReportEx}
-                            </Link>
+                            </span>
                           ) : (
                             'Chưa báo cáo'
                           )}

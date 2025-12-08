@@ -10,10 +10,10 @@ export const globalVariablesSlice = createSlice({
 
     url_admin: 'https://backend.txuyen.com/admin'
 
-    // url_admin: 'http://localhost:8080'
+    // url_admin: 'http://localhost:8080',
 
     // url_auth: 'http://localhost:8081',
-    // url_user: 'http://localhost:8082'
+    // url_user: 'http://localhost:8080'
   },
   reducers: {}
 })

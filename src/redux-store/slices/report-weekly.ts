@@ -17,6 +17,7 @@ type WeeklyReportDataType = {
   uploadedAt: string
   department: DepartmentDataType
   urlReportEx: string
+  filenameReportEx: string
   originNameReportEx: string
   dateReportEx: string
 }

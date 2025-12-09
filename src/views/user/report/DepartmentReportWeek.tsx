@@ -212,27 +212,67 @@ const DepartmentReportWeekView = () => {
     formData.append('file', file)
 
     try {
-      const param = {
+      const param1 = {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: auth.token
         },
-        body: formData
+        body: JSON.stringify({
+          filename: file.name
+        })
       }
 
-      const res = await fetch(globalVariables.url_user + '/weekly-report/create', param)
+      const res1 = await fetch(globalVariables.url_user + '/weekly-report/get-presignedurl-for-put', param1)
 
-      if (!res.ok) {
-        const resError = await res.json()
+      if (!res1.ok) {
+        const resError = await res1.json()
 
-        handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
         return
       }
 
-      const reportWeekly = await res.json()
+      const rs1 = await res1.json()
 
-      handleAlertOpen('Upload [' + reportWeekly.originName + '] report success.')
+      if (rs1 !== undefined) {
+        const res2 = await fetch(rs1.pre_signed_url, { method: 'PUT', body: file })
+
+        if (!res2.ok) {
+          const resError = await res2.json()
+
+          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        const param3 = {
+          method: 'POST',
+          headers: {
+            Authorization: auth.token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            filename: rs1.filename,
+            filenameOrigin: file.name
+          })
+        }
+
+        const res3 = await fetch(globalVariables.url_user + '/weekly-report/add', param3)
+
+        if (!res3.ok) {
+          const resError = await res3.json()
+
+          handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        const reportWeekly = await res3.json()
+
+        handleAlertOpen('Upload [' + reportWeekly.originName + '] report success.')
+      }
+
       handleReportedWeekly() // Đặt lại danh sách đã gửi báo cáo để WeeklyReport hiện thị...
     } catch (error) {
       route.replace('/pages/misc/500-server-error')

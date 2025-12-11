@@ -511,8 +511,9 @@ const FilterWeeklyReportSidebar = () => {
                 key={notReported.id}
                 style={{
                   textDecoration: 'none',
-                  fontSize: '13.5px',
-                  paddingTop: '8px'
+                  fontSize: '12.5px',
+                  paddingTop: '8px',
+                  marginLeft: '20px'
                 }}
               >
                 <span

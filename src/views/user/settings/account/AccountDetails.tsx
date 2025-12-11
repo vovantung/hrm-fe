@@ -149,42 +149,103 @@ const AccountDetails = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const data = new FormData()
-
     if (file) {
-      data.append('file', file)
-    }
+      const param1 = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth.token
+        },
+        body: JSON.stringify({
+          filename: file.name
+        })
+      }
 
-    data.append('username', accountCreateUpdate.username)
-    data.append('firstName', accountCreateUpdate.firstName)
-    data.append('lastName', accountCreateUpdate.lastName)
-    data.append('email', accountCreateUpdate.email)
-    data.append('phoneNumber', accountCreateUpdate.phoneNumber)
-    data.append('password', accountCreateUpdate.newpassword)
+      const res1 = await fetch(globalVariables.url_user + '/account/get-presignedurl-for-put', param1)
 
-    const res = await fetch(globalVariables.url_user + '/update-avatar', {
-      method: 'POST',
-      headers: {
-        Authorization: auth.token
+      if (!res1.ok) {
+        const resError = await res1.json()
 
-        // ❌ KHÔNG thêm 'Content-Type': 'multipart/form-data'
-      },
-      body: data
-    })
+        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
-    if (!res.ok) {
-      const resError = await res.json()
+        return
+      }
 
-      handleErrorOpen('Can not update account, cause by ' + resError.errorMessage)
+      const rs1 = await res1.json()
 
-      return
-    }
+      if (rs1 !== undefined) {
+        const res2 = await fetch(rs1.pre_signed_url, { method: 'PUT', body: file })
 
-    const result = await res.json()
+        if (!res2.ok) {
+          const resError = await res2.json()
 
-    if (result !== undefined) {
-      // Nạp lại danh sách accounts sau khi đã xóa một account
+          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
+          return
+        }
+
+        const param3 = {
+          method: 'POST',
+          headers: {
+            Authorization: auth.token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            filename: rs1.filename,
+            username: accountCreateUpdate.username,
+            firstName: accountCreateUpdate.firstName,
+            lastName: accountCreateUpdate.lastName,
+            email: accountCreateUpdate.email,
+            phoneNumber: accountCreateUpdate.phoneNumber,
+            password: accountCreateUpdate.newpassword
+          })
+        }
+
+        const res3 = await fetch(globalVariables.url_user + '/account/update-avatar', param3)
+
+        if (!res3.ok) {
+          const resError = await res3.json()
+
+          handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+
+          return
+        }
+
+        // const reportWeekly = await res3.json()
+
+        // handleAlertOpen('Upload ' + reportWeekly.originName + ' report success.')
+        handleAlertOpen('Updated success')
+        window.location.reload()
+      }
+    } else {
+      const param = {
+        method: 'POST',
+        headers: {
+          Authorization: auth.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          filename: '',
+          username: accountCreateUpdate.username,
+          firstName: accountCreateUpdate.firstName,
+          lastName: accountCreateUpdate.lastName,
+          email: accountCreateUpdate.email,
+          phoneNumber: accountCreateUpdate.phoneNumber,
+          password: accountCreateUpdate.newpassword
+        })
+      }
+
+      const res = await fetch(globalVariables.url_user + '/account/update-avatar', param)
+
+      if (!res.ok) {
+        const resError = await res.json()
+
+        handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+
+        return
+      }
+
+      // const rs = await res.json()
       handleAlertOpen('Updated success')
       window.location.reload()
     }

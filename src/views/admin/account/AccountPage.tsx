@@ -268,7 +268,29 @@ const AccountPage = () => {
         setAccounts(accounts)
       }
     } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
+      refresh()
+    }
+  }
+
+  async function refresh() {
+    try {
+      const r = {
+        method: 'POST',
+        headers: {
+          Authorization: auth.token,
+          'Content-Type': 'application/json'
+        }
+      }
+
+      const res = await fetch(globalVariables.url_auth + '/user-info', r)
+
+      const data = await res.json()
+
+      if (data !== undefined) {
+        data?.realm_access?.roles
+      }
+    } catch (exception) {
+      window.location.reload()
     }
   }
 
@@ -332,6 +354,7 @@ const AccountPage = () => {
         setRoles(roles)
       }
     } catch (exception) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -374,6 +397,7 @@ const AccountPage = () => {
         }
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -415,6 +439,7 @@ const AccountPage = () => {
         }
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -451,6 +476,7 @@ const AccountPage = () => {
         setUpdateAccount({ ...updateAccount, department: department })
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -486,6 +512,7 @@ const AccountPage = () => {
         setUpdateAccount({ ...updateAccount, role: role })
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -533,6 +560,7 @@ const AccountPage = () => {
         handleAlertOpen('Updated infor for [' + acount.username + '] account')
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -597,6 +625,7 @@ const AccountPage = () => {
         setCreateAccount({ ...createAccount, department: department })
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -632,6 +661,7 @@ const AccountPage = () => {
         setCreateAccount({ ...createAccount, role: role })
       }
     } catch (error) {
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -680,6 +710,7 @@ const AccountPage = () => {
       }
     } catch (error) {
       console.log(error)
+      refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }

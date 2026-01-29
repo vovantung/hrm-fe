@@ -83,7 +83,9 @@ const LoginTXU = () => {
       const result = await response.json()
 
       if (result !== undefined) {
-        localStorage.setItem('Authorization', 'Bearer ' + result.jwtToken)
+        // localStorage.setItem('Authorization', 'Bearer ' + result.jwtToken)
+        localStorage.setItem('access_token', result.access_token)
+        localStorage.setItem('refresh_token', result.refresh_token)
         const redirectURL = searchParams.get('redirectTo') ?? '/'
 
         router.replace(getLocalizedUrl(redirectURL, locale as Locale))

@@ -81,6 +81,10 @@ const FilterWeeklyReportSidebar = () => {
   const tab = useSelector((state: any) => state.common.tab) as number
   const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
+  const auth = useSelector((state: any) => state.auth.auth) as {
+    token: string
+  }
+
   const reportedWeeklyList1 = useSelector(
     (state: any) => state.reportWeekly.reportedWeeklyForUserDepartment
   ) as ReportedWeeklyDataType[]
@@ -156,13 +160,15 @@ const FilterWeeklyReportSidebar = () => {
 
   async function handleReportedFromTo() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+
+          // Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend

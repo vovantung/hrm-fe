@@ -76,6 +76,10 @@ const FilterWeeklyReportSidebar = () => {
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
+  const auth = useSelector((state: any) => state.auth.auth) as {
+    token: string
+  }
+
   // const reportedWeeklyList = useSelector(
   //   (state: any) => state.reportWeekly.reportedWeeklyForAdmin
   // ) as ReportedWeeklyDataType[]
@@ -150,13 +154,15 @@ const FilterWeeklyReportSidebar = () => {
 
   async function handleReportedFromTo() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+
+          // Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
@@ -187,13 +193,15 @@ const FilterWeeklyReportSidebar = () => {
 
   async function getNotReportedFromTo(start: Date, end: Date): Promise<DepartmentDataType[] | null | undefined> {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+
+          // Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
@@ -220,19 +228,21 @@ const FilterWeeklyReportSidebar = () => {
         return notReported
       }
     } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 
   async function getNotReportedFromTo_() {
     try {
-      const auth = localStorage.getItem('Authorization') as string
+      // const auth = localStorage.getItem('Authorization') as string
 
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: auth
+
+          // Authorization: auth
+          Authorization: auth.token
         },
         body: JSON.stringify({
           // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
@@ -258,7 +268,7 @@ const FilterWeeklyReportSidebar = () => {
         dispatch(setNotReportedWeekly(notReportedWeekly))
       }
     } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 

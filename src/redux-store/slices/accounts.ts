@@ -16,19 +16,20 @@ type AccountDataType = {
   firstName: string
   email: string
   phoneNumber: string
-  role: RoleDataType
+
+  // role: RoleDataType
   avatarUrl: string
   avatarFilename: string
   department: DepartmentDataType
   newpassword: string
 }
 
-type RoleDataType = {
-  id: number
-  name: string
-  createdAt: string
-  updateAt: string
-}
+// type RoleDataType = {
+//   id: number
+//   name: string
+//   createdAt: string
+//   updateAt: string
+// }
 
 interface AccountState {
   accountsOfPage: AccountDataType[]
@@ -44,12 +45,13 @@ const initialState: AccountState = {
     firstName: '',
     email: '',
     phoneNumber: '',
-    role: {
-      id: 0,
-      name: '',
-      createdAt: '',
-      updateAt: ''
-    },
+
+    // role: {
+    //   id: 0,
+    //   name: '',
+    //   createdAt: '',
+    //   updateAt: ''
+    // },
     avatarUrl: '',
     avatarFilename: '',
     department: {
@@ -84,12 +86,13 @@ const accountsSlice = createSlice({
         firstName: '',
         email: '',
         phoneNumber: '',
-        role: {
-          id: 0,
-          name: '',
-          createdAt: '',
-          updateAt: ''
-        },
+
+        // role: {
+        //   id: 0,
+        //   name: '',
+        //   createdAt: '',
+        //   updateAt: ''
+        // },
         avatarUrl: '',
         avatarFilename: '',
         department: {

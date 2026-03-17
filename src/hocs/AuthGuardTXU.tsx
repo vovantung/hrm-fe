@@ -13,82 +13,22 @@ import themeConfig from '@/configs/themeConfig'
 import { setUserLogined } from '@/redux-store/slices/accounts'
 import { setAuth } from '@/redux-store/slices/auth'
 
-// type AccountDataType = {
-//   id: number
-//   username: string
-//   lastName: string
-//   firstName: string
-//   email: string
-//   phoneNumber: string
-//   avatar: string
-//   newpassword: string
-// }
-
-// type DepartmentDataType = {
-//   id: number
-//   name: string
-//   description: string
-//   createdAt: string
-//   updateAt: string
-// }
-
-// type AccountDataType = {
-//   id: number
-//   username: string
-//   lastName: string
-//   firstName: string
-//   email: string
-//   phoneNumber: string
-//   role: RoleDataType
-//   avatarUrl: string
-//   avatarFilename: string
-//   department: DepartmentDataType
-//   newpassword: string
-// }
-
-// type RoleDataType = {
-//   id: number
-//   name: string
-//   createdAt: string
-//   updateAt: string
-// }
-// let roles_: string[] = []
-
 export default function AuthGuardTXU({ children, locale }: ChildrenType & { locale: Locale }) {
-  // let roles_: string[] = []
-
   const [roles, setRoles] = useState<string[]>([])
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
-
-  // const auth = useSelector((state: any) => state.auth.auth) as {
-  //   token: string
-  // }
-
-  // const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
-
   const dispatch = useDispatch()
-
   const [initOk, setInitOk] = useState<boolean>(false)
-
   const pathname = usePathname()
-
-  // const auth_ = localStorage.getItem('Authorization') as string
 
   const redirectUrl = `/${locale}/logintxu?redirectTo=${pathname}`
   const login = `/${locale}/logintxu`
   const homePage = getLocalizedUrl(themeConfig.homePageUrl, locale)
-
-  // const userLogined = useSelector((state: any) => state.accounts.userLogined) as AccountDataType
 
   useEffect(() => {
     initData()
   }, [])
 
   async function initData() {
-    // let token = localStorage.getItem('access_token') as string
-    // if (token && !token.startsWith('Bearer ')) {
-    //   token = `Bearer ${token}`
-    // }
     const token = ('Bearer ' + localStorage.getItem('access_token')) as string
 
     dispatch(setAuth({ token: token }))
@@ -102,7 +42,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      const res = await fetch(globalVariables.url_auth + '/user-info', r)
+      const res = await fetch(globalVariables.url_admin + '/account/current-user', r)
 
       if (!res.ok) {
         refresh_token()
@@ -111,17 +51,11 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       const data = await res.json()
 
       if (data !== undefined) {
-        if (data.active == false) {
-          // Trường hợp này, access token vẫn đi qua istio được nhưng không có hiệu lực khi truy cập với keycloak
-          refresh_token()
-        } else {
-          // Trường hợp này, access token đang còn hiệu lực cả trên istio và keycloak (khi sử dụng api introspect)
-          setRoles(data?.realm_access?.roles ?? [])
-          getUserLogined()
+        setRoles(data?.realm_access?.roles ?? [])
+        dispatch(setUserLogined(data))
 
-          // Lưu ý setInitOk(true), trạng thái kiểm tra sẽ kết thúc ngay sau đó và chuyển đến trang nghiệp vụ.
-          setInitOk(true)
-        }
+        // Lưu ý setInitOk(true), trạng thái kiểm tra sẽ kết thúc ngay sau đó và chuyển đến trang nghiệp vụ.
+        setInitOk(true)
       }
     } catch (exception) {
       // Ở đây xảy các trương hợp
@@ -183,7 +117,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      const res = await fetch(globalVariables.url_auth + '/user-info', r)
+      const res = await fetch(globalVariables.url_admin + '/account/current-user', r)
 
       if (!res.ok) {
         setInitOk(true)
@@ -193,7 +127,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
 
       if (data !== undefined) {
         setRoles(data?.realm_access?.roles ?? [])
-        getUserLogined()
+        dispatch(setUserLogined(data))
         setInitOk(true)
 
         // Refresh thành hoàn thành
@@ -202,37 +136,6 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       }
     } catch (exception) {
       setInitOk(true)
-    }
-  }
-
-  async function getUserLogined() {
-    try {
-      let token = localStorage.getItem('access_token') as string
-
-      if (token && !token.startsWith('Bearer ')) {
-        token = `Bearer ${token}`
-      }
-
-      const p = {
-        method: 'GET',
-        headers: {
-          Authorization: token
-        }
-      }
-
-      const res = await fetch(globalVariables.url_auth + '/get-current-user', p)
-
-      if (!res.ok) {
-        return
-      }
-
-      const userLogin = await res.json()
-
-      if (userLogin !== undefined) {
-        dispatch(setUserLogined(userLogin))
-      }
-    } catch (exception) {
-      // route.replace('/pages/misc/500-server-error')
     }
   }
 

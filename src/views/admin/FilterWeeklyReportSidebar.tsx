@@ -171,7 +171,7 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-fromto', param)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -211,7 +211,7 @@ const FilterWeeklyReportSidebar = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
         // const rs = await res.json()
@@ -252,7 +252,7 @@ const FilterWeeklyReportSidebar = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/weekly-report/get-noreport-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
         // const resError = await res.json()

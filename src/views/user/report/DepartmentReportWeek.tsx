@@ -182,7 +182,7 @@ const DepartmentReportWeekView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_user + '/weekly-report/get-department-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-department-fromto', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -223,7 +223,7 @@ const DepartmentReportWeekView = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_user + '/weekly-report/get-presignedurl-for-put', param1)
+      const res1 = await fetch(globalVariables.url_admin + '/user/weekly-report/get-presignedurl-for-put', param1)
 
       if (!res1.ok) {
         const resError = await res1.json()
@@ -258,7 +258,7 @@ const DepartmentReportWeekView = () => {
           })
         }
 
-        const res3 = await fetch(globalVariables.url_user + '/weekly-report/add', param3)
+        const res3 = await fetch(globalVariables.url_admin + '/user/weekly-report/add', param3)
 
         if (!res3.ok) {
           const resError = await res3.json()
@@ -317,7 +317,7 @@ const DepartmentReportWeekView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_user + '/weekly-report/get-presignedurl-for-get', param)
+        const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-presignedurl-for-get', param)
 
         if (!res.ok) {
           const resError = await res.json()

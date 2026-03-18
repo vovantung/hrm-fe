@@ -252,7 +252,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/account/get-limit', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/account/get-limit', param)
 
       if (!res.ok) {
         const rs = await res.json()
@@ -310,7 +310,7 @@ const AccountPage = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_admin + '/department/get-limit', param1)
+      const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-limit', param1)
 
       if (!res1.ok) {
         const rs = await res1.json()
@@ -338,7 +338,7 @@ const AccountPage = () => {
         })
       }
 
-      const res2 = await fetch(globalVariables.url_admin + '/role/get-limit', param2)
+      const res2 = await fetch(globalVariables.url_admin + '/admin/role/get-limit', param2)
 
       if (!res2.ok) {
         const rs3 = await res2.json()
@@ -378,7 +378,7 @@ const AccountPage = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/account/remove', param)
+        const res = await fetch(globalVariables.url_admin + '/admin/account/remove', param)
 
         if (!res.ok) {
           const resError = await res.json()
@@ -421,7 +421,7 @@ const AccountPage = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/account/get-by-username', param)
+        const res = await fetch(globalVariables.url_admin + '/admin/account/get-by-username', param)
 
         if (!res.ok) {
           const resError = await res.json()
@@ -459,7 +459,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/department/get-by-id', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -496,7 +496,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/role/get-by-id', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/role/get-by-id', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -539,7 +539,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -609,7 +609,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/department/get-by-id', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -645,7 +645,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/role/get-by-id', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/role/get-by-id', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -688,7 +688,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/account/create-or-update', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
 
       if (!res.ok) {
         const resError = await res.json()

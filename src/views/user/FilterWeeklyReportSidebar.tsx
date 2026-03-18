@@ -177,7 +177,7 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_user + '/weekly-report/get-department-fromto', param)
+      const res1 = await fetch(globalVariables.url_admin + '/user/weekly-report/get-department-fromto', param)
 
       if (!res1.ok) {
         // const rs = await res.json()
@@ -193,7 +193,7 @@ const FilterWeeklyReportSidebar = () => {
         dispatch(setReportedWeeklyForUserDepartment(reportedFromToList1))
       }
 
-      const res2 = await fetch(globalVariables.url_user + '/weekly-report/get-summary-fromto', param)
+      const res2 = await fetch(globalVariables.url_admin + '/user/weekly-report/get-summary-fromto', param)
 
       if (!res2.ok) {
         // const rs = await res.json()

@@ -161,7 +161,7 @@ const AccountDetails = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_user + '/account/get-presignedurl-for-put', param1)
+      const res1 = await fetch(globalVariables.url_admin + '/user/account/get-presignedurl-for-put', param1)
 
       if (!res1.ok) {
         const resError = await res1.json()
@@ -201,7 +201,7 @@ const AccountDetails = () => {
           })
         }
 
-        const res3 = await fetch(globalVariables.url_user + '/account/update-avatar', param3)
+        const res3 = await fetch(globalVariables.url_admin + '/user/account/update-avatar', param3)
 
         if (!res3.ok) {
           const resError = await res3.json()
@@ -235,7 +235,7 @@ const AccountDetails = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_user + '/account/update-avatar', param)
+      const res = await fetch(globalVariables.url_admin + '/user/account/update-avatar', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -374,7 +374,7 @@ const AccountDetails = () => {
             </Grid>
 
             <Grid size={{ xs: 12, sm: 6 }}>
-              <CustomTextField disabled fullWidth label='Role' value={accountCreateUpdate.role.name} />
+              {/* <CustomTextField disabled fullWidth label='Role' value={accountCreateUpdate.role.name} /> */}
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <CustomTextField disabled fullWidth label='Department' value={accountCreateUpdate.department.name} />

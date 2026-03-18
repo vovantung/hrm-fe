@@ -152,7 +152,7 @@ const SummaryReportWeekView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_user + '/weekly-report/get-summary-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-summary-fromto', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -190,7 +190,7 @@ const SummaryReportWeekView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_user + '/weekly-report/get-presignedurl-for-get', param)
+        const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-presignedurl-for-get', param)
 
         if (!res.ok) {
           const resError = await res.json()

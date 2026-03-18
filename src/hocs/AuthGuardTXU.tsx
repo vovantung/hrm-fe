@@ -42,7 +42,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      const res = await fetch(globalVariables.url_admin + '/account/current-user', r)
+      const res = await fetch(globalVariables.url_admin + '/current-user', r)
 
       if (!res.ok) {
         refresh_token()
@@ -117,7 +117,7 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
         }
       }
 
-      const res = await fetch(globalVariables.url_admin + '/account/current-user', r)
+      const res = await fetch(globalVariables.url_admin + '/current-user', r)
 
       if (!res.ok) {
         setInitOk(true)

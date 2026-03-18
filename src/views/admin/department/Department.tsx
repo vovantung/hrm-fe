@@ -188,7 +188,7 @@ const DepartmentView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/department/get-limit', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/department/get-limit', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -226,7 +226,7 @@ const DepartmentView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/department/remove', param)
+        const res = await fetch(globalVariables.url_admin + '/admin/department/remove', param)
 
         if (!res.ok) {
           const resError = await res.json()
@@ -266,7 +266,7 @@ const DepartmentView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/department/get-by-id', param)
+        const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
         if (!res.ok) {
           const resError = await res.json()
@@ -305,7 +305,7 @@ const DepartmentView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/department/create-or-update', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/department/create-or-update', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -358,7 +358,7 @@ const DepartmentView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/department/create-or-update', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/department/create-or-update', param)
 
       if (!res.ok) {
         const resError = await res.json()

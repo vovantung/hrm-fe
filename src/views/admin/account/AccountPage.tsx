@@ -739,7 +739,7 @@ const AccountPage = () => {
         </div>
 
         <div style={{ opacity: accountsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
-          <Card>
+          <Card style={{ borderRadius: 3 }}>
             <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
               TÀI KHOẢN
             </h3>
@@ -845,7 +845,7 @@ const AccountPage = () => {
                 }}
               >
                 <Button
-                  style={{ fontSize: '14px' }}
+                  style={{ fontSize: '14px', borderRadius: 4 }}
                   variant='contained'
                   startIcon={<i className='wpf-add-user' />}
                   onClick={handleViewCreateAccount}
@@ -970,7 +970,7 @@ const AccountPage = () => {
                 </Box>
                 <div style={{ textAlign: 'center', marginTop: '15px' }}>
                   <Button
-                    style={{ fontSize: '14px' }}
+                    style={{ fontSize: '14px', borderRadius: 4 }}
                     variant='contained'
                     startIcon={<i className='ic-round-save-alt' />}
                     sx={{ mr: 3.5 }}
@@ -1116,7 +1116,7 @@ const AccountPage = () => {
                 </Box>
                 <div style={{ textAlign: 'center', marginTop: '15px' }}>
                   <Button
-                    style={{ fontSize: '14px' }}
+                    style={{ fontSize: '14px', borderRadius: 4 }}
                     variant='contained'
                     startIcon={<i className='material-symbols-person-add-rounded' />}
                     sx={{ mr: 3.5 }}

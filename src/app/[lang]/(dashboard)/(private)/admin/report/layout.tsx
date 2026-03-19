@@ -101,7 +101,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
             marginRight: '24px',
             paddingTop: '20px',
             paddingBottom: '20px',
-            borderRadius: 2
+            borderRadius: 3
           }}
         >
           <div

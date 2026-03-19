@@ -408,7 +408,7 @@ const DepartmentView = () => {
       </div>
 
       <div style={{ opacity: departmentsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
-        <Card>
+        <Card style={{ borderRadius: 3 }}>
           <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>ĐƠN VỊ</h3>
           {/* <CardHeader title='DEPARTMENT' /> */}
           <CardContent className='p-0'>
@@ -516,7 +516,7 @@ const DepartmentView = () => {
               }}
             >
               <Button
-                style={{ fontSize: '14px' }}
+                style={{ fontSize: '14px', borderRadius: 4 }}
                 variant='contained'
                 startIcon={<i className='lets-icons-group-add-fill' />}
                 onClick={handleViewCreateDepartment}
@@ -565,7 +565,7 @@ const DepartmentView = () => {
               </Box>
               <div style={{ textAlign: 'center', marginTop: '15px' }}>
                 <Button
-                  style={{ fontSize: '14px' }}
+                  style={{ fontSize: '14px', borderRadius: 4 }}
                   variant='contained'
                   startIcon={<i className='ic-round-save-alt' />}
                   sx={{ mr: 3.5 }}
@@ -618,7 +618,7 @@ const DepartmentView = () => {
               </Box>
               <div style={{ textAlign: 'center', marginTop: '15px' }}>
                 <Button
-                  style={{ fontSize: '14px' }}
+                  style={{ fontSize: '14px', borderRadius: 4 }}
                   variant='contained'
                   startIcon={<i className='lets-icons-group-add-fill' />}
                   sx={{ mr: 3.5 }}

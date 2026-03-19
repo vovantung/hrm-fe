@@ -1,7 +1,5 @@
 'use client'
 
-import { Card } from '@mui/material'
-
 import AccountPage from '@/views/admin/account/AccountPage'
 
 // import { useParams } from 'next/navigation'
@@ -9,13 +7,7 @@ import AccountPage from '@/views/admin/account/AccountPage'
 const AdminPage = () => {
   // const { id } = useParams()
 
-  return (
-    <AccountPage />
-
-    // <Card style={{ borderRadius: 3 }}>
-
-    // </Card>
-  )
+  return <AccountPage />
 }
 
 export default AdminPage

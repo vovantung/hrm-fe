@@ -80,10 +80,8 @@ type DepartmentDataType = {
 }
 
 type RoleDataType = {
-  id: number
+  id: string
   name: string
-  createdAt: string
-  updateAt: string
 }
 
 type TransitionProps = Omit<SlideProps, 'direction'>
@@ -133,10 +131,8 @@ const AccountPage = () => {
       updateAt: ''
     },
     role: {
-      id: 0,
-      name: '',
-      createdAt: '',
-      updateAt: ''
+      id: '',
+      name: ''
     },
     newpassword: ''
   })
@@ -157,10 +153,8 @@ const AccountPage = () => {
       updateAt: ''
     },
     role: {
-      id: 0,
-      name: '',
-      createdAt: '',
-      updateAt: ''
+      id: '',
+      name: ''
     },
     newpassword: ''
   })
@@ -338,7 +332,7 @@ const AccountPage = () => {
         })
       }
 
-      const res2 = await fetch(globalVariables.url_admin + '/admin/role/get-limit', param2)
+      const res2 = await fetch(globalVariables.url_auth + '/roles', param2)
 
       if (!res2.ok) {
         const rs3 = await res2.json()
@@ -496,7 +490,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/role/get-by-id', param)
+      const res = await fetch(globalVariables.url_auth + '/admin/role/get-by-id', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -583,10 +577,8 @@ const AccountPage = () => {
         updateAt: ''
       },
       role: {
-        id: 0,
-        name: '',
-        createdAt: '',
-        updateAt: ''
+        id: '',
+        name: ''
       },
       newpassword: 'txu'
     })
@@ -634,32 +626,35 @@ const AccountPage = () => {
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth.token
-        },
-        body: JSON.stringify({
-          id: e.target.value
-        })
-      }
+      // const param = {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: auth.token
+      //   },
+      //   body: JSON.stringify({
+      //     id: e.target.value
+      //   })
+      // }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/role/get-by-id', param)
+      // const res = await fetch(globalVariables.url_admin + '/admin/role/get-by-id', param)
 
-      if (!res.ok) {
-        const resError = await res.json()
+      // if (!res.ok) {
+      //   const resError = await res.json()
 
-        handleErrorOpen('Can not get role, cause by ' + resError.errorMessage)
+      //   handleErrorOpen('Can not get role, cause by ' + resError.errorMessage)
 
-        return
-      }
+      //   return
+      // }
 
-      const role = await res.json()
+      // const role = await res.json()
 
-      if (role !== undefined) {
-        setCreateAccount({ ...createAccount, role: role })
-      }
+      setCreateAccount({ ...createAccount, role: { id: '', name: e.target.value } })
+
+      // if (role !== undefined) {
+      // if (role_ !== undefined) {
+      //   setCreateAccount({ ...createAccount, role: role })
+      // }
     } catch (error) {
       refresh()
       route.replace('/pages/misc/500-server-error')
@@ -681,14 +676,16 @@ const AccountPage = () => {
           lastName: createAccount.lastName,
           firstName: createAccount.firstName,
           phoneNumber: createAccount.phoneNumber,
-          department: createAccount.department,
-          role: createAccount.role,
-          email: createAccount.email,
-          password: createAccount.newpassword
+          departmentId: createAccount.department.id,
+          roles: [createAccount.role.name],
+          email: createAccount.email
+
+          // password: createAccount.newpassword
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
+      // const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
+      const res = await fetch(globalVariables.url_saga + '/users', param)
 
       if (!res.ok) {
         const resError = await res.json()
@@ -1105,10 +1102,10 @@ const AccountPage = () => {
                     fullWidth
                     label='Role'
                     onChange={onChangeRoleToCreate}
-                    value={createAccount.role.id}
+                    value={createAccount.role.name}
                   >
                     {roles.map(role => (
-                      <MenuItem key={role.id} value={role.id}>
+                      <MenuItem key={role.id} value={role.name}>
                         {role.name}
                       </MenuItem>
                     ))}

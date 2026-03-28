@@ -80,6 +80,12 @@ const LoginTXU = () => {
 
       const response = await fetch(globalVariables.url_auth + '/authenticate', r)
 
+      if (!response.ok) {
+        alert('Xác thực không thành công!')
+
+        return
+      }
+
       const result = await response.json()
 
       if (result !== undefined) {
@@ -91,7 +97,7 @@ const LoginTXU = () => {
         router.replace(getLocalizedUrl(redirectURL, locale as Locale))
       }
     } catch (exception) {
-      router.replace('/pages/misc/500-server-error')
+      // router.replace('/pages/misc/500-server-error')
     }
   }
 

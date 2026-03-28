@@ -243,8 +243,11 @@ const SagaPage = () => {
                 <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
+                      <TableCell style={{ alignContent: 'center', textAlign: 'center' }}>
+                        <b>Saga ID</b>
+                      </TableCell>
                       <TableCell>
-                        <b>Step</b>
+                        <b>Current Step</b>
                       </TableCell>
                       <TableCell>
                         <b>Stattus</b>
@@ -260,6 +263,9 @@ const SagaPage = () => {
                   <TableBody>
                     {sagasOfPage.map(saga => (
                       <TableRow key={saga.id}>
+                        <TableCell style={{ alignContent: 'center', textAlign: 'center', fontSize: '14px' }}>
+                          {saga.id}
+                        </TableCell>
                         <TableCell style={{ fontSize: '14px' }}>{saga.currentStep}</TableCell>
                         <TableCell style={{ fontSize: '14px' }}>{saga.status}</TableCell>
                         <TableCell style={{ fontSize: '14px', whiteSpace: 'pre-line' }}> {saga.history}</TableCell>

@@ -184,11 +184,13 @@ const DepartmentView = () => {
           Authorization: auth.token
         },
         body: JSON.stringify({
-          limit: 1000
+          limit: 100,
+          keyOffset: 1,
+          keySearch: ''
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/department/get-limit', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
       if (!res.ok) {
         const resError = await res.json()

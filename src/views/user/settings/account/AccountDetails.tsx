@@ -206,7 +206,7 @@ const AccountDetails = () => {
         if (!res3.ok) {
           const resError = await res3.json()
 
-          handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+          handleErrorOpen('Can not update avatar, cause by ' + resError.errorMessage)
 
           return
         }
@@ -240,7 +240,7 @@ const AccountDetails = () => {
       if (!res.ok) {
         const resError = await res.json()
 
-        handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+        handleErrorOpen('Can not update avatar, cause by ' + resError.errorMessage)
 
         return
       }

@@ -242,11 +242,13 @@ const AccountPage = () => {
           Authorization: auth.token
         },
         body: JSON.stringify({
-          limit: 1000
+          limit: 100,
+          keyOffset: 1,
+          keySearch: ''
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/account/get-limit', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
       if (!res.ok) {
         const rs = await res.json()
@@ -300,11 +302,13 @@ const AccountPage = () => {
           Authorization: auth.token
         },
         body: JSON.stringify({
-          limit: 1000
+          limit: 100,
+          keyOffset: 1,
+          keySearch: ''
         })
       }
 
-      const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-limit', param1)
+      const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
 
       if (!res1.ok) {
         const rs = await res1.json()

@@ -32,6 +32,7 @@ import {
 } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 import { setLoading } from '@/redux-store/slices/common'
+
 import './link-custom.css'
 
 type ReportedWeeklyDataType = {

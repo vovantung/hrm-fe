@@ -17,7 +17,6 @@ import './week.css'
 import { setDateFromForUser, setDateToForUser } from '@/redux-store/slices/common'
 
 // import { setLoading } from '@/redux-store/slices/common'
-
 // type DepartmentDataType = {
 //   id: number
 //   name: string

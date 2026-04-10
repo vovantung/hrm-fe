@@ -199,6 +199,7 @@ const WeeklyReportView = () => {
         dispatch(setReportedWeeklyForAdmin(reportedWeeklys))
       }
     } catch (exception) {
+      window.location.reload()
       route.replace('/pages/misc/500-server-error')
     }
   }

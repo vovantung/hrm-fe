@@ -341,7 +341,7 @@ const AccountPage = () => {
       if (!res2.ok) {
         const rs3 = await res2.json()
 
-        handleErrorOpen('Can not get list department, cause by ' + rs3.errorMessage)
+        handleErrorOpen('Can not get list roles, cause by ' + rs3.errorMessage)
 
         return
       }
@@ -352,7 +352,8 @@ const AccountPage = () => {
         setRoles(roles)
       }
     } catch (exception) {
-      // refresh()
+      refresh()
+
       // route.replace('/pages/misc/500-server-error')
     }
   }

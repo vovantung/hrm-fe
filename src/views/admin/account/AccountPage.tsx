@@ -234,6 +234,8 @@ const AccountPage = () => {
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
+      alert('Account load')
+
       // Load Accounts
       const param = {
         method: 'POST',

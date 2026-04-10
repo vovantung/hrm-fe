@@ -173,6 +173,8 @@ const DepartmentView = () => {
   }, [])
 
   async function initData() {
+    alert('Department load')
+
     try {
       // const auth = localStorage.getItem('Authorization') as string
 

@@ -206,6 +206,7 @@ const DepartmentView = () => {
         setDepartments(departments)
       }
     } catch (exception) {
+      window.location.reload()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -246,7 +247,6 @@ const DepartmentView = () => {
         }
       }
     } catch (error) {
-      window.location.reload()
       route.replace('/pages/misc/500-server-error')
     }
   }

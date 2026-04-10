@@ -11,7 +11,7 @@ export const globalVariablesSlice = createSlice({
 
     url_saga: 'https://backend.txuyen.com/saga'
 
-    // url_saga: 'http://localhost:8080/saga'
+    // url_saga: 'http://localhost:8080/saga',
 
     // url_admin: 'http://localhost:8080/report'
 

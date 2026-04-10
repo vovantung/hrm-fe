@@ -352,8 +352,8 @@ const AccountPage = () => {
         setRoles(roles)
       }
     } catch (exception) {
-      refresh()
-      route.replace('/pages/misc/500-server-error')
+      // refresh()
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -479,46 +479,8 @@ const AccountPage = () => {
     }
   }
 
-  async function onChangeRoleToUpdate(e: any) {
-    try {
-      // const auth = localStorage.getItem('Authorization') as string
-
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth.token
-        },
-        body: JSON.stringify({
-          id: e.target.value
-        })
-      }
-
-      const res = await fetch(globalVariables.url_auth + '/admin/role/get-by-id', param)
-
-      if (!res.ok) {
-        const resError = await res.json()
-
-        handleErrorOpen('Can not get role, cause by ' + resError.errorMessage)
-
-        return
-      }
-
-      const role = await res.json()
-
-      if (role !== undefined) {
-        setUpdateAccount({ ...updateAccount, role: role })
-      }
-    } catch (error) {
-      refresh()
-      route.replace('/pages/misc/500-server-error')
-    }
-  }
-
   async function handleUpdateAccount() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -531,7 +493,6 @@ const AccountPage = () => {
           firstName: updateAccount.firstName,
           phoneNumber: updateAccount.phoneNumber,
           department: updateAccount.department,
-          role: updateAccount.role,
           email: updateAccount.email,
           password: updateAccount.newpassword
         })
@@ -628,39 +589,9 @@ const AccountPage = () => {
 
   async function onChangeRoleToCreate(e: any) {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
-      // const param = {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     Authorization: auth.token
-      //   },
-      //   body: JSON.stringify({
-      //     id: e.target.value
-      //   })
-      // }
-
-      // const res = await fetch(globalVariables.url_admin + '/admin/role/get-by-id', param)
-
-      // if (!res.ok) {
-      //   const resError = await res.json()
-
-      //   handleErrorOpen('Can not get role, cause by ' + resError.errorMessage)
-
-      //   return
-      // }
-
-      // const role = await res.json()
-
-      setCreateAccount({ ...createAccount, role: { id: '', name: e.target.value } })
-
-      // if (role !== undefined) {
-      // if (role_ !== undefined) {
-      //   setCreateAccount({ ...createAccount, role: role })
-      // }
+      setCreateAccount({ ...createAccount, role: { id: e.target.value, name: e.target.value } })
     } catch (error) {
-      refresh()
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -681,8 +612,8 @@ const AccountPage = () => {
           firstName: createAccount.firstName,
           phoneNumber: createAccount.phoneNumber,
           departmentId: createAccount.department.id,
-          roles: [createAccount.role.name],
-          email: createAccount.email
+          email: createAccount.email,
+          roles: [createAccount.role.name]
 
           // password: createAccount.newpassword
         })
@@ -928,21 +859,6 @@ const AccountPage = () => {
 
                   <CustomTextField
                     style={{ marginTop: '15px' }}
-                    select
-                    fullWidth
-                    label='Role'
-                    onChange={onChangeRoleToUpdate}
-                    value={updateAccount.role.id}
-                  >
-                    {roles.map(role => (
-                      <MenuItem key={role.id} value={role.id}>
-                        {role.name}
-                      </MenuItem>
-                    ))}
-                  </CustomTextField>
-
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
                     fullWidth
                     label='New password (leave blank if no update needed)'
                     placeholder='Enter new password'
@@ -1100,6 +1016,7 @@ const AccountPage = () => {
                       </MenuItem>
                     ))}
                   </CustomTextField>
+
                   <CustomTextField
                     style={{ marginTop: '15px' }}
                     select

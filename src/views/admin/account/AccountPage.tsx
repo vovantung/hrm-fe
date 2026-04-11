@@ -266,31 +266,33 @@ const AccountPage = () => {
         setAccounts(accounts)
       }
     } catch (exception) {
-      refresh()
-    }
-  }
-
-  async function refresh() {
-    try {
-      const r = {
-        method: 'POST',
-        headers: {
-          Authorization: auth.token,
-          'Content-Type': 'application/json'
-        }
-      }
-
-      const res = await fetch(globalVariables.url_auth + '/user-info', r)
-
-      const data = await res.json()
-
-      if (data !== undefined) {
-        data?.realm_access?.roles
-      }
-    } catch (exception) {
       window.location.reload()
+
+      // refresh()
     }
   }
+
+  // async function refresh() {
+  //   try {
+  //     const r = {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: auth.token,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     }
+
+  //     const res = await fetch(globalVariables.url_auth + '/user-info', r)
+
+  //     const data = await res.json()
+
+  //     if (data !== undefined) {
+  //       data?.realm_access?.roles
+  //     }
+  //   } catch (exception) {
+  //     window.location.reload()
+  //   }
+  // }
 
   async function initRolesDepartments() {
     try {
@@ -354,8 +356,7 @@ const AccountPage = () => {
         setRoles(roles)
       }
     } catch (exception) {
-      refresh()
-
+      // refresh()
       // route.replace('/pages/misc/500-server-error')
     }
   }
@@ -398,7 +399,7 @@ const AccountPage = () => {
         }
       }
     } catch (error) {
-      refresh()
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -440,7 +441,7 @@ const AccountPage = () => {
         }
       }
     } catch (error) {
-      refresh()
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -477,7 +478,7 @@ const AccountPage = () => {
         setUpdateAccount({ ...updateAccount, department: department })
       }
     } catch (error) {
-      refresh()
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -522,7 +523,7 @@ const AccountPage = () => {
         handleAlertOpen('Updated infor for [' + acount.username + '] account')
       }
     } catch (error) {
-      refresh()
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -585,7 +586,7 @@ const AccountPage = () => {
         setCreateAccount({ ...createAccount, department: department })
       }
     } catch (error) {
-      refresh()
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }
@@ -645,7 +646,8 @@ const AccountPage = () => {
       }
     } catch (error) {
       console.log(error)
-      refresh()
+
+      // refresh()
       route.replace('/pages/misc/500-server-error')
     }
   }

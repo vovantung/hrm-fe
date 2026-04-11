@@ -209,7 +209,8 @@ const DepartmentView = () => {
       }
     } catch (exception) {
       window.location.reload()
-      route.replace('/pages/misc/500-server-error')
+
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 

@@ -3,7 +3,9 @@
 import type { ComponentType, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
+
+import { useRouter } from 'next/router'
 
 import {
   Alert,

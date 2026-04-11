@@ -254,7 +254,11 @@ const AccountPage = () => {
 
       if (!res.ok) {
         alert('Lỗi khi call api account page')
-        route.replace('/misc/500-server-error')
+
+        // route.replace('/misc/500-server-error')
+        window.location.href = '/pages/misc/500-server-error'
+
+        return
 
         // const rs = await res.json()
         // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)

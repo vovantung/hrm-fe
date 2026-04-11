@@ -253,6 +253,7 @@ const AccountPage = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
       if (!res.ok) {
+        alert('Lỗi khi call api account page')
         route.replace('/pages/misc/500-server-error')
 
         // const rs = await res.json()

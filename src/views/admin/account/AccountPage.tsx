@@ -253,11 +253,11 @@ const AccountPage = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
       if (!res.ok) {
-        const rs = await res.json()
+        route.replace('/pages/misc/500-server-error')
 
-        handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
-
-        return
+        // const rs = await res.json()
+        // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
+        // return
       }
 
       const accounts = await res.json()

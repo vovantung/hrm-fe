@@ -93,6 +93,7 @@ const TransitionUp = (props: TransitionProps) => {
 const AccountPage = () => {
   const route = useRouter()
   const { settings } = useSettings()
+  const [init, setInit] = useState<boolean>(false)
 
   const [container, setContainer] = useState<Element | null>(null)
 
@@ -221,14 +222,18 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    // Load portal
-    setContainer(document.getElementById('toast-root'))
+    if (!init) {
+      setInit(true)
 
-    // Nạp danh sách accounts, roles, department lần đâu khi load trang
+      // Load portal
+      setContainer(document.getElementById('toast-root'))
 
-    initAccounts()
-    initRolesDepartments()
-  }, [])
+      // Nạp danh sách accounts, roles, department lần đâu khi load trang
+
+      initAccounts()
+      initRolesDepartments()
+    }
+  }, [init])
 
   async function initAccounts() {
     try {
@@ -255,8 +260,9 @@ const AccountPage = () => {
       if (!res.ok) {
         alert('Lỗi khi call api account page')
 
-        // route.replace('/misc/500-server-error')
-        window.location.href = '/pages/misc/500-server-error'
+        route.replace('/pages/misc/500-server-error')
+
+        // window.location.href = '/pages/misc/500-server-error'
 
         return
 

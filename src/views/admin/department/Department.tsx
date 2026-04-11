@@ -198,7 +198,15 @@ const DepartmentView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
       if (!res.ok) {
-        route.replace('/pages/misc/500-server-error')
+        if (res.status == 500) {
+          window.location.href = '/pages/misc/500-server-error'
+
+          // route.replace('/pages/misc/500-server-error')
+
+          return
+        } else {
+          refresh()
+        }
 
         // const resError = await res.json()
         // handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)

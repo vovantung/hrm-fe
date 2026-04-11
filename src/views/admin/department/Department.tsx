@@ -200,18 +200,17 @@ const DepartmentView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
       if (!res.ok) {
-        if (res.status == 500) {
+        if (res.status == 401 || res.status == 403) {
+          refresh()
+        } else {
           window.location.href = '/pages/misc/500-server-error'
 
           // route.replace('/pages/misc/500-server-error')
-
           return
-        } else {
-          refresh()
         }
 
-        // const resError = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
+        // const rs = await res.json()
+        // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
         // return
       }
 
@@ -228,25 +227,27 @@ const DepartmentView = () => {
   }
 
   async function refresh() {
-    try {
-      const r = {
-        method: 'POST',
-        headers: {
-          Authorization: auth.token,
-          'Content-Type': 'application/json'
-        }
-      }
+    window.location.reload()
 
-      const res = await fetch(globalVariables.url_admin + '/current-user', r)
+    // try {
+    //   const r = {
+    //     method: 'POST',
+    //     headers: {
+    //       Authorization: auth.token,
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }
 
-      const data = await res.json()
+    //   const res = await fetch(globalVariables.url_admin + '/current-user', r)
 
-      if (data !== undefined) {
-        data?.realm_access?.roles
-      }
-    } catch (exception) {
-      window.location.reload()
-    }
+    //   const data = await res.json()
+
+    //   if (data !== undefined) {
+    //     data?.realm_access?.roles
+    //   }
+    // } catch (exception) {
+    //   window.location.reload()
+    // }
   }
 
   async function handleRemoveDepartment(event: any) {

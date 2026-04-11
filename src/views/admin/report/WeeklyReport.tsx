@@ -187,11 +187,18 @@ const WeeklyReportView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-fromto', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401 || res.status == 403) {
+          refresh()
+        } else {
+          window.location.href = '/pages/misc/500-server-error'
 
-        handleErrorOpen('Can not get list reported weekly, cause by ' + resError.errorMessage)
+          // route.replace('/pages/misc/500-server-error')
+          return
+        }
 
-        return
+        // const rs = await res.json()
+        // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
+        // return
       }
 
       const reportedWeeklys = await res.json()
@@ -204,6 +211,10 @@ const WeeklyReportView = () => {
       window.location.reload()
       route.replace('/pages/misc/500-server-error')
     }
+  }
+
+  async function refresh() {
+    window.location.reload()
   }
 
   async function handleNotReportedWeekly() {

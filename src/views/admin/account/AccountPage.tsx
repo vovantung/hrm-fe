@@ -266,33 +266,32 @@ const AccountPage = () => {
         setAccounts(accounts)
       }
     } catch (exception) {
-      window.location.reload()
-
-      // refresh()
+      refresh()
+      route.replace('/pages/misc/500-server-error')
     }
   }
 
-  // async function refresh() {
-  //   try {
-  //     const r = {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: auth.token,
-  //         'Content-Type': 'application/json'
-  //       }
-  //     }
+  async function refresh() {
+    try {
+      const r = {
+        method: 'POST',
+        headers: {
+          Authorization: auth.token,
+          'Content-Type': 'application/json'
+        }
+      }
 
-  //     const res = await fetch(globalVariables.url_auth + '/user-info', r)
+      const res = await fetch(globalVariables.url_admin + '/current-user', r)
 
-  //     const data = await res.json()
+      const data = await res.json()
 
-  //     if (data !== undefined) {
-  //       data?.realm_access?.roles
-  //     }
-  //   } catch (exception) {
-  //     window.location.reload()
-  //   }
-  // }
+      if (data !== undefined) {
+        data?.realm_access?.roles
+      }
+    } catch (exception) {
+      window.location.reload()
+    }
+  }
 
   async function initRolesDepartments() {
     try {

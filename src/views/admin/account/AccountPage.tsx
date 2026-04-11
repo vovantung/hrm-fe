@@ -236,7 +236,7 @@ const AccountPage = () => {
   }, [init])
 
   async function initAccounts() {
-    alert('account load')
+    // alert('account load')
 
     try {
       // Load Accounts

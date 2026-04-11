@@ -166,7 +166,7 @@ const WeeklyReportView = () => {
   async function handleReportedWeekly() {
     if (reportedWeeklyList.length !== 0) return
 
-    alert('Weekly load')
+    // alert('Weekly load')
 
     try {
       // const auth = localStorage.getItem('Authorization') as string

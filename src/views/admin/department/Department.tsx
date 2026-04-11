@@ -181,7 +181,7 @@ const DepartmentView = () => {
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
-      alert('department load')
+      // alert('department load')
 
       //  Load Departments
       const param = {

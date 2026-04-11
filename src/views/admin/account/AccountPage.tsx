@@ -257,6 +257,8 @@ const AccountPage = () => {
         // route.replace('/pages/misc/500-server-error')
         if (res.status == 500) {
           window.location.href = '/pages/misc/500-server-error'
+
+          return
         } else {
           refresh()
         }

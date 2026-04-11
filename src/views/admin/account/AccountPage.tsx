@@ -3,9 +3,7 @@
 import type { ComponentType, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
-// import { useRouter } from 'next/navigation'
-
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import {
   Alert,
@@ -256,7 +254,7 @@ const AccountPage = () => {
 
       if (!res.ok) {
         alert('Lỗi khi call api account page')
-        route.replace('/pages/misc/500-server-error')
+        route.replace('/misc/500-server-error')
 
         // const rs = await res.json()
         // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)

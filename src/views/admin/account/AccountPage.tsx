@@ -237,10 +237,6 @@ const AccountPage = () => {
 
   async function initAccounts() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
-      alert('Account load')
-
       // Load Accounts
       const param = {
         method: 'POST',
@@ -258,13 +254,9 @@ const AccountPage = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
       if (!res.ok) {
-        alert('Lỗi khi call api account page')
-
         route.replace('/pages/misc/500-server-error')
 
         // window.location.href = '/pages/misc/500-server-error'
-
-        return
 
         // const rs = await res.json()
         // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
@@ -278,7 +270,8 @@ const AccountPage = () => {
       }
     } catch (exception) {
       refresh()
-      route.replace('/pages/misc/500-server-error')
+
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 

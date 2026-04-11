@@ -76,6 +76,7 @@ const TransitionUp = (props: TransitionProps) => {
 const DepartmentView = () => {
   const route = useRouter()
   const { settings } = useSettings()
+  const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
   const [container, setContainer] = useState<Element | null>(null)
@@ -167,14 +168,16 @@ const DepartmentView = () => {
   }
 
   useEffect(() => {
-    // Load portal
-    setContainer(document.getElementById('toast-root'))
-    initData()
-  }, [])
+    if (!init) {
+      setInit(true)
+
+      // Load portal
+      setContainer(document.getElementById('toast-root'))
+      initData()
+    }
+  }, [init])
 
   async function initData() {
-    alert('Department load')
-
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
@@ -195,11 +198,11 @@ const DepartmentView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        route.replace('/pages/misc/500-server-error')
 
-        handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
-
-        return
+        // const resError = await res.json()
+        // handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
+        // return
       }
 
       const departments = await res.json()
@@ -208,9 +211,31 @@ const DepartmentView = () => {
         setDepartments(departments)
       }
     } catch (exception) {
-      window.location.reload()
+      refresh
 
       // route.replace('/pages/misc/500-server-error')
+    }
+  }
+
+  async function refresh() {
+    try {
+      const r = {
+        method: 'POST',
+        headers: {
+          Authorization: auth.token,
+          'Content-Type': 'application/json'
+        }
+      }
+
+      const res = await fetch(globalVariables.url_admin + '/current-user', r)
+
+      const data = await res.json()
+
+      if (data !== undefined) {
+        data?.realm_access?.roles
+      }
+    } catch (exception) {
+      window.location.reload()
     }
   }
 

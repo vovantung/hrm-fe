@@ -174,6 +174,7 @@ const DepartmentView = () => {
       // Load portal
       setContainer(document.getElementById('toast-root'))
       initData()
+      initRolesDepartments()
     }
   })
 
@@ -233,26 +234,45 @@ const DepartmentView = () => {
   async function refresh() {
     alert('refresh')
     window.location.reload()
+  }
 
-    // try {
-    //   const r = {
-    //     method: 'POST',
-    //     headers: {
-    //       Authorization: auth.token,
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
+  async function initRolesDepartments() {
+    try {
+      // const auth = localStorage.getItem('Authorization') as string
 
-    //   const res = await fetch(globalVariables.url_admin + '/current-user', r)
+      //  Load Departments
+      const param1 = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth.token
+        },
+        body: JSON.stringify({
+          limit: 100,
+          keyOffset: 1,
+          keySearch: ''
+        })
+      }
 
-    //   const data = await res.json()
+      const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
 
-    //   if (data !== undefined) {
-    //     data?.realm_access?.roles
-    //   }
-    // } catch (exception) {
-    //   window.location.reload()
-    // }
+      if (!res1.ok) {
+        const rs = await res1.json()
+
+        handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+
+        return
+      }
+
+      const departments = await res1.json()
+
+      if (departments !== undefined) {
+        setDepartments(departments)
+      }
+    } catch (exception) {
+      // refresh()
+      // route.replace('/pages/misc/500-server-error')
+    }
   }
 
   async function handleRemoveDepartment(event: any) {

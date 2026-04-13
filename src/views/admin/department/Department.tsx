@@ -181,7 +181,7 @@ const DepartmentView = () => {
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
-      // alert('department load')
+      alert('department load')
 
       //  Load Departments
       const param = {
@@ -201,6 +201,7 @@ const DepartmentView = () => {
 
       if (!res.ok) {
         if (res.status == 401 || res.status == 403) {
+          alert('load department unauthenticate')
           refresh()
         } else {
           window.location.href = '/pages/misc/500-server-error'
@@ -218,6 +219,7 @@ const DepartmentView = () => {
 
       if (departments !== undefined) {
         setDepartments(departments)
+        alert('đã load department ok')
       }
     } catch (exception) {
       refresh

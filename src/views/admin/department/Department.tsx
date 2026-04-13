@@ -203,8 +203,6 @@ const DepartmentView = () => {
       alert(res.status)
 
       if (!res.ok) {
-        alert('không ok. status: ' + res.status)
-
         if (res.status == 401 || res.status == 403) {
           refresh()
 
@@ -229,6 +227,7 @@ const DepartmentView = () => {
         alert('đã load department ok')
       }
     } catch (exception) {
+      alert('nnnnn')
       refresh
 
       // route.replace('/pages/misc/500-server-error')

@@ -175,7 +175,7 @@ const DepartmentView = () => {
       setContainer(document.getElementById('toast-root'))
       initData()
     }
-  }, [init])
+  })
 
   async function initData() {
     try {
@@ -202,6 +202,8 @@ const DepartmentView = () => {
       if (!res.ok) {
         if (res.status == 401 || res.status == 403) {
           refresh()
+
+          return
         } else {
           alert('lỗi call api')
           window.location.href = '/pages/misc/500-server-error'
@@ -229,6 +231,7 @@ const DepartmentView = () => {
   }
 
   async function refresh() {
+    alert('refresh')
     window.location.reload()
 
     // try {

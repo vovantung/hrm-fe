@@ -231,7 +231,8 @@ const AccountPage = () => {
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
       initAccounts()
-      initRolesDepartments()
+
+      // initRolesDepartments()
     }
   }, [init])
 
@@ -284,26 +285,6 @@ const AccountPage = () => {
 
   async function refresh() {
     window.location.reload()
-
-    // try {
-    //   const r = {
-    //     method: 'POST',
-    //     headers: {
-    //       Authorization: auth.token,
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-
-    //   const res = await fetch(globalVariables.url_admin + '/current-user', r)
-
-    //   const data = await res.json()
-
-    //   if (data !== undefined) {
-    //     data?.realm_access?.roles
-    //   }
-    // } catch (exception) {
-
-    // }
   }
 
   async function initRolesDepartments() {

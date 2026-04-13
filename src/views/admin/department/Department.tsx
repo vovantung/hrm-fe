@@ -201,6 +201,8 @@ const DepartmentView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
       if (!res.ok) {
+        alert('không ok. status: ' + res.status)
+
         if (res.status == 401 || res.status == 403) {
           refresh()
 

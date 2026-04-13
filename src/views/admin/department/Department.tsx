@@ -227,8 +227,7 @@ const DepartmentView = () => {
         alert('đã load department ok')
       }
     } catch (exception) {
-      alert('nnnnn')
-      refresh
+      refresh()
 
       // route.replace('/pages/misc/500-server-error')
     }

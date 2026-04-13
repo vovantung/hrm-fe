@@ -201,9 +201,9 @@ const DepartmentView = () => {
 
       if (!res.ok) {
         if (res.status == 401 || res.status == 403) {
-          alert('load department unauthenticate')
           refresh()
         } else {
+          alert('lỗi call api')
           window.location.href = '/pages/misc/500-server-error'
 
           // route.replace('/pages/misc/500-server-error')

@@ -182,7 +182,7 @@ const DepartmentView = () => {
     try {
       // const auth = localStorage.getItem('Authorization') as string
 
-      alert('department load')
+      alert('department load kkkkk')
 
       //  Load Departments
       const param = {
@@ -199,6 +199,8 @@ const DepartmentView = () => {
       }
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
+
+      alert('kkkk')
 
       if (!res.ok) {
         alert('không ok. status: ' + res.status)

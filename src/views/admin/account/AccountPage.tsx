@@ -278,6 +278,7 @@ const AccountPage = () => {
         setAccounts(accounts)
       }
     } catch (exception) {
+      alert('kkkkkkkk')
       refresh()
 
       // route.replace('/pages/misc/500-server-error')

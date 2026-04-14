@@ -255,7 +255,7 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
-      // alert(res.status)
+      alert(res.status)
 
       if (!res.ok) {
         if (res.status == 401 || res.status == 403) {

@@ -255,12 +255,14 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
-      alert(res.status)
+      // alert(res.status)
 
       if (!res.ok) {
         if (res.status == 401 || res.status == 403) {
+          alert('UnAuthenticate')
           refresh()
         } else {
+          alert('Error call api')
           window.location.href = '/pages/misc/500-server-error'
 
           // route.replace('/pages/misc/500-server-error')
@@ -275,10 +277,11 @@ const AccountPage = () => {
       const accounts = await res.json()
 
       if (accounts !== undefined) {
+        alert('Load account ok')
         setAccounts(accounts)
       }
     } catch (exception) {
-      alert('kkkkkkkk')
+      alert('Exception: ')
       refresh()
 
       // route.replace('/pages/misc/500-server-error')

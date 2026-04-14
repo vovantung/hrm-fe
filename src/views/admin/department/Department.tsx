@@ -180,10 +180,6 @@ const DepartmentView = () => {
 
   async function initData() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
-      alert('department load kkkkk')
-
       //  Load Departments
       const param = {
         method: 'POST',
@@ -200,41 +196,43 @@ const DepartmentView = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
-      alert(res.status)
+      alert('Status: ' + res.status)
 
       if (!res.ok) {
-        if (res.status == 401 || res.status == 403) {
+        if (res.status == 401) {
+          alert('Unauthenticated')
+
+          // Access token trong request đã hết hạn, gọi frefresh() sẽ tiến hành reload trang, quá trình này sẽ đươc AuthGuardTXU thực hiện:
+          // tiến hành xin lại access token từ refresh token hiện tại (nếu refresh chưa hết hạn)
+          // tiến hành yêu cầu client đăng nhập lại nếu refresh token đã hết hạn.
+          // Sau khi thành công bước trên sẽ forward đến trang hiện tại.
           refresh()
 
           return
         } else {
           alert('lỗi call api')
+
+          // Lỗi khhi gọi api backend
           window.location.href = '/pages/misc/500-server-error'
 
-          // route.replace('/pages/misc/500-server-error')
           return
         }
-
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
-        // return
       }
 
       const departments = await res.json()
 
       if (departments !== undefined) {
+        // Fetch dữ liệu thành công
         setDepartments(departments)
         alert('đã load department ok')
       }
     } catch (exception) {
-      refresh()
-
-      // route.replace('/pages/misc/500-server-error')
+      // Exception xảy ra khi apigateway (istio) không hoạt động
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
   async function refresh() {
-    alert('refresh')
     window.location.reload()
   }
 

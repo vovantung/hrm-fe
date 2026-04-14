@@ -259,35 +259,30 @@ const AccountPage = () => {
 
       if (!res.ok) {
         if (res.status == 401) {
-          alert('UnAuthenticate')
+          // Access token trong request đã hết hạn, gọi frefresh() sẽ tiến hành reload trang, quá trình này sẽ đươc AuthGuardTXU thực hiện:
+          // tiến hành xin lại access token từ refresh token hiện tại (nếu refresh chưa hết hạn)
+          // tiến hành yêu cầu client đăng nhập lại nếu refresh token đã hết hạn.
+          // Sau khi thành công bước trên sẽ forward đến trang hiện tại.
           refresh()
 
           return
         } else {
-          alert('Error call api')
+          // Lỗi khhi gọi api backend
           window.location.href = '/pages/misc/500-server-error'
 
-          // route.replace('/pages/misc/500-server-error')
           return
         }
-
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list account, cause by ' + rs.errorMessage)
-        // return
       }
 
       const accounts = await res.json()
 
       if (accounts !== undefined) {
-        alert('Load account ok')
+        // Fetch dữ liệu thành công
         setAccounts(accounts)
       }
     } catch (exception) {
-      alert('Exception: ')
-
-      // refresh()
-
-      // route.replace('/pages/misc/500-server-error')
+      // Exception xảy ra khi apigateway (istio) không hoạt động
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 

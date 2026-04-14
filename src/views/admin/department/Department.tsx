@@ -208,7 +208,7 @@ const DepartmentView = () => {
           // Sau khi thành công bước trên sẽ forward đến trang hiện tại.
           refresh()
 
-          // return
+          return
         } else {
           alert('lỗi call api')
 
@@ -233,6 +233,7 @@ const DepartmentView = () => {
   }
 
   async function refresh() {
+    alert('refressh')
     window.location.reload()
 
     return

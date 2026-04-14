@@ -255,12 +255,14 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
-      alert(res.status)
+      alert('Status: ' + res.status)
 
       if (!res.ok) {
-        if (res.status == 401 || res.status == 403) {
+        if (res.status == 401) {
           alert('UnAuthenticate')
           refresh()
+
+          return
         } else {
           alert('Error call api')
           window.location.href = '/pages/misc/500-server-error'

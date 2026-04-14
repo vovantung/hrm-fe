@@ -234,6 +234,8 @@ const DepartmentView = () => {
 
   async function refresh() {
     window.location.reload()
+
+    return
   }
 
   async function initRolesDepartments() {

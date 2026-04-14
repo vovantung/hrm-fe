@@ -282,7 +282,8 @@ const AccountPage = () => {
       }
     } catch (exception) {
       alert('Exception: ')
-      refresh()
+
+      // refresh()
 
       // route.replace('/pages/misc/500-server-error')
     }

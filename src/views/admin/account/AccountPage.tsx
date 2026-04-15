@@ -370,12 +370,24 @@ const AccountPage = () => {
 
         const res = await fetch(globalVariables.url_admin + '/admin/account/remove', param)
 
+        // if (!res.ok) {
+        //   const resError = await res.json()
+
+        //   handleErrorOpen('Can not delete account, cause by ' + resError.errorMessage)
+
+        //   return
+        // }
+
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not delete account, cause by ' + resError.errorMessage)
+            return
+          } else {
+            window.location.href = '/pages/misc/500-server-error'
 
-          return
+            return
+          }
         }
 
         const result = await res.json()
@@ -413,12 +425,24 @@ const AccountPage = () => {
 
         const res = await fetch(globalVariables.url_admin + '/admin/account/get-by-username', param)
 
+        // if (!res.ok) {
+        //   const resError = await res.json()
+
+        //   handleErrorOpen('Can not get account, cause by ' + resError.errorMessage)
+
+        //   return
+        // }
+
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not get account, cause by ' + resError.errorMessage)
+            return
+          } else {
+            window.location.href = '/pages/misc/500-server-error'
 
-          return
+            return
+          }
         }
 
         const accounts = await res.json()
@@ -451,12 +475,24 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
+      // if (!res.ok) {
+      //   const resError = await res.json()
+
+      //   handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+      //   return
+      // }
+
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+          return
+        } else {
+          window.location.href = '/pages/misc/500-server-error'
 
-        return
+          return
+        }
       }
 
       const department = await res.json()
@@ -499,6 +535,18 @@ const AccountPage = () => {
         handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
 
         return
+      }
+
+      if (!res.ok) {
+        if (res.status == 401) {
+          refresh()
+
+          return
+        } else {
+          window.location.href = '/pages/misc/500-server-error'
+
+          return
+        }
       }
 
       const acount = await res.json()
@@ -560,12 +608,24 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
+      // if (!res.ok) {
+      //   const resError = await res.json()
+
+      //   handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+      //   return
+      // }
+
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+          return
+        } else {
+          window.location.href = '/pages/misc/500-server-error'
 
-        return
+          return
+        }
       }
 
       const department = await res.json()
@@ -614,13 +674,25 @@ const AccountPage = () => {
       // const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
       const res = await fetch(globalVariables.url_saga + '/users', param)
 
+      // if (!res.ok) {
+      //   const resError = await res.json()
+
+      //   closeCreateAccountDailog()
+      //   handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
+
+      //   return
+      // }
+
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        closeCreateAccountDailog()
-        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
+          return
+        } else {
+          window.location.href = '/pages/misc/500-server-error'
 
-        return
+          return
+        }
       }
 
       const acount = await res.json()

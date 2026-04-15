@@ -164,7 +164,7 @@ const WeeklyReportView = () => {
   // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
   async function handleReportedWeekly() {
-    if (reportedWeeklyList.length !== 0) return
+    // if (reportedWeeklyList.length !== 0) return
 
     alert('Weekly load')
 

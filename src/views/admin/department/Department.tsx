@@ -174,7 +174,6 @@ const DepartmentView = () => {
       // Load portal
       setContainer(document.getElementById('toast-root'))
       initData()
-      initRolesDepartments()
     }
   })
 
@@ -196,12 +195,8 @@ const DepartmentView = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
-      // alert('Status: ' + res.status)
-
       if (!res.ok) {
         if (res.status == 401) {
-          // alert('Unauthenticated')
-
           // Access token trong request đã hết hạn, gọi frefresh() sẽ tiến hành reload trang, quá trình này sẽ đươc AuthGuardTXU thực hiện:
           // tiến hành xin lại access token từ refresh token hiện tại (nếu refresh chưa hết hạn)
           // tiến hành yêu cầu client đăng nhập lại nếu refresh token đã hết hạn.
@@ -210,8 +205,6 @@ const DepartmentView = () => {
 
           return
         } else {
-          // alert('lỗi call api')
-
           // Lỗi khhi gọi api backend
           window.location.href = '/pages/misc/500-server-error'
 
@@ -224,8 +217,6 @@ const DepartmentView = () => {
       if (departments !== undefined) {
         // Fetch dữ liệu thành công
         setDepartments(departments)
-
-        // alert('đã load department ok')
       }
     } catch (exception) {
       // Exception xảy ra khi apigateway (istio) không hoạt động
@@ -235,47 +226,6 @@ const DepartmentView = () => {
 
   async function refresh() {
     window.location.reload()
-
-    return
-  }
-
-  async function initRolesDepartments() {
-    try {
-      // const auth = localStorage.getItem('Authorization') as string
-
-      //  Load Departments
-      const param1 = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth.token
-        },
-        body: JSON.stringify({
-          limit: 100,
-          keyOffset: 1,
-          keySearch: ''
-        })
-      }
-
-      const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
-
-      if (!res1.ok) {
-        const rs = await res1.json()
-
-        handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-
-        return
-      }
-
-      const departments = await res1.json()
-
-      if (departments !== undefined) {
-        setDepartments(departments)
-      }
-    } catch (exception) {
-      // refresh()
-      // route.replace('/pages/misc/500-server-error')
-    }
   }
 
   async function handleRemoveDepartment(event: any) {

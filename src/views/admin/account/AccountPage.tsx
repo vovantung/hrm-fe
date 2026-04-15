@@ -235,8 +235,6 @@ const AccountPage = () => {
   }, [init])
 
   async function initData() {
-    // alert('account load')
-
     try {
       // Load Accounts
       const param = {
@@ -346,73 +344,6 @@ const AccountPage = () => {
   async function refresh() {
     window.location.reload()
   }
-
-  // async function initRolesDepartments() {
-  //   try {
-  //     // const auth = localStorage.getItem('Authorization') as string
-
-  //     //  Load Departments
-  //     const param1 = {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: auth.token
-  //       },
-  //       body: JSON.stringify({
-  //         limit: 100,
-  //         keyOffset: 1,
-  //         keySearch: ''
-  //       })
-  //     }
-
-  //     const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
-
-  //     if (!res1.ok) {
-  //       const rs = await res1.json()
-
-  //       handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-
-  //       return
-  //     }
-
-  //     const departments = await res1.json()
-
-  //     if (departments !== undefined) {
-  //       setDepartments(departments)
-  //     }
-
-  //     // Load roles
-  //     const param2 = {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: auth.token
-  //       },
-  //       body: JSON.stringify({
-  //         limit: 100
-  //       })
-  //     }
-
-  //     const res2 = await fetch(globalVariables.url_auth + '/roles', param2)
-
-  //     if (!res2.ok) {
-  //       const rs3 = await res2.json()
-
-  //       handleErrorOpen('Can not get list roles, cause by ' + rs3.errorMessage)
-
-  //       return
-  //     }
-
-  //     const roles = await res2.json()
-
-  //     if (roles !== undefined) {
-  //       setRoles(roles)
-  //     }
-  //   } catch (exception) {
-  //     // refresh()
-  //     // route.replace('/pages/misc/500-server-error')
-  //   }
-  // }
 
   // Remove account
   async function handleRemoveAccount(event: any) {

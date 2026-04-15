@@ -46,6 +46,8 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
 
       if (!res.ok) {
         refresh_token()
+
+        return
       }
 
       const data = await res.json()

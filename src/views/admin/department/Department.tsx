@@ -233,7 +233,6 @@ const DepartmentView = () => {
   }
 
   async function refresh() {
-    alert('refressh')
     window.location.reload()
 
     return

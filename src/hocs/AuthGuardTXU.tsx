@@ -69,7 +69,6 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
   }
 
   async function refresh_token() {
-    alert('refresh_token')
     const refresh_token = localStorage.getItem('refresh_token') as string
 
     const r = {
@@ -131,7 +130,6 @@ export default function AuthGuardTXU({ children, locale }: ChildrenType & { loca
       if (data !== undefined) {
         setRoles(data?.realm_access?.roles ?? [])
         dispatch(setUserLogined(data))
-        alert('Đã đặt lại token, role, user')
         setInitOk(true)
 
         // Refresh thành hoàn thành

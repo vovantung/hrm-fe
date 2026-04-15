@@ -235,6 +235,10 @@ const AccountPage = () => {
   }, [init])
 
   async function initData() {
+    if (accounts.length !== 0) {
+      return
+    }
+
     try {
       // Load Accounts
       const param = {

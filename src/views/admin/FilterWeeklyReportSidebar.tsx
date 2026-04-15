@@ -154,14 +154,10 @@ const FilterWeeklyReportSidebar = () => {
 
   async function handleReportedFromTo() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-
-          // Authorization: auth
           Authorization: auth.token
         },
         body: JSON.stringify({

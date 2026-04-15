@@ -196,11 +196,11 @@ const DepartmentView = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param)
 
-      alert('Status: ' + res.status)
+      // alert('Status: ' + res.status)
 
       if (!res.ok) {
         if (res.status == 401) {
-          alert('Unauthenticated')
+          // alert('Unauthenticated')
 
           // Access token trong request đã hết hạn, gọi frefresh() sẽ tiến hành reload trang, quá trình này sẽ đươc AuthGuardTXU thực hiện:
           // tiến hành xin lại access token từ refresh token hiện tại (nếu refresh chưa hết hạn)
@@ -210,7 +210,7 @@ const DepartmentView = () => {
 
           return
         } else {
-          alert('lỗi call api')
+          // alert('lỗi call api')
 
           // Lỗi khhi gọi api backend
           window.location.href = '/pages/misc/500-server-error'
@@ -224,7 +224,8 @@ const DepartmentView = () => {
       if (departments !== undefined) {
         // Fetch dữ liệu thành công
         setDepartments(departments)
-        alert('đã load department ok')
+
+        // alert('đã load department ok')
       }
     } catch (exception) {
       // Exception xảy ra khi apigateway (istio) không hoạt động

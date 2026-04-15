@@ -230,12 +230,11 @@ const AccountPage = () => {
 
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
-      initAccounts()
-      initRolesDepartments()
+      initData()
     }
   }, [init])
 
-  async function initAccounts() {
+  async function initData() {
     // alert('account load')
 
     try {
@@ -255,7 +254,7 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
-      alert('Status: ' + res.status)
+      // alert('Status: ' + res.status)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -280,19 +279,6 @@ const AccountPage = () => {
         // Fetch dữ liệu thành công
         setAccounts(accounts)
       }
-    } catch (exception) {
-      // Exception xảy ra khi apigateway (istio) không hoạt động
-      window.location.href = '/pages/misc/500-server-error'
-    }
-  }
-
-  async function refresh() {
-    window.location.reload()
-  }
-
-  async function initRolesDepartments() {
-    try {
-      // const auth = localStorage.getItem('Authorization') as string
 
       //  Load Departments
       const param1 = {
@@ -352,10 +338,81 @@ const AccountPage = () => {
         setRoles(roles)
       }
     } catch (exception) {
-      // refresh()
-      // route.replace('/pages/misc/500-server-error')
+      // Exception xảy ra khi apigateway (istio) không hoạt động
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
+
+  async function refresh() {
+    window.location.reload()
+  }
+
+  // async function initRolesDepartments() {
+  //   try {
+  //     // const auth = localStorage.getItem('Authorization') as string
+
+  //     //  Load Departments
+  //     const param1 = {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: auth.token
+  //       },
+  //       body: JSON.stringify({
+  //         limit: 100,
+  //         keyOffset: 1,
+  //         keySearch: ''
+  //       })
+  //     }
+
+  //     const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
+
+  //     if (!res1.ok) {
+  //       const rs = await res1.json()
+
+  //       handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+
+  //       return
+  //     }
+
+  //     const departments = await res1.json()
+
+  //     if (departments !== undefined) {
+  //       setDepartments(departments)
+  //     }
+
+  //     // Load roles
+  //     const param2 = {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: auth.token
+  //       },
+  //       body: JSON.stringify({
+  //         limit: 100
+  //       })
+  //     }
+
+  //     const res2 = await fetch(globalVariables.url_auth + '/roles', param2)
+
+  //     if (!res2.ok) {
+  //       const rs3 = await res2.json()
+
+  //       handleErrorOpen('Can not get list roles, cause by ' + rs3.errorMessage)
+
+  //       return
+  //     }
+
+  //     const roles = await res2.json()
+
+  //     if (roles !== undefined) {
+  //       setRoles(roles)
+  //     }
+  //   } catch (exception) {
+  //     // refresh()
+  //     // route.replace('/pages/misc/500-server-error')
+  //   }
+  // }
 
   // Remove account
   async function handleRemoveAccount(event: any) {
@@ -390,7 +447,7 @@ const AccountPage = () => {
 
         if (result !== undefined && result == true) {
           // Nạp lại danh sách accounts sau khi đã xóa một account
-          initAccounts()
+          initData()
           handleAlertOpen('Deleted [' + username + '] account')
         }
       }
@@ -515,7 +572,7 @@ const AccountPage = () => {
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
-        initAccounts()
+        initData()
         handleAlertOpen('Updated infor for [' + acount.username + '] account')
       }
     } catch (error) {
@@ -637,7 +694,7 @@ const AccountPage = () => {
         closeCreateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã tạo mới account
-        initAccounts()
+        initData()
         handleAlertOpen('Added [' + acount.username + '] account')
       }
     } catch (error) {

@@ -231,7 +231,9 @@ const AccountPage = () => {
 
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
-      initData()
+      if (accountsOfPage.length == 0) {
+        initData()
+      }
     }
   })
 

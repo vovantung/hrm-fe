@@ -508,6 +508,8 @@ const AccountPage = () => {
   }
 
   async function handleUpdateAccount() {
+    alert('Account ID; ' + updateAccount.id)
+
     try {
       const param = {
         method: 'POST',
@@ -528,14 +530,14 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
 
-      if (!res.ok) {
-        const resError = await res.json()
+      // if (!res.ok) {
+      //   const resError = await res.json()
 
-        closeUpdateAccountDailog()
-        handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
+      //   closeUpdateAccountDailog()
+      //   handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
 
-        return
-      }
+      //   return
+      // }
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -543,7 +545,9 @@ const AccountPage = () => {
 
           return
         } else {
-          window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not update new account')
+
+          // window.location.href = '/pages/misc/500-server-error'
 
           return
         }

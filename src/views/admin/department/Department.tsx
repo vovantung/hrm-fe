@@ -249,11 +249,19 @@ const DepartmentView = () => {
         const res = await fetch(globalVariables.url_admin + '/admin/department/remove', param)
 
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not delete department, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res.json()
 
-          return
+            handleErrorOpen('Can not delete department, cause by ' + resError.errorMessage)
+
+            // window.location.href = '/pages/misc/500-server-error'
+
+            return
+          }
         }
 
         const result = await res.json()
@@ -289,11 +297,19 @@ const DepartmentView = () => {
         const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res.json()
 
-          return
+            handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+            // window.location.href = '/pages/misc/500-server-error'
+
+            return
+          }
         }
 
         const department = await res.json()
@@ -328,13 +344,20 @@ const DepartmentView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/department/create-or-update', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        closeUpdateDepartmentDailog()
+          return
+        } else {
+          const resError = await res.json()
 
-        handleErrorOpen('Can not update department, cause by ' + resError.errorMessage)
+          closeUpdateDepartmentDailog()
+          handleErrorOpen('Can not update department, cause by ' + resError.errorMessage)
 
-        return
+          // window.location.href = '/pages/misc/500-server-error'
+
+          return
+        }
       }
 
       const department = await res.json()
@@ -388,6 +411,7 @@ const DepartmentView = () => {
         } else {
           const resError = await res.json()
 
+          closeCreateDepartmentDailog()
           handleErrorOpen('Can not add new department, cause by ' + resError.errorMessage)
 
           // window.location.href = '/pages/misc/500-server-error'

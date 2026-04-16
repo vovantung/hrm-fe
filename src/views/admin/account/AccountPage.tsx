@@ -285,7 +285,7 @@ const AccountPage = () => {
 
       if (accounts !== undefined) {
         // Fetch dữ liệu thành công
-        alert('load account')
+        // alert('load account')
         dispatch(setAccounts(accounts))
       }
 
@@ -558,19 +558,20 @@ const AccountPage = () => {
         }
       }
 
-      const acount = await res.json()
+      const account = await res.json()
 
-      if (acount !== undefined) {
+      if (account !== undefined) {
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
 
-        handleAlertOpen('Updated infor for [' + acount.username + '] account')
+        handleAlertOpen('Updated infor for [' + account.username + '] account')
         initData()
       }
     } catch (error) {
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
+
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 

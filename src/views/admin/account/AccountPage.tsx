@@ -229,17 +229,16 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    // Load portal
-    setContainer(document.getElementById('toast-root'))
-
     if (!init) {
+      setInit(true)
+
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
       if (accounts.length == 0) {
+        // Load portal
+        setContainer(document.getElementById('toast-root'))
         initData()
       }
-
-      setInit(true)
     }
   })
 

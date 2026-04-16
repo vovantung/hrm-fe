@@ -229,14 +229,15 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
+    // Load portal
+    setContainer(document.getElementById('toast-root'))
+
     if (!init) {
       setInit(true)
 
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
       if (accounts.length == 0) {
-        // Load portal
-        setContainer(document.getElementById('toast-root'))
         initData()
       }
     }
@@ -594,13 +595,13 @@ const AccountPage = () => {
       const account = await res.json()
 
       if (account !== undefined) {
-        handleAlertOpen('Updated [' + account.username + '] account')
-        alert('Updated [' + account.username + '] account')
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
 
         reloadAccount()
+        handleAlertOpen('Updated [' + account.username + '] account')
+        alert('Updated [' + account.username + '] account')
       }
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'

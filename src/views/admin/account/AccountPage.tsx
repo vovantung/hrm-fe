@@ -41,7 +41,7 @@ import CustomTextField from '@/@core/components/mui/TextField'
 import Pagination from '../PaginationTXU'
 
 import { useSettings } from '@/@core/hooks/useSettings'
-import { setAccountsOfPage } from '@/redux-store/slices/accounts'
+import { setAccounts, setAccountsOfPage } from '@/redux-store/slices/accounts'
 
 const CustomCloseButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
   top: 0,
@@ -99,11 +99,12 @@ const AccountPage = () => {
   const [container, setContainer] = useState<Element | null>(null)
 
   // Data Accounts, Departments  Page
-  const [accounts, setAccounts] = useState<AccountDataType[]>([])
+  // const [accounts, setAccounts] = useState<AccountDataType[]>([])
 
   // const [accountsOfPage, setAccountsOfPage] = useState<AccountDataType[]>([])
   // Sử dụng redux lưu dữ liệu chia sẽ giữa các thành phần trong ứng dụng
   const accountsOfPage = useSelector((state: any) => state.accounts.accountsOfPage) as AccountDataType[]
+  const accounts = useSelector((state: any) => state.accounts.accounts) as AccountDataType[]
 
   const [departments, setDepartments] = useState<DepartmentDataType[]>([])
   const [roles, setRoles] = useState<RoleDataType[]>([])
@@ -231,7 +232,7 @@ const AccountPage = () => {
 
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
-      if (accountsOfPage.length == 0) {
+      if (accounts.length == 0) {
         initData()
       }
     }
@@ -280,7 +281,7 @@ const AccountPage = () => {
       if (accounts !== undefined) {
         // Fetch dữ liệu thành công
         alert('load account')
-        setAccounts(accounts)
+        dispatch(setAccounts(accounts))
       }
 
       //  Load Departments

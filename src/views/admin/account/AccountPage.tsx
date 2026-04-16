@@ -227,7 +227,7 @@ const AccountPage = () => {
     setContainer(document.getElementById('toast-root'))
 
     // Nạp danh sách accounts, roles, department lần đâu khi load trang
-    if (accounts.length == 0) {
+    if (accounts.length === 0) {
       initData()
     }
   })

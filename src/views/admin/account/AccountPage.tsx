@@ -243,7 +243,7 @@ const AccountPage = () => {
     }
   })
 
-  async function reloadAccont() {
+  async function reloadAccount() {
     try {
       // Load Accounts
 
@@ -452,8 +452,8 @@ const AccountPage = () => {
 
         if (result !== undefined && result == true) {
           // Nạp lại danh sách accounts sau khi đã xóa một account
-          initData()
           handleAlertOpen('Deleted [' + username + '] account')
+          reloadAccount()
         }
       }
     } catch (error) {
@@ -586,15 +586,6 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
 
-      // if (!res.ok) {
-      //   const resError = await res.json()
-
-      //   closeUpdateAccountDailog()
-      //   handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
-
-      //   return
-      // }
-
       if (!res.ok) {
         if (res.status == 401) {
           refresh()
@@ -612,12 +603,12 @@ const AccountPage = () => {
       const account = await res.json()
 
       if (account !== undefined) {
+        handleAlertOpen('Updated infor for [' + account.username + '] account')
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
 
-        reloadAccont()
-        handleAlertOpen('Updated infor for [' + account.username + '] account')
+        reloadAccount()
       }
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'
@@ -763,7 +754,7 @@ const AccountPage = () => {
         closeCreateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã tạo mới account
-        initData()
+        reloadAccount()
         handleAlertOpen('Added [' + acount.username + '] account')
       }
     } catch (error) {

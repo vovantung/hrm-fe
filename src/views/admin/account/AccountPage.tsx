@@ -229,7 +229,7 @@ const AccountPage = () => {
     // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
     initData()
-  }, [accounts])
+  })
 
   async function initData() {
     try {

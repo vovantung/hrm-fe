@@ -277,7 +277,7 @@ const AccountPage = () => {
 
       if (accounts !== undefined) {
         // Fetch dữ liệu thành công
-        alert('load account t')
+        alert('load account')
         setAccounts(accounts)
       }
 
@@ -507,8 +507,6 @@ const AccountPage = () => {
   }
 
   async function handleUpdateAccount() {
-    alert('Account ID; ' + updateAccount.id)
-
     try {
       const param = {
         method: 'POST',
@@ -558,8 +556,9 @@ const AccountPage = () => {
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
-        initData()
+
         handleAlertOpen('Updated infor for [' + acount.username + '] account')
+        initData()
       }
     } catch (error) {
       // refresh()

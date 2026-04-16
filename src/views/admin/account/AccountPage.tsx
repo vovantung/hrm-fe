@@ -227,15 +227,12 @@ const AccountPage = () => {
     setContainer(document.getElementById('toast-root'))
 
     // Nạp danh sách accounts, roles, department lần đâu khi load trang
-
-    initData()
+    if (accounts.length == 0) {
+      initData()
+    }
   })
 
   async function initData() {
-    if (accounts.length !== 0) {
-      return
-    }
-
     try {
       // Load Accounts
 

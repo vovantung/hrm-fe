@@ -601,7 +601,8 @@ const AccountPage = () => {
 
         reloadAccount()
         handleAlertOpen('Updated [' + account.username + '] account')
-        alert('Updated [' + account.username + '] account')
+
+        // alert('Updated [' + account.username + '] account')
       }
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'

@@ -22,15 +22,27 @@ type AccountDataType = {
   newpassword: string
 }
 
+type RoleDataType = {
+  id: string
+  name: string
+}
+
 interface AccountState {
   accountsOfPage: AccountDataType[]
   accounts: AccountDataType[]
+  departments: DepartmentDataType[]
+  roles: RoleDataType[]
+
+  // const [departments, setDepartments] = useState<DepartmentDataType[]>([])
+  //   const [roles, setRoles] = useState<RoleDataType[]>([])
   userLogined: AccountDataType
 }
 
 const initialState: AccountState = {
   accountsOfPage: [],
   accounts: [],
+  departments: [],
+  roles: [],
   userLogined: {
     id: 0,
     username: '',
@@ -61,6 +73,12 @@ const accountsSlice = createSlice({
     setAccounts(state, action: PayloadAction<AccountDataType[]>) {
       state.accounts = action.payload
     },
+    setDepartments(state, action: PayloadAction<DepartmentDataType[]>) {
+      state.departments = action.payload
+    },
+    setRoles(state, action: PayloadAction<RoleDataType[]>) {
+      state.roles = action.payload
+    },
     setUserLogined(state, action: PayloadAction<AccountDataType>) {
       state.userLogined = action.payload
     },
@@ -69,6 +87,12 @@ const accountsSlice = createSlice({
     },
     clearAccounts(state) {
       state.accounts = []
+    },
+    clearDepartments(state) {
+      state.accounts = []
+    },
+    clearRoles(state) {
+      state.roles = []
     },
     clearUserLogined(state) {
       state.userLogined = {
@@ -93,6 +117,16 @@ const accountsSlice = createSlice({
   }
 })
 
-export const { setAccountsOfPage, setAccounts, clearAccountsOfPage, clearAccounts, setUserLogined, clearUserLogined } =
-  accountsSlice.actions
+export const {
+  setAccountsOfPage,
+  setAccounts,
+  setDepartments,
+  setRoles,
+  clearAccountsOfPage,
+  clearAccounts,
+  clearDepartments,
+  clearRoles,
+  setUserLogined,
+  clearUserLogined
+} = accountsSlice.actions
 export default accountsSlice.reducer

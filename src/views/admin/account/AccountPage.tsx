@@ -230,8 +230,6 @@ const AccountPage = () => {
 
   useEffect(() => {
     if (!init) {
-      setInit(true)
-
       // Load portal
       setContainer(document.getElementById('toast-root'))
 
@@ -240,6 +238,8 @@ const AccountPage = () => {
       if (accounts.length == 0) {
         initData()
       }
+
+      setInit(true)
     }
   })
 
@@ -765,7 +765,7 @@ const AccountPage = () => {
     }
   }
 
-  if (accounts)
+  if (accounts.length !== 0 && init)
     return (
       <div style={{ position: 'relative', minHeight: '100%' }}>
         <div

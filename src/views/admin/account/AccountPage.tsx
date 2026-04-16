@@ -41,7 +41,7 @@ import CustomTextField from '@/@core/components/mui/TextField'
 import Pagination from '../PaginationTXU'
 
 import { useSettings } from '@/@core/hooks/useSettings'
-import { setAccounts, setAccountsOfPage } from '@/redux-store/slices/accounts'
+import { setAccounts, setAccountsOfPage, setDepartments, setRoles } from '@/redux-store/slices/accounts'
 
 const CustomCloseButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
   top: 0,
@@ -106,13 +106,13 @@ const AccountPage = () => {
   const accountsOfPage = useSelector((state: any) => state.accounts.accountsOfPage) as AccountDataType[]
   const accounts = useSelector((state: any) => state.accounts.accounts) as AccountDataType[]
 
-  const [departments, setDepartments] = useState<DepartmentDataType[]>([])
+  // const [departments, setDepartments] = useState<DepartmentDataType[]>([])
 
-  const [roles, setRoles] = useState<RoleDataType[]>([])
+  // const [roles, setRoles] = useState<RoleDataType[]>([])
 
-  //  const roles = useSelector((state: any) => state.accounts.roles) as RoleDataType[]
+  const roles = useSelector((state: any) => state.accounts.roles) as RoleDataType[]
 
-  //   const departments = useSelector((state: any) => state.account.departments) as DepartmentDataType[]
+  const departments = useSelector((state: any) => state.accounts.departments) as DepartmentDataType[]
 
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
@@ -316,7 +316,7 @@ const AccountPage = () => {
       const departments = await res1.json()
 
       if (departments !== undefined) {
-        setDepartments(departments)
+        dispatch(setDepartments(departments))
       }
 
       // Load roles
@@ -344,7 +344,7 @@ const AccountPage = () => {
       const roles = await res2.json()
 
       if (roles !== undefined) {
-        setRoles(roles)
+        dispatch(setRoles(roles))
       }
     } catch (exception) {
       // Exception xảy ra khi apigateway (istio) không hoạt động

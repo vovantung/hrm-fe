@@ -381,13 +381,19 @@ const DepartmentView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/department/create-or-update', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        closeCreateDepartmentDailog()
+          return
+        } else {
+          const resError = await res.json()
 
-        handleErrorOpen('Can not add new department, cause by ' + resError.errorMessage)
+          handleErrorOpen('Can not add new department, cause by ' + resError.errorMessage)
 
-        return
+          // window.location.href = '/pages/misc/500-server-error'
+
+          return
+        }
       }
 
       const department = await res.json()
@@ -399,7 +405,7 @@ const DepartmentView = () => {
       }
     } catch (error) {
       console.log(error)
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 

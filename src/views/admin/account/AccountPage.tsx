@@ -3,7 +3,7 @@
 import type { ComponentType, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
 import {
   Alert,
@@ -91,37 +91,23 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const AccountPage = () => {
-  const route = useRouter()
+  // const route = useRouter()
   const { settings } = useSettings()
-
   const [init, setInit] = useState<boolean>(false)
-
   const [container, setContainer] = useState<Element | null>(null)
-
-  // Data Accounts, Departments  Page
-  // const [accounts, setAccounts] = useState<AccountDataType[]>([])
 
   // const [accountsOfPage, setAccountsOfPage] = useState<AccountDataType[]>([])
   // Sử dụng redux lưu dữ liệu chia sẽ giữa các thành phần trong ứng dụng
   const accountsOfPage = useSelector((state: any) => state.accounts.accountsOfPage) as AccountDataType[]
   const accounts = useSelector((state: any) => state.accounts.accounts) as AccountDataType[]
-
-  // const [departments, setDepartments] = useState<DepartmentDataType[]>([])
-
-  // const [roles, setRoles] = useState<RoleDataType[]>([])
-
   const roles = useSelector((state: any) => state.accounts.roles) as RoleDataType[]
-
   const departments = useSelector((state: any) => state.accounts.departments) as DepartmentDataType[]
-
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
 
   const auth = useSelector((state: any) => state.auth.auth) as {
     token: string
   }
-
-  // const auth = localStorage.getItem('Authorization') as string
 
   // Data temp using for update account
   const [updateAccount, setUpdateAccount] = useState<AccountDataType>({
@@ -245,8 +231,6 @@ const AccountPage = () => {
 
   async function reloadAccount() {
     try {
-      // Load Accounts
-
       const param = {
         method: 'POST',
         headers: {
@@ -261,8 +245,6 @@ const AccountPage = () => {
       }
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
-
-      // alert('Status: ' + res.status)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -285,7 +267,6 @@ const AccountPage = () => {
 
       if (accounts !== undefined) {
         // Fetch dữ liệu thành công
-        // alert('load account')
         dispatch(setAccounts(accounts))
       }
     } catch (exception) {
@@ -297,7 +278,6 @@ const AccountPage = () => {
   async function initData() {
     try {
       // Load Accounts
-
       const param = {
         method: 'POST',
         headers: {
@@ -313,19 +293,12 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
 
-      // alert('Status: ' + res.status)
-
       if (!res.ok) {
         if (res.status == 401) {
-          // Access token trong request đã hết hạn, gọi frefresh() sẽ tiến hành reload trang, quá trình này sẽ đươc AuthGuardTXU thực hiện:
-          // tiến hành xin lại access token từ refresh token hiện tại (nếu refresh chưa hết hạn)
-          // tiến hành yêu cầu client đăng nhập lại nếu refresh token đã hết hạn.
-          // Sau khi thành công bước trên sẽ forward đến trang hiện tại.
           refresh()
 
           return
         } else {
-          // Lỗi khhi gọi api backend
           window.location.href = '/pages/misc/500-server-error'
 
           return
@@ -335,8 +308,6 @@ const AccountPage = () => {
       const accounts = await res.json()
 
       if (accounts !== undefined) {
-        // Fetch dữ liệu thành công
-        // alert('load account')
         dispatch(setAccounts(accounts))
       }
 
@@ -357,11 +328,17 @@ const AccountPage = () => {
       const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
 
       if (!res1.ok) {
-        const rs = await res1.json()
+        if (res1.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
+          return
+        } else {
+          handleErrorOpen('Can not get list department')
 
-        return
+          // window.location.href = '/pages/misc/500-server-error'
+
+          return
+        }
       }
 
       const departments = await res1.json()
@@ -385,11 +362,17 @@ const AccountPage = () => {
       const res2 = await fetch(globalVariables.url_auth + '/roles', param2)
 
       if (!res2.ok) {
-        const rs3 = await res2.json()
+        if (res2.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get list roles, cause by ' + rs3.errorMessage)
+          return
+        } else {
+          handleErrorOpen('Can not get list roles')
 
-        return
+          // window.location.href = '/pages/misc/500-server-error'
+
+          return
+        }
       }
 
       const roles = await res2.json()
@@ -426,21 +409,15 @@ const AccountPage = () => {
 
         const res = await fetch(globalVariables.url_admin + '/admin/account/remove', param)
 
-        // if (!res.ok) {
-        //   const resError = await res.json()
-
-        //   handleErrorOpen('Can not delete account, cause by ' + resError.errorMessage)
-
-        //   return
-        // }
-
         if (!res.ok) {
           if (res.status == 401) {
             refresh()
 
             return
           } else {
-            window.location.href = '/pages/misc/500-server-error'
+            handleErrorOpen('Can not delete account')
+
+            // window.location.href = '/pages/misc/500-server-error'
 
             return
           }
@@ -455,8 +432,7 @@ const AccountPage = () => {
         }
       }
     } catch (error) {
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
@@ -479,21 +455,15 @@ const AccountPage = () => {
 
         const res = await fetch(globalVariables.url_admin + '/admin/account/get-by-username', param)
 
-        // if (!res.ok) {
-        //   const resError = await res.json()
-
-        //   handleErrorOpen('Can not get account, cause by ' + resError.errorMessage)
-
-        //   return
-        // }
-
         if (!res.ok) {
           if (res.status == 401) {
             refresh()
 
             return
           } else {
-            window.location.href = '/pages/misc/500-server-error'
+            handleErrorOpen('Can not get account')
+
+            // window.location.href = '/pages/misc/500-server-error'
 
             return
           }
@@ -507,8 +477,7 @@ const AccountPage = () => {
         }
       }
     } catch (error) {
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
@@ -541,7 +510,9 @@ const AccountPage = () => {
 
           return
         } else {
-          window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not get department')
+
+          // window.location.href = '/pages/misc/500-server-error'
 
           return
         }
@@ -554,8 +525,7 @@ const AccountPage = () => {
         setUpdateAccount({ ...updateAccount, department: department })
       }
     } catch (error) {
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
@@ -601,8 +571,6 @@ const AccountPage = () => {
 
         reloadAccount()
         handleAlertOpen('Updated [' + account.username + '] account')
-
-        // alert('Updated [' + account.username + '] account')
       }
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'
@@ -619,7 +587,6 @@ const AccountPage = () => {
       email: 'txu@gmail.com',
       phoneNumber: '',
       department: {
-        // id: departments[0].id,
         id: 0,
         name: '',
         description: '',
@@ -657,7 +624,7 @@ const AccountPage = () => {
 
           return
         } else {
-          window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not get department')
 
           return
         }
@@ -670,8 +637,6 @@ const AccountPage = () => {
       }
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'
-
-      // route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -709,22 +674,13 @@ const AccountPage = () => {
       // const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
       const res = await fetch(globalVariables.url_saga + '/users', param)
 
-      // if (!res.ok) {
-      //   const resError = await res.json()
-
-      //   closeCreateAccountDailog()
-      //   handleErrorOpen('Can not add new account, cause by ' + resError.errorMessage)
-
-      //   return
-      // }
-
       if (!res.ok) {
         if (res.status == 401) {
           refresh()
 
           return
         } else {
-          window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not add new account')
 
           return
         }
@@ -741,10 +697,7 @@ const AccountPage = () => {
       }
     } catch (error) {
       console.log(error)
-
       window.location.href = '/pages/misc/500-server-error'
-
-      // route.replace('/pages/misc/500-server-error')
     }
   }
 

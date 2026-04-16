@@ -229,7 +229,7 @@ const AccountPage = () => {
     // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
     initData()
-  })
+  }, [accounts, departments, roles])
 
   async function initData() {
     try {
@@ -273,7 +273,7 @@ const AccountPage = () => {
 
       if (accounts !== undefined) {
         // Fetch dữ liệu thành công
-        alert('load account kkkk')
+        alert('load account')
         setAccounts(accounts)
       }
 

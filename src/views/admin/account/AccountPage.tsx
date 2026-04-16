@@ -229,10 +229,10 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    if (!init) {
-      // Load portal
-      setContainer(document.getElementById('toast-root'))
+    // Load portal
+    setContainer(document.getElementById('toast-root'))
 
+    if (!init) {
       // Nạp danh sách accounts, roles, department lần đâu khi load trang
 
       if (accounts.length == 0) {
@@ -595,8 +595,8 @@ const AccountPage = () => {
       const account = await res.json()
 
       if (account !== undefined) {
-        handleAlertOpen('Updated infor for [' + account.username + '] account')
-        alert('Updated infor for [' + account.username + '] account')
+        handleAlertOpen('Updated [' + account.username + '] account')
+        alert('Updated [' + account.username + '] account')
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
@@ -747,7 +747,7 @@ const AccountPage = () => {
     }
   }
 
-  if (accounts.length !== 0 && init)
+  if (accounts)
     return (
       <div style={{ position: 'relative', minHeight: '100%' }}>
         <div

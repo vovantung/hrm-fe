@@ -1,14 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-type DepartmentDataType = {
-  id: number
-  name: string
-  description: string
-  createdAt: string
-  updateAt: string
-}
-
 type AccountDataType = {
   id: number
   username: string
@@ -22,6 +14,14 @@ type AccountDataType = {
   newpassword: string
 }
 
+type DepartmentDataType = {
+  id: number
+  name: string
+  description: string
+  createdAt: string
+  updateAt: string
+}
+
 type RoleDataType = {
   id: string
   name: string
@@ -32,9 +32,6 @@ interface AccountState {
   accounts: AccountDataType[]
   departments: DepartmentDataType[]
   roles: RoleDataType[]
-
-  // const [departments, setDepartments] = useState<DepartmentDataType[]>([])
-  //   const [roles, setRoles] = useState<RoleDataType[]>([])
   userLogined: AccountDataType
 }
 
@@ -89,7 +86,7 @@ const accountsSlice = createSlice({
       state.accounts = []
     },
     clearDepartments(state) {
-      state.accounts = []
+      state.departments = []
     },
     clearRoles(state) {
       state.roles = []

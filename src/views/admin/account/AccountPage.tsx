@@ -94,7 +94,7 @@ const AccountPage = () => {
   const route = useRouter()
   const { settings } = useSettings()
 
-  // const [init, setInit] = useState<boolean>(false)
+  const [init, setInit] = useState<boolean>(false)
 
   const [container, setContainer] = useState<Element | null>(null)
 
@@ -223,13 +223,17 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    // Load portal
-    setContainer(document.getElementById('toast-root'))
+    if (!init) {
+      setInit(true)
 
-    // Nạp danh sách accounts, roles, department lần đâu khi load trang
+      // Load portal
+      setContainer(document.getElementById('toast-root'))
 
-    initData()
-  }, [accounts, departments, roles])
+      // Nạp danh sách accounts, roles, department lần đâu khi load trang
+
+      initData()
+    }
+  })
 
   async function initData() {
     try {
@@ -273,7 +277,7 @@ const AccountPage = () => {
 
       if (accounts !== undefined) {
         // Fetch dữ liệu thành công
-        alert('load account')
+        alert('load account t')
         setAccounts(accounts)
       }
 

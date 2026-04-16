@@ -412,8 +412,6 @@ const AccountPage = () => {
     try {
       const username = event.target.id.substring(0, event.target.id.length - 2)
 
-      // const auth = localStorage.getItem('Authorization') as string
-
       if (!(username == '' || username == undefined)) {
         const param = {
           method: 'DELETE',
@@ -467,8 +465,6 @@ const AccountPage = () => {
     try {
       const username = event.target.id.substring(0, event.target.id.length - 2)
 
-      // const auth = localStorage.getItem('Authorization') as string
-
       if (!(username == '' || username == undefined)) {
         const param = {
           method: 'POST',
@@ -518,8 +514,6 @@ const AccountPage = () => {
 
   async function onChangeDepartmentToUpdate(e: any) {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -592,9 +586,7 @@ const AccountPage = () => {
 
           return
         } else {
-          handleErrorOpen('Can not update new account')
-
-          // window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not update account')
 
           return
         }
@@ -604,6 +596,7 @@ const AccountPage = () => {
 
       if (account !== undefined) {
         handleAlertOpen('Updated infor for [' + account.username + '] account')
+        alert('Updated infor for [' + account.username + '] account')
         closeUpdateAccountDailog()
 
         // Nạp lại danh sách accounts sau khi đã cập nhật account
@@ -612,8 +605,6 @@ const AccountPage = () => {
       }
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'
-
-      // route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -646,8 +637,6 @@ const AccountPage = () => {
 
   async function onChangeDepartmentToCreate(e: any) {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -660,14 +649,6 @@ const AccountPage = () => {
       }
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
-
-      // if (!res.ok) {
-      //   const resError = await res.json()
-
-      //   handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
-
-      //   return
-      // }
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -687,8 +668,9 @@ const AccountPage = () => {
         setCreateAccount({ ...createAccount, department: department })
       }
     } catch (error) {
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
+
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -696,15 +678,14 @@ const AccountPage = () => {
     try {
       setCreateAccount({ ...createAccount, role: { id: e.target.value, name: e.target.value } })
     } catch (error) {
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
+
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 
   async function handleCreateAccount() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -760,8 +741,9 @@ const AccountPage = () => {
     } catch (error) {
       console.log(error)
 
-      // refresh()
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
+
+      // route.replace('/pages/misc/500-server-error')
     }
   }
 

@@ -3,7 +3,7 @@
 import type { ComponentType, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
 import {
   Alert,
@@ -74,7 +74,7 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const DepartmentView = () => {
-  const route = useRouter()
+  // const route = useRouter()
   const { settings } = useSettings()
   const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
@@ -164,7 +164,6 @@ const DepartmentView = () => {
 
   function onChangePage(departmentsOfPage_: any) {
     dispatch(setDepartmentsOfPage(departmentsOfPage_)) // Cập nhật redux với accountsOfPage mới
-    // alert(departmentsOfPage.length)
   }
 
   useEffect(() => {
@@ -232,8 +231,6 @@ const DepartmentView = () => {
     try {
       const id = event.target.id.substring(0, event.target.id.length - 2)
 
-      // const auth = localStorage.getItem('Authorization') as string
-
       if (!(id == 0 || id == undefined)) {
         const param = {
           method: 'DELETE',
@@ -258,8 +255,6 @@ const DepartmentView = () => {
 
             handleErrorOpen('Can not delete department, cause by ' + resError.errorMessage)
 
-            // window.location.href = '/pages/misc/500-server-error'
-
             return
           }
         }
@@ -272,15 +267,13 @@ const DepartmentView = () => {
         }
       }
     } catch (error) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
   async function handleViewUpdateDepartment(event: any) {
     try {
       const id = event.target.id.substring(0, event.target.id.length - 2)
-
-      // const auth = localStorage.getItem('Authorization') as string
 
       if (!(id == 0 || id == undefined)) {
         const param = {
@@ -306,8 +299,6 @@ const DepartmentView = () => {
 
             handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
-            // window.location.href = '/pages/misc/500-server-error'
-
             return
           }
         }
@@ -320,14 +311,12 @@ const DepartmentView = () => {
         }
       }
     } catch (error) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
   async function handleUpdateDepartment() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -354,8 +343,6 @@ const DepartmentView = () => {
           closeUpdateDepartmentDailog()
           handleErrorOpen('Can not update department, cause by ' + resError.errorMessage)
 
-          // window.location.href = '/pages/misc/500-server-error'
-
           return
         }
       }
@@ -368,7 +355,7 @@ const DepartmentView = () => {
         handleAlertOpen('Updated infor for [' + department.name + '] department')
       }
     } catch (error) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
@@ -387,8 +374,6 @@ const DepartmentView = () => {
 
   async function handleCreateDepartment() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -413,8 +398,6 @@ const DepartmentView = () => {
 
           closeCreateDepartmentDailog()
           handleErrorOpen('Can not add new department, cause by ' + resError.errorMessage)
-
-          // window.location.href = '/pages/misc/500-server-error'
 
           return
         }

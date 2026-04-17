@@ -3,7 +3,7 @@
 import type { ComponentType, SyntheticEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
 import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
 
@@ -32,7 +32,6 @@ import {
 } from '@/redux-store/slices/report-weekly'
 import { useSettings } from '@/@core/hooks/useSettings'
 import { setLoading } from '@/redux-store/slices/common'
-
 import './link-custom.css'
 
 type ReportedWeeklyDataType = {
@@ -63,7 +62,8 @@ const WeeklyReportView = () => {
   const [container, setContainer] = useState<Element | null>(null)
 
   const { settings } = useSettings()
-  const route = useRouter()
+
+  // const route = useRouter()
   const [init, setInit] = useState<boolean>(false)
 
   // Lấy ngày đầu tuần và cuối tuần hiện tại
@@ -145,7 +145,9 @@ const WeeklyReportView = () => {
       setContainer(document.getElementById('toast-root'))
 
       // Chỉ nạp danh sách báo cáo tuần hiện tại lần đâu tiên khi load trang
-      handleReportedWeekly()
+      if (reportedWeeklyList.length == 0) {
+        handleReportedWeekly()
+      }
 
       // Sau khi nạp dữ liệu xong, chuyển sang loading sang trạng thái true để dừng màn hình load
       dispatch(setLoading(false))
@@ -164,8 +166,6 @@ const WeeklyReportView = () => {
   // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
   async function handleReportedWeekly() {
-    // if (reportedWeeklyList.length !== 0) return
-
     alert('Weekly load')
 
     try {
@@ -219,8 +219,6 @@ const WeeklyReportView = () => {
 
   async function handleNotReportedWeekly() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -238,11 +236,17 @@ const WeeklyReportView = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
+          return
+        } else {
+          const resError = await res.json()
 
-        return
+          handleErrorOpen('Can not get list department, cause by ' + resError.errorMessage)
+
+          return
+        }
       }
 
       const notReportedCurrentWeeklyList = await res.json()
@@ -252,14 +256,12 @@ const WeeklyReportView = () => {
         dispatch(setNotReportedWeekly(notReportedCurrentWeeklyList))
       }
     } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
   const handleUploadWeeklyReport = async () => {
     if (!file) return
-
-    // const auth = localStorage.getItem('Authorization') as string
     const formData = new FormData()
 
     formData.append('file', file)
@@ -276,56 +278,74 @@ const WeeklyReportView = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-presignedurl-for-put', param1)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-presignedurl-for-put', param1)
 
-      if (!res1.ok) {
-        const resError = await res1.json()
+      if (!res.ok) {
+        if (res.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
-
-        return
-      }
-
-      const rs1 = await res1.json()
-
-      // alert(rs1.pre_signed_url)
-
-      if (rs1 !== undefined) {
-        const res2 = await fetch(rs1.pre_signed_url, { method: 'PUT', body: file })
-
-        if (!res2.ok) {
-          const resError = await res2.json()
+          return
+        } else {
+          const resError = await res.json()
 
           handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
 
           return
         }
+      }
+
+      const rs = await res.json()
+
+      // alert(rs1.pre_signed_url)
+
+      if (rs !== undefined) {
+        const res1 = await fetch(rs.pre_signed_url, { method: 'PUT', body: file })
+
+        if (!res1.ok) {
+          if (res1.status == 401) {
+            refresh()
+
+            return
+          } else {
+            const resError1 = await res1.json()
+
+            handleErrorOpen('Can not get department, cause by ' + resError1.errorMessage)
+
+            return
+          }
+        }
 
         // const rs2 = await res2.json()
 
-        const param3 = {
+        const param2 = {
           method: 'POST',
           headers: {
             Authorization: auth.token,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            filename: rs1.filename,
+            filename: rs.filename,
             filenameOrigin: file.name
           })
         }
 
-        const res3 = await fetch(globalVariables.url_admin + '/admin/weekly-report/add', param3)
+        const res2 = await fetch(globalVariables.url_admin + '/admin/weekly-report/add', param2)
 
-        if (!res3.ok) {
-          const resError = await res3.json()
+        if (!res2.ok) {
+          if (res2.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError2 = await res2.json()
 
-          return
+            handleErrorOpen('Can not upload weekly report, cause by ' + resError2.errorMessage)
+
+            return
+          }
         }
 
-        const reportWeekly = await res3.json()
+        const reportWeekly = await res2.json()
 
         handleAlertOpen('Upload ' + reportWeekly.originName + ' report success.')
       }
@@ -333,7 +353,7 @@ const WeeklyReportView = () => {
       handleReportedWeekly() // Đặt lại danh sách đã gửi báo cáo để WeeklyReport hiện thị...
       handleNotReportedWeekly() // Đặt lại danh sách chưa gửi báo cáo tuần, component ThisWeek sẽ sử dụng danh sách này để hiện thị thông báo...
     } catch (error) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
@@ -378,11 +398,17 @@ const WeeklyReportView = () => {
         const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-presignedurl-for-get', param)
 
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res.json()
 
-          return
+            handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+
+            return
+          }
         }
 
         const department = await res.json()
@@ -392,7 +418,7 @@ const WeeklyReportView = () => {
         }
       }
     } catch (error) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 

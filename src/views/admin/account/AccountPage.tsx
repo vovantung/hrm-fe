@@ -333,9 +333,9 @@ const AccountPage = () => {
 
           return
         } else {
-          handleErrorOpen('Can not get list department')
+          const resError = await res.json()
 
-          // window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not get list department, because ' + resError.errorMessage)
 
           return
         }
@@ -367,9 +367,9 @@ const AccountPage = () => {
 
           return
         } else {
-          handleErrorOpen('Can not get list roles')
+          const resError = await res.json()
 
-          // window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not get list roles, because ' + resError.errorMessage)
 
           return
         }
@@ -415,9 +415,9 @@ const AccountPage = () => {
 
             return
           } else {
-            handleErrorOpen('Can not delete account')
+            const resError = await res.json()
 
-            // window.location.href = '/pages/misc/500-server-error'
+            handleErrorOpen('Can not delete account, because ' + resError.errorMessage)
 
             return
           }
@@ -461,9 +461,9 @@ const AccountPage = () => {
 
             return
           } else {
-            handleErrorOpen('Can not get account')
+            const resError = await res.json()
 
-            // window.location.href = '/pages/misc/500-server-error'
+            handleErrorOpen('Can not get account, because ' + resError.errorMessage)
 
             return
           }
@@ -496,23 +496,15 @@ const AccountPage = () => {
 
       const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
 
-      // if (!res.ok) {
-      //   const resError = await res.json()
-
-      //   handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
-
-      //   return
-      // }
-
       if (!res.ok) {
         if (res.status == 401) {
           refresh()
 
           return
         } else {
-          handleErrorOpen('Can not get department')
+          const resError = await res.json()
 
-          // window.location.href = '/pages/misc/500-server-error'
+          handleErrorOpen('Can not get department, because ' + resError.errorMessage)
 
           return
         }
@@ -556,7 +548,9 @@ const AccountPage = () => {
 
           return
         } else {
-          handleErrorOpen('Can not update account')
+          const resError = await res.json()
+
+          handleErrorOpen('Can not update account, because ' + resError.errorMessage)
 
           return
         }
@@ -624,7 +618,9 @@ const AccountPage = () => {
 
           return
         } else {
-          handleErrorOpen('Can not get department')
+          const resError = await res.json()
+
+          handleErrorOpen('Can not get department, because ' + resError.errorMessage)
 
           return
         }
@@ -645,8 +641,6 @@ const AccountPage = () => {
       setCreateAccount({ ...createAccount, role: { id: e.target.value, name: e.target.value } })
     } catch (error) {
       window.location.href = '/pages/misc/500-server-error'
-
-      // route.replace('/pages/misc/500-server-error')
     }
   }
 
@@ -680,7 +674,9 @@ const AccountPage = () => {
 
           return
         } else {
-          handleErrorOpen('Can not add new account')
+          const resError = await res.json()
+
+          handleErrorOpen('Can not add new account, because ' + resError.errorMessage)
 
           return
         }

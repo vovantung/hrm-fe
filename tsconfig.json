@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "downlevelIteration": true,
+    // "downlevelIteration": true,
     "lib": [
       "DOM",
       "DOM.Iterable",
@@ -58,8 +58,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/views/post/PostClient.jsx",
-    "src/views/post/PostClient.jsx"
+    // "src/views/post/PostClient.jsx",
+    // "src/views/post/PostClient.jsx"
   ],
   "exclude": [
     "node_modules"

@@ -199,6 +199,8 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function getNotReportedFromTo(start: Date, end: Date): Promise<DepartmentDataType[] | null | undefined> {
+    alert('get not report ___')
+
     try {
       const param = {
         method: 'POST',

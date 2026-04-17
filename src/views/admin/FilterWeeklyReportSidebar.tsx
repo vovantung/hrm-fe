@@ -153,6 +153,8 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function handleReportedFromTo() {
+    alert('Search to: ' + dateFrom?.toISOString() + 'to ' + dateTo?.toISOString())
+
     try {
       const param = {
         method: 'POST',
@@ -239,6 +241,8 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function getNotReportedFromTo_() {
+    alert('get not report')
+
     try {
       const param = {
         method: 'POST',

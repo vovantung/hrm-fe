@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
 // import { Card, CardContent, Tooltip, useMediaQuery } from '@mui/material'
 import { Tooltip, useMediaQuery } from '@mui/material'
@@ -63,7 +63,7 @@ const FilterWeeklyReportSidebar = () => {
 
   const notReportedWeekly = useSelector((state: any) => state.reportWeekly.notReportedWeekly) as DepartmentDataType[]
 
-  const route = useRouter()
+  // const route = useRouter()
   const theme = useTheme() as Theme
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
 
@@ -170,10 +170,15 @@ const FilterWeeklyReportSidebar = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-fromto', param)
 
       if (!res.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
+        if (res.status == 401) {
+          refresh()
+
+          return
+        } else {
+          alert('Get report list failed')
+
+          return
+        }
       }
 
       const reportedFromToList = await res.json()
@@ -183,20 +188,20 @@ const FilterWeeklyReportSidebar = () => {
         dispatch(setReportedWeeklyForAdmin(reportedFromToList))
       }
     } catch (exception) {
-      route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
+  }
+
+  async function refresh() {
+    window.location.reload()
   }
 
   async function getNotReportedFromTo(start: Date, end: Date): Promise<DepartmentDataType[] | null | undefined> {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-
-          // Authorization: auth
           Authorization: auth.token
         },
         body: JSON.stringify({
@@ -210,10 +215,15 @@ const FilterWeeklyReportSidebar = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
+        if (res.status == 401) {
+          refresh()
+
+          return
+        } else {
+          alert('Get noreport list failed')
+
+          return
+        }
       }
 
       const notReported = await res.json()
@@ -224,20 +234,16 @@ const FilterWeeklyReportSidebar = () => {
         return notReported
       }
     } catch (exception) {
-      // route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 
   async function getNotReportedFromTo_() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-
-          // Authorization: auth
           Authorization: auth.token
         },
         body: JSON.stringify({
@@ -251,11 +257,15 @@ const FilterWeeklyReportSidebar = () => {
       const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
 
       if (!res.ok) {
-        // const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        // handleErrorOpen("Can't get list not reported weekly current list, cause by " + resError.errorMessage)
+          return
+        } else {
+          alert('Get noreport list failed')
 
-        return
+          return
+        }
       }
 
       const notReportedWeekly = await res.json()
@@ -264,7 +274,7 @@ const FilterWeeklyReportSidebar = () => {
         dispatch(setNotReportedWeekly(notReportedWeekly))
       }
     } catch (exception) {
-      // route.replace('/pages/misc/500-server-error')
+      window.location.href = '/pages/misc/500-server-error'
     }
   }
 

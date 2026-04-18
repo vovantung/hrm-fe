@@ -13,7 +13,9 @@ import type { TextFieldProps } from '@mui/material/TextField'
 
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
-import { setNotReportedWeekly, setReportedWeeklyForAdmin, setWeeks } from '@/redux-store/slices/report-weekly'
+
+// import { setNotReportedWeekly, setReportedWeeklyForAdmin, setWeeks } from '@/redux-store/slices/report-weekly'
+import { setReportedWeeklyForAdmin, setWeeks } from '@/redux-store/slices/report-weekly'
 import { setDateFrom, setDateTo } from '@/redux-store/slices/common'
 import './week.css'
 
@@ -95,7 +97,8 @@ const FilterWeeklyReportSidebar = () => {
   useEffect(() => {
     if (!init) {
       setInit(true)
-      getNotReportedFromTo_()
+
+      // getNotReportedFromTo_()
 
       if (weeks.length == 0) {
         selectMonthYear(selectedMonth)
@@ -254,47 +257,47 @@ const FilterWeeklyReportSidebar = () => {
     }
   }
 
-  async function getNotReportedFromTo_() {
-    alert('get not report')
+  // async function getNotReportedFromTo_() {
+  //   alert('get not report')
 
-    try {
-      const param = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth.token
-        },
-        body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
-          from: weekStart.toISOString(),
-          to: weekEnd.toISOString()
-        })
-      }
+  //   try {
+  //     const param = {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: auth.token
+  //       },
+  //       body: JSON.stringify({
+  //         // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
+  //         from: weekStart.toISOString(),
+  //         to: weekEnd.toISOString()
+  //       })
+  //     }
 
-      // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
+  //     // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
+  //     const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
 
-      if (!res.ok) {
-        if (res.status == 401) {
-          refresh()
+  //     if (!res.ok) {
+  //       if (res.status == 401) {
+  //         refresh()
 
-          return
-        } else {
-          alert('Get noreport list failed')
+  //         return
+  //       } else {
+  //         alert('Get noreport list failed')
 
-          return
-        }
-      }
+  //         return
+  //       }
+  //     }
 
-      const notReportedWeekly = await res.json()
+  //     const notReportedWeekly = await res.json()
 
-      if (notReportedWeekly !== undefined) {
-        dispatch(setNotReportedWeekly(notReportedWeekly))
-      }
-    } catch (exception) {
-      window.location.href = '/pages/misc/500-server-error'
-    }
-  }
+  //     if (notReportedWeekly !== undefined) {
+  //       dispatch(setNotReportedWeekly(notReportedWeekly))
+  //     }
+  //   } catch (exception) {
+  //     window.location.href = '/pages/misc/500-server-error'
+  //   }
+  // }
 
   async function getWeeklyReportsFromTo() {
     if (weekEnd != null) {

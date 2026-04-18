@@ -27,18 +27,21 @@ import frontCommonStyles from '@views/front-pages/styles.module.css'
 const feature = [
   {
     icon: <LaptopCharging color='var(--mui-palette-primary-main)' />,
-    title: 'Quality Code',
-    description: 'Code structure that all developers will easily understand and fall in love with.'
+    title: 'Vận hành ổn định cho doanh nghiệp',
+    description:
+      'Hệ thống được xây dựng theo kiến trúc cloud native hiện đại, đảm bảo hiệu năng cao, khả năng chịu tải tốt và hoạt động liên tục cho các nghiệp vụ quan trọng.'
   },
   {
     icon: <Rocket color='var(--mui-palette-primary-main)' />,
-    title: 'Continuous Updates',
-    description: 'Free updates for the next 12 months, including new demos and features.'
+    title: 'Bảo mật và kiểm soát dữ liệu nội bộ',
+    description:
+      'Triển khai trên hạ tầng On-Premise riêng của doanh nghiệp, giúp toàn quyền kiểm soát dữ liệu, phù hợp với các đơn vị yêu cầu cao về bảo mật, tuân thủ và quyền riêng tư.'
   },
   {
     icon: <Paper color='var(--mui-palette-primary-main)' />,
-    title: 'Stater-Kit',
-    description: 'Start your project quickly without having to remove unnecessary features.'
+    title: 'Dễ dàng mở rộng khi doanh nghiệp phát triển',
+    description:
+      'Kiến trúc microservices cho phép mở rộng từng thành phần độc lập mà không ảnh hưởng toàn hệ thống, phù hợp với doanh nghiệp tăng trưởng nhanh.'
   },
   {
     icon: <Check color='var(--mui-palette-primary-main)' />,

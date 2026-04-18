@@ -580,7 +580,7 @@ const horizontalMenuData = (dictionary: Awaited<ReturnType<typeof getDictionary>
         icon: 'tabler-lifebuoy',
         suffix: <i className='tabler-external-link text-xl' />,
         target: '_blank',
-        href: 'https://pixinvent.ticksy.com'
+        href: '#'
       },
       {
         label: dictionary['navigation'].documentation,
@@ -600,7 +600,7 @@ const horizontalMenuData = (dictionary: Awaited<ReturnType<typeof getDictionary>
       {
         label: dictionary['navigation'].externalLink,
         icon: 'tabler-link',
-        href: 'https://pixinvent.com',
+        href: '#',
         target: '_blank',
         suffix: <i className='tabler-external-link text-xl' />
       },

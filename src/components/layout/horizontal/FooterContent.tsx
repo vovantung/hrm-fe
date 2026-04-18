@@ -33,7 +33,7 @@ const FooterContent = () => {
           <Link href='https://txuyen.com' target='_blank' className='text-primary'>
             License
           </Link>
-          {/* <Link href='https://themeforest.net/user/pixinvent/portfolio' target='_blank' className='text-primary'>
+          {/* <Link href='#' target='_blank' className='text-primary'>
             More Themes
           </Link> */}
           <Link href='https://txuyen.com' target='_blank' className='text-primary'>

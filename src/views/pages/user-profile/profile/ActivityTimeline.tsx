@@ -74,7 +74,7 @@ const ActivityTimeline = () => {
                   <Typography className='font-medium' variant='body2'>
                     Lester McCarthy (Client)
                   </Typography>
-                  <Typography variant='body2'>CEO of Pixinvent</Typography>
+                  <Typography variant='body2'>CEO of TXUYEN</Typography>
                 </div>
               </div>
             </TimelineContent>

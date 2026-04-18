@@ -26,7 +26,7 @@ const Address = () => {
         <form>
           <Grid container spacing={6}>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <CustomTextField fullWidth label='Company Name' variant='outlined' placeholder='Pixinvent' />
+              <CustomTextField fullWidth label='Company Name' variant='outlined' placeholder='TXUYEN' />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <CustomTextField fullWidth label='Billing Email' variant='outlined' placeholder='john.doe@example.com' />

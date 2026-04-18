@@ -402,7 +402,7 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           <MenuItem
             suffix={<i className='tabler-external-link text-xl' />}
             target='_blank'
-            href='https://pixinvent.ticksy.com'
+            href='#'
             icon={<i className='tabler-lifebuoy' />}
           >
             {dictionary['navigation'].raiseSupport}
@@ -423,7 +423,7 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           </MenuItem>
           <MenuItem
             icon={<i className='tabler-link' />}
-            href='https://pixinvent.com'
+            href='#'
             target='_blank'
             suffix={<i className='tabler-external-link text-xl' />}
           >

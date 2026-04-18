@@ -34,7 +34,7 @@ const InviteAndShare = () => {
           <div className='flex items-end gap-4'>
             <CustomTextField
               label='Share referral link in social media'
-              placeholder='pixinvent.com/?ref=6479'
+              placeholder='#/?ref=6479'
               className='flex-auto'
             />
             <div className='flex gap-2'>

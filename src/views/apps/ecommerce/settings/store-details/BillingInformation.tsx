@@ -21,7 +21,7 @@ const BillingInformation = () => {
       <CardContent>
         <Grid container spacing={6}>
           <Grid size={{ xs: 12, md: 6 }}>
-            <CustomTextField fullWidth label='Legal business name' placeholder='Pixinvent' />
+            <CustomTextField fullWidth label='Legal business name' placeholder='TXUYEN' />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <CustomTextField

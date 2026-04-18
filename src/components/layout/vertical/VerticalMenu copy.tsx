@@ -354,7 +354,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             icon={<i className='tabler-lifebuoy' />}
             suffix={<i className='tabler-external-link text-xl' />}
             target='_blank'
-            href='https://pixinvent.ticksy.com'
+            href='#'
           >
             {dictionary['navigation'].raiseSupport}
           </MenuItem>
@@ -370,11 +370,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             <MenuItem suffix={<CustomChip label='New' size='small' color='info' round='true' />}>
               {dictionary['navigation'].itemWithBadge}
             </MenuItem>
-            <MenuItem
-              href='https://pixinvent.com'
-              target='_blank'
-              suffix={<i className='tabler-external-link text-xl' />}
-            >
+            <MenuItem href='#' target='_blank' suffix={<i className='tabler-external-link text-xl' />}>
               {dictionary['navigation'].externalLink}
             </MenuItem>
             <SubMenu label={dictionary['navigation'].menuLevels}>

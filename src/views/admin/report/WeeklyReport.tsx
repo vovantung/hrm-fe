@@ -166,8 +166,6 @@ const WeeklyReportView = () => {
   // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
   async function handleReportedWeekly() {
-    alert('Weekly load')
-
     try {
       const param = {
         method: 'POST',

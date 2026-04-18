@@ -90,10 +90,6 @@ const FilterWeeklyReportSidebar = () => {
     token: string
   }
 
-  // const reportedWeeklyList = useSelector(
-  //   (state: any) => state.reportWeekly.reportedWeeklyForAdmin
-  // ) as ReportedWeeklyDataType[]
-
   useEffect(() => {
     if (!init) {
       setInit(true)
@@ -134,10 +130,8 @@ const FilterWeeklyReportSidebar = () => {
   const selectMonthYear = async (date: Date | null | undefined) => {
     if (date) {
       setSelectedMonth(date)
-
       const generatedWeeks = await getWeeksInMonth(new Date(date.getFullYear(), date.getMonth()))
 
-      // setWeeks(generatedWeeks)
       dispatch(setWeeks(generatedWeeks))
     }
   }
@@ -168,8 +162,6 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function handleReportedFromTo() {
-    alert('Search to: ' + dateFrom?.toISOString() + 'to ' + dateTo?.toISOString())
-
     try {
       const param = {
         method: 'POST',
@@ -214,8 +206,6 @@ const FilterWeeklyReportSidebar = () => {
   }
 
   async function getNotReportedFromTo(start: Date, end: Date): Promise<DepartmentDataType[] | null | undefined> {
-    alert('get not report ___')
-
     try {
       const param = {
         method: 'POST',

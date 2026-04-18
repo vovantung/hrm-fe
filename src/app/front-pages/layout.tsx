@@ -27,8 +27,10 @@ import '@/app/globals.css'
 import '@assets/iconify-icons/generated-icons.css'
 
 export const metadata = {
-  title: 'TXU❤️',
-  description: 'TXU❤️'
+  // title: 'TXU❤️',
+  // description: 'TXU❤️'
+  title: 'TXUYEN',
+  description: 'TXUYEN'
 }
 
 const Layout = async ({ children }: ChildrenType) => {

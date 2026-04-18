@@ -94,7 +94,7 @@ const ContactUs = () => {
                     <div>
                       <Typography>Email</Typography>
                       <Typography color='text.primary' className='font-medium'>
-                        example@gamil.com
+                        vovantungdt123@gamil.com
                       </Typography>
                     </div>
                   </div>
@@ -105,7 +105,7 @@ const ContactUs = () => {
                     <div>
                       <Typography>Phone</Typography>
                       <Typography color='text.primary' className='font-medium'>
-                        +123 568 963
+                        +84 326 667 48
                       </Typography>
                     </div>
                   </div>

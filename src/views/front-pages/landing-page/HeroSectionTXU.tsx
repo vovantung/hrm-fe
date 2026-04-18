@@ -70,11 +70,11 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
   }, [])
 
   return (
-    <section id='home' className='overflow-hidden pbs-[0px] -mbs-[0px] relative'>
+    <section id='home' className='overflow-hidden pbs-[75px] -mbs-[75px] relative'>
       <img
         src={heroSectionBg}
         alt='hero-bg'
-        className={classnames('bs-[95%] sm:bs-[85%] md:bs-[80%]', styles.heroSectionBg, {
+        className={classnames('bs-[95%] sm:bs-[85%] md:bs-[80%]', null, {
           [styles.bgLight]: _mode === 'light',
           [styles.bgDark]: _mode === 'dark'
         })}
@@ -82,7 +82,7 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
       <div className={classnames('pbs-[88px] overflow-hidden', frontCommonStyles.layoutSpacing)}>
         <div className='md:max-is-[650px] mbs-0 mbe-7 mli-auto text-center relative'>
           <Typography
-            className={classnames('font-extrabold sm:text-[24px] text-3xl mbe-4 leading-[32px]', styles.heroText)}
+            className={classnames('font-extrabold sm:text-[22px] text-3xl mbe-4 leading-[34px]', styles.heroText)}
           >
             Nền tảng quản lý doanh nghiệp hiện đại trên hạ tầng cloud native riêng biệt
           </Typography>

@@ -6,8 +6,10 @@
   inset-block-start: -12%;
   pointer-events: none;
   z-index: 0;
-  border-end-start-radius: 3.5rem;
-  border-end-end-radius: 3.5rem;
+  /* border-end-start-radius: 3.5rem;
+  border-end-end-radius: 3.5rem; */
+  border-end-start-radius: 0rem;
+  border-end-end-radius: 0rem;
   &.bgLight {
     background: linear-gradient(138.18deg, #eae8fd 0%, #fce5e6 94.44%);
   }

@@ -31,7 +31,9 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
   // Vars
   // const dashboardImageLight = '/images/front-pages/landing-page/hero-dashboard-light.png'
   const dashboardImageLight = '/images/front-pages/landing-page/txu-dashboard-report.png'
-  const dashboardImageDark = '/images/front-pages/landing-page/hero-dashboard-dark.png'
+  const dashboardImageDark = '/images/front-pages/landing-page/txu-dashboard-report1.png'
+
+  // const dashboardImageDark = '/images/front-pages/landing-page/hero-dashboard-dark.png'
 
   // const elementsImageLight = '/images/front-pages/landing-page/hero-elements-light.png'
   // const elementsImageDark = '/images/front-pages/landing-page/hero-elements-dark.png'

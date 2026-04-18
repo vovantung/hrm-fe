@@ -7,7 +7,8 @@ import Link from 'next/link'
 // MUI Imports
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { useColorScheme } from '@mui/material/styles'
+
+// import { useColorScheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import type { Theme } from '@mui/material/styles'
 
@@ -29,20 +30,23 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
   const [transform, setTransform] = useState('')
 
   // Vars
+  // const dashboardImageLight = '/images/front-pages/landing-page/hero-dashboard-light.png'
   const dashboardImageLight = '/images/front-pages/landing-page/txu-dashboard-report.png'
   const dashboardImageDark = '/images/front-pages/landing-page/hero-dashboard-dark.png'
-  const elementsImageLight = '/images/front-pages/landing-page/hero-elements-light.png'
-  const elementsImageDark = '/images/front-pages/landing-page/hero-elements-dark.png'
-  const heroSectionBgLight = '/images/front-pages/landing-page/hero-bg-light.png'
-  const heroSectionBgDark = '/images/front-pages/landing-page/hero-bg-dark.png'
+
+  // const elementsImageLight = '/images/front-pages/landing-page/hero-elements-light.png'
+  // const elementsImageDark = '/images/front-pages/landing-page/hero-elements-dark.png'
+  // const heroSectionBgLight = '/images/front-pages/landing-page/hero-bg-light.png'
+  // const heroSectionBgDark = '/images/front-pages/landing-page/hero-bg-dark.png'
 
   // Hooks
-  const { mode: muiMode } = useColorScheme()
+  // const { mode: muiMode } = useColorScheme()
   const dashboardImage = useImageVariant(mode, dashboardImageLight, dashboardImageDark)
-  const elementsImage = useImageVariant(mode, elementsImageLight, elementsImageDark)
-  const heroSectionBg = useImageVariant(mode, heroSectionBgLight, heroSectionBgDark)
 
-  const _mode = (muiMode === 'system' ? mode : muiMode) || mode
+  // const elementsImage = useImageVariant(mode, elementsImageLight, elementsImageDark)
+  // const heroSectionBg = useImageVariant(mode, heroSectionBgLight, heroSectionBgDark)
+
+  // const _mode = (muiMode === 'system' ? mode : muiMode) || mode
   const isAboveLgScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
   useEffect(() => {
@@ -66,14 +70,14 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
 
   return (
     <section id='home' className='overflow-hidden pbs-[75px] -mbs-[75px] relative'>
-      <img
+      {/* <img
         src={heroSectionBg}
         alt='hero-bg'
         className={classnames('bs-[95%] sm:bs-[85%] md:bs-[80%]', styles.heroSectionBg, {
           [styles.bgLight]: _mode === 'light',
           [styles.bgDark]: _mode === 'dark'
         })}
-      />
+      /> */}
       <div className={classnames('pbs-[88px] overflow-hidden', frontCommonStyles.layoutSpacing)}>
         <div className='md:max-is-[550px] mbs-0 mbe-7 mli-auto text-center relative'>
           <Typography
@@ -108,7 +112,7 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
         <Link href='/' target='_blank' className='block relative'>
           <img src={dashboardImage} alt='dashboard-image' className={classnames('mli-auto', styles.heroSecDashboard)} />
           <div className={classnames('absolute', styles.heroSectionElements)}>
-            <img src={elementsImage} alt='dashboard-elements' />
+            {/* <img src={elementsImage} alt='dashboard-elements' /> */}
           </div>
         </Link>
       </div>

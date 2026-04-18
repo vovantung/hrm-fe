@@ -80,11 +80,11 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
         })}
       />
       <div className={classnames('pbs-[88px] overflow-hidden', frontCommonStyles.layoutSpacing)}>
-        <div className='md:max-is-[550px] mbs-0 mbe-7 mli-auto text-center relative'>
+        <div className='md:max-is-[650px] mbs-0 mbe-7 mli-auto text-center relative'>
           <Typography
             className={classnames('font-extrabold sm:text-[42px] text-3xl mbe-4 leading-[48px]', styles.heroText)}
           >
-            Nền tảng quản lý doanh nghiệp hiện đại trên hạ tầng Cloud Native riêng biệt
+            Nền tảng quản lý doanh nghiệp hiện đại trên hạ tầng cloud native riêng biệt
           </Typography>
           <Typography className='font-medium' color='text.primary'>
             Giải pháp phần mềm được xây dựng trên kiến trúc microservices, Kubernetes, CI/CD tự động và hệ thống giám
@@ -102,7 +102,7 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
               variant='contained'
               color='primary'
             >
-              Get Early Access
+              Dùng thử ngay
             </Button>
           </div>
         </div>

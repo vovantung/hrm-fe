@@ -22,6 +22,11 @@ type WeeklyReportDataType = {
   dateReportEx: string
 }
 
+type WeekDataType = {
+  start: Date
+  end: Date
+  notReportList: DepartmentDataType[]
+}
 interface ReportWeeklyState {
   notReportedWeekly: DepartmentDataType[]
   reportedWeeklyForAdmin: WeeklyReportDataType[]
@@ -31,7 +36,10 @@ interface ReportWeeklyState {
   reportedWeeklyListOfPage: WeeklyReportDataType[]
   reportedWeeklyListOfPageDepartment: WeeklyReportDataType[]
   reportedWeeklyListOfPageSummary: WeeklyReportDataType[]
+  weeks: WeekDataType[]
 }
+
+// const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
 
 const initialState: ReportWeeklyState = {
   notReportedWeekly: [],
@@ -40,7 +48,8 @@ const initialState: ReportWeeklyState = {
   reportedWeeklyForUserSummary: [],
   reportedWeeklyListOfPage: [],
   reportedWeeklyListOfPageDepartment: [],
-  reportedWeeklyListOfPageSummary: []
+  reportedWeeklyListOfPageSummary: [],
+  weeks: []
 }
 
 const reportWeeklySlice = createSlice({
@@ -88,6 +97,12 @@ const reportWeeklySlice = createSlice({
     },
     clearReportedWeeklyForUserSummary(state) {
       state.reportedWeeklyForUserSummary = []
+    },
+    setWeeks(state, action: PayloadAction<WeekDataType[]>) {
+      state.weeks = action.payload
+    },
+    clearWeeks(state) {
+      state.weeks = []
     }
   }
 })
@@ -106,6 +121,8 @@ export const {
   setReportedWeeklyListOfPageDepartment,
   cleaReportedWeeklyListOfPageDepartment,
   setReportedWeeklyListOfPageSummary,
-  cleaReportedWeeklyListOfPageSummary
+  cleaReportedWeeklyListOfPageSummary,
+  setWeeks,
+  clearWeeks
 } = reportWeeklySlice.actions
 export default reportWeeklySlice.reducer

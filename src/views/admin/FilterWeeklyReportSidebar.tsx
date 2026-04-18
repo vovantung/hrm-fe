@@ -13,7 +13,7 @@ import type { TextFieldProps } from '@mui/material/TextField'
 
 import CustomTextField from '@/@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
-import { setNotReportedWeekly, setReportedWeeklyForAdmin } from '@/redux-store/slices/report-weekly'
+import { setNotReportedWeekly, setReportedWeeklyForAdmin, setWeeks } from '@/redux-store/slices/report-weekly'
 import { setDateFrom, setDateTo } from '@/redux-store/slices/common'
 import './week.css'
 
@@ -54,6 +54,12 @@ type AccountDataType = {
   newpassword: string
 }
 
+type WeekDataType = {
+  start: Date
+  end: Date
+  notReportList: DepartmentDataType[]
+}
+
 const FilterWeeklyReportSidebar = () => {
   const now = new Date()
   const weekStart = startOfWeek(now, { weekStartsOn: 1 }) // Thứ 2, ngày đầu tuần (hiện tại)
@@ -62,6 +68,7 @@ const FilterWeeklyReportSidebar = () => {
   const dateTo = useSelector((state: any) => state.common.dateTo) as Date | null | undefined
 
   const notReportedWeekly = useSelector((state: any) => state.reportWeekly.notReportedWeekly) as DepartmentDataType[]
+  const weeks = useSelector((state: any) => state.reportWeekly.weeks) as WeekDataType[]
 
   // const route = useRouter()
   const theme = useTheme() as Theme
@@ -70,7 +77,8 @@ const FilterWeeklyReportSidebar = () => {
   // const [dateFrom, setDateFrom] = useState<Date | null | undefined>(new Date())
   // const [dateTo, setDateTo] = useState<Date | null | undefined>(new Date())
   const [selectedMonth, setSelectedMonth] = useState<Date | null | undefined>(new Date())
-  const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
+
+  // const [weeks, setWeeks] = useState<{ start: Date; end: Date; notReportList: DepartmentDataType[] }[]>([])
   const [init, setInit] = useState<boolean>(false)
   const dispatch = useDispatch()
   const globalVariables = useSelector((state: any) => state.globalVariablesReducer)
@@ -88,7 +96,10 @@ const FilterWeeklyReportSidebar = () => {
     if (!init) {
       setInit(true)
       getNotReportedFromTo_()
-      selectMonthYear(selectedMonth)
+
+      if (weeks.length == 0) {
+        selectMonthYear(selectedMonth)
+      }
     } else {
       handleReportedFromTo()
     }
@@ -123,7 +134,8 @@ const FilterWeeklyReportSidebar = () => {
 
       const generatedWeeks = await getWeeksInMonth(new Date(date.getFullYear(), date.getMonth()))
 
-      setWeeks(generatedWeeks)
+      // setWeeks(generatedWeeks)
+      dispatch(setWeeks(generatedWeeks))
     }
   }
 

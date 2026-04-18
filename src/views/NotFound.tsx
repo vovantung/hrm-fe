@@ -39,9 +39,9 @@ const NotFound = ({ mode }: { mode: SystemMode }) => {
   const miscBackground = useImageVariant(mode, lightImg, darkImg)
 
   return (
-    <div className='flex items-center justify-center min-bs-[100dvh] relative p-6 overflow-x-hidden'>
+    <div className='flex items-center justify-center min-bs-[200dvh] relative p-6 overflow-x-hidden'>
       <div className='flex items-center flex-col text-center'>
-        <div className='flex flex-col gap-2 is-[90vw] sm:is-[unset] mbe-6'>
+        <div className='flex flex-col gap-2 is-[150vw] sm:is-[unset] mbe-6'>
           <Typography className='font-medium text-8xl' color='text.primary'>
             404
           </Typography>

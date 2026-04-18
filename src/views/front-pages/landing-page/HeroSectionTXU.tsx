@@ -82,7 +82,7 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
       <div className={classnames('pbs-[88px] overflow-hidden', frontCommonStyles.layoutSpacing)}>
         <div className='md:max-is-[600px] mbs-0 mbe-7 mli-auto text-center relative'>
           <Typography
-            className={classnames('font-extrabold sm:text-[28px] text-3xl mbe-4 leading-[32px]', styles.heroText)}
+            className={classnames('font-extrabold sm:text-[24px] text-3xl mbe-4 leading-[32px]', styles.heroText)}
           >
             Nền tảng quản lý doanh nghiệp hiện đại trên hạ tầng cloud native riêng biệt
           </Typography>
@@ -97,7 +97,7 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
             </div>
             <Button
               component={Link}
-              size='large'
+              size='medium'
               href='/front-pages/landing-page#pricing-plans'
               variant='contained'
               color='primary'

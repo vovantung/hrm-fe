@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import type { SystemMode } from '@core/types'
 
 // Component Imports
-import HeroSection from './HeroSection'
+// import HeroSection from './HeroSection'
 import UsefulFeature from './UsefulFeature'
 import CustomerReviews from './CustomerReviews'
 import OurTeam from './OurTeam'
@@ -17,6 +17,7 @@ import Faqs from './Faqs'
 import GetStarted from './GetStarted'
 import ContactUs from './ContactUs'
 import { useSettings } from '@core/hooks/useSettings'
+import HeroSectionTXU from './HeroSectionTXU'
 
 const LandingPageWrapper = ({ mode }: { mode: SystemMode }) => {
   // Hooks
@@ -32,7 +33,7 @@ const LandingPageWrapper = ({ mode }: { mode: SystemMode }) => {
 
   return (
     <div className='bg-backgroundPaper'>
-      <HeroSection mode={mode} />
+      <HeroSectionTXU mode={mode} />
       <UsefulFeature />
       <CustomerReviews />
       <OurTeam />

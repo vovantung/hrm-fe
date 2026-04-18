@@ -84,10 +84,11 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
           <Typography
             className={classnames('font-extrabold sm:text-[42px] text-3xl mbe-4 leading-[48px]', styles.heroText)}
           >
-            All in one sass application for your business
+            Nền tảng quản lý doanh nghiệp hiện đại trên hạ tầng Cloud Native riêng biệt
           </Typography>
           <Typography className='font-medium' color='text.primary'>
-            No coding required to make customizations. The live customizer has everything your marketing need.
+            Giải pháp phần mềm được xây dựng trên kiến trúc microservices, Kubernetes, CI/CD tự động và hệ thống giám
+            sát toàn diện, giúp doanh nghiệp vận hành ổn định, bảo mật cao và dễ dàng mở rộng theo tốc độ phát triển.
           </Typography>
           <div className='flex mbs-6 items-baseline justify-center relative'>
             <div className='flex gap-2 absolute inline-start-[0%] block-start-[41%] max-md:hidden'>

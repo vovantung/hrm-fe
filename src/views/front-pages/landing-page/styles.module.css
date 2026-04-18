@@ -11,7 +11,7 @@
   border-end-start-radius: 0rem;
   border-end-end-radius: 0rem;
   &.bgLight {
-    background: linear-gradient(138.18deg, #eae8fd 0%, #fce5e6 94.44%);
+    background: linear-gradient(138.18deg, #169be742 0%, #0d5ae956 94.44%);
   }
   &.bgDark {
     background: var(--mui-palette-background-default);
@@ -54,18 +54,23 @@
 }
 
 .teamCard {
-  border-start-start-radius: 90px;
-  border-start-end-radius: 20px;
+  /* border-start-start-radius: 90px;
+  border-start-end-radius: 20px; */
+  border-start-start-radius: 0px;
+  border-start-end-radius: 0px;
 }
 
 .contactRadius {
-  border-start-start-radius: 3.75rem;
+  /* border-start-start-radius: 3.75rem; */
+  border-start-start-radius: 0rem;
   border-start-end-radius: var(--mui-shape-borderRadius);
   border-end-end-radius: var(--mui-shape-borderRadius);
   border-end-start-radius: var(--mui-shape-borderRadius);
 }
 
 .sectionStartRadius {
-  border-start-start-radius: 3.75rem;
-  border-start-end-radius: 3.75rem;
+  /* border-start-start-radius: 3.75rem;
+  border-start-end-radius: 3.75rem; */
+  border-start-start-radius: 0rem;
+  border-start-end-radius: 0rem;
 }

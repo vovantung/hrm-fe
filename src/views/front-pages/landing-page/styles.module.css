@@ -11,7 +11,7 @@
   border-end-start-radius: 0px;
   border-end-end-radius: 0px;
   &.bgLight {
-    background: linear-gradient(138.18deg, #f04c4c2d 0%, #0934f14f 94.44%);
+    background: linear-gradient(138.18deg, #f04c4c0e 0%, #0933f12f 94.44%);
   }
   &.bgDark {
     background: var(--mui-palette-background-default);

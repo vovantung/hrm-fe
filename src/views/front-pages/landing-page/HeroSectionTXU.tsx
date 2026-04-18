@@ -55,7 +55,7 @@ const HeroSectionTXU = ({ mode }: { mode: SystemMode }) => {
         const rotateY = (window.innerWidth - 2 * event.clientX) / 100
 
         setTransform(
-          `perspective(900px) rotateX(${rotateX < -40 ? -20 : rotateX}deg) rotateY(${rotateY}deg) scale3d(1,1,1)`
+          `perspective(1200px) rotateX(${rotateX < -40 ? -20 : rotateX}deg) rotateY(${rotateY}deg) scale3d(1,1,1)`
         )
       }
 

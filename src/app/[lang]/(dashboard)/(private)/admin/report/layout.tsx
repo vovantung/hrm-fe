@@ -122,7 +122,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       <div
         id='toast-root'
         style={{
-          zIndex: 99999 // cao hơn mọi sidebar
+          zIndex: 99999 // cao hơn mọi sidebar.
         }}
       />
     </div>

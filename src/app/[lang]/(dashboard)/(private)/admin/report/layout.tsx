@@ -69,7 +69,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           style={{
             position: 'fixed',
             width: '100%',
-            paddingRight: '400px',
+            paddingRight: '402px',
             zIndex: 9999
 
             // maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 185px)' : 'calc(100vh - 135px)',

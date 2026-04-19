@@ -18,7 +18,7 @@ const FooterContent = () => {
 
   return (
     <div
-      style={{ padding: '18px !important', margin: '18px !important' }}
+      style={{ margin: '0px', marginTop: '18px' }}
       className={classnames(horizontalLayoutClasses.footerContent, 'flex items-center justify-between flex-wrap gap-4')}
     >
       <p>

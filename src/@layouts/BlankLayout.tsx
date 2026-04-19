@@ -4,7 +4,7 @@
 import classnames from 'classnames'
 
 // Type Imports
-import type { ChildrenType, Layout, SystemMode } from '@core/types'
+import type { ChildrenType, SystemMode } from '@core/types'
 
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
@@ -15,7 +15,6 @@ import { blankLayoutClasses } from './utils/layoutClasses'
 
 type Props = ChildrenType & {
   systemMode: SystemMode
-  layoutMode: Layout
 }
 
 const BlankLayout = (props: Props) => {

@@ -5,7 +5,6 @@ import type { Locale } from '@configs/i18n'
 import Providers from '@components/Providers'
 import BlankLayout from '@layouts/BlankLayout'
 import NotFound from '@views/NotFound'
-import themeConfig from '@/configs/themeConfig'
 
 // Config Imports
 import { i18n } from '@configs/i18n'
@@ -22,11 +21,10 @@ const NotFoundPage = async (props: { params: Promise<{ lang: Locale }> }) => {
 
   // const mode = await getServerMode()
   const systemMode = await getSystemMode()
-  const layoutMode = themeConfig.layout
 
   return (
     <Providers direction={direction}>
-      <BlankLayout systemMode={systemMode} layoutMode={layoutMode}>
+      <BlankLayout systemMode={systemMode}>
         {/* <NotFound mode={mode} /> */}
         <NotFound />
       </BlankLayout>

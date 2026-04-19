@@ -16,7 +16,6 @@ import Providers from '@components/Providers'
 import BlankLayout from '@layouts/BlankLayout'
 import FrontLayout from '@components/layout/front-pages'
 import ScrollToTop from '@core/components/scroll-to-top'
-import themeConfig from '@/configs/themeConfig'
 
 // Util Imports
 import { getSystemMode } from '@core/utils/serverHelpers'
@@ -38,14 +37,12 @@ const Layout = async ({ children }: ChildrenType) => {
   // Vars
   const systemMode = await getSystemMode()
 
-  const layoutMode = themeConfig.layout
-
   return (
     <html id='__next' suppressHydrationWarning>
       <body className='flex is-full min-bs-full flex-auto flex-col'>
         <InitColorSchemeScript attribute='data' defaultMode={systemMode} />
         <Providers direction='ltr'>
-          <BlankLayout systemMode={systemMode} layoutMode={layoutMode}>
+          <BlankLayout systemMode={systemMode}>
             <IntersectionProvider>
               <FrontLayout>
                 {children}

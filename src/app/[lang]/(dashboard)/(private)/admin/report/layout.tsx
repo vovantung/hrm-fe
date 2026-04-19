@@ -97,8 +97,8 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           style={{
             marginTop: '20px',
             marginBottom: '20px',
-            marginLeft: '24px',
-            marginRight: '24px',
+            marginLeft: '20px',
+            marginRight: '20px',
             paddingTop: '20px',
             paddingBottom: '20px',
             borderRadius: 4

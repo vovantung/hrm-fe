@@ -60,16 +60,15 @@ export const blankLayoutClasses = {
 
 // Classes for front layout
 export const frontLayoutClasses = {
-  root: 'ts-front-layout-root',
-
+  // root: 'ts-front-layout-root',
   // header: 'ts-front-layout-header',
-
   // navbar: 'ts-front-layout-navbar',
+  // navbarContent: 'ts-front-layout-navbar-content',
+  footer: 'ts-front-layout-footer',
+  root: 'ts-horizontal-layout',
   header: 'ts-horizontal-layout-header',
   navbar: 'ts-horizontal-layout-navbar',
-
-  navbarContent: 'ts-front-layout-navbar-content',
-  footer: 'ts-front-layout-footer'
+  navbarContent: 'ts-horizontal-layout-navbar-content'
 }
 
 // Common classes for Vertical and Horizontal layouts

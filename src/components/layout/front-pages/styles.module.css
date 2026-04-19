@@ -20,7 +20,7 @@
   }
 
   .navbar {
-    inline-size: calc(100% - 20px);
+    inline-size: calc(100% - 48px);
     /* padding-block: 0.438rem; */
     padding-block: 0.2rem;
     padding-inline: 1.5rem;
@@ -42,13 +42,13 @@
       padding-inline: 2rem;
     }
     @media (min-width: 900px) {
-      max-inline-size: calc(900px - 20px);
+      max-inline-size: calc(900px - 48px);
     }
     @media (min-width: 1200px) {
-      max-inline-size: calc(1200px - 20px);
+      max-inline-size: calc(1200px - 48px);
     }
     @media (min-width: 1920px) {
-      max-inline-size: calc(1440px - 20px);
+      max-inline-size: calc(1440px - 48px);
     }
 
     .navbarContent {

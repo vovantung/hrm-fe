@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
         source: '/:lang(en|fr|ar)',
 
         // destination: '/:lang/dashboards/crm',
-        destination: '/:lang/front-pages/landing-page',
+        destination: '/front-pages/landing-page',
         permanent: true,
         locale: false
       },

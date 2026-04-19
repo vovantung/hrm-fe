@@ -128,7 +128,8 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
     </div>
   ) : (
     <>
-      <main>{children}</main>
+      {/* <main>{children}</main> */}
+      <Card style={{ height: '100%' }}>This la card test</Card>
     </>
   )
 }

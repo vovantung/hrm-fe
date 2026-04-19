@@ -65,7 +65,7 @@ const themeConfig: Config = {
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false
   layout: 'vertical', // 'vertical', 'collapsed', 'horizontal'
-  layoutPadding: 20, // Common padding for header, content, footer layout components (in px)
+  layoutPadding: 18, // Common padding for header, content, footer layout components (in px)
   compactContentWidth: 1440, // in px
   navbar: {
     type: 'fixed', // 'fixed', 'static'

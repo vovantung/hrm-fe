@@ -60,7 +60,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       {/* Content page */}
       <div
         style={{
-          top: settings.layout == 'horizontal' ? '111px' : '72px',
+          top: settings.layout == 'horizontal' ? '109px' : '70px',
           transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
           transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
         }}
@@ -86,7 +86,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       <div
         style={{
           position: 'fixed',
-          top: settings.layout == 'horizontal' ? '111px' : '72px',
+          top: settings.layout == 'horizontal' ? '109px' : '70px',
           width: '420px',
           left: left,
           transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
@@ -95,12 +95,12 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       >
         <Card
           style={{
-            marginTop: '20px',
-            marginBottom: '20px',
-            marginLeft: '20px',
-            marginRight: '20px',
-            paddingTop: '20px',
-            paddingBottom: '20px',
+            marginTop: '18px',
+            marginBottom: '18px',
+            marginLeft: '18px',
+            marginRight: '18px',
+            paddingTop: '18px',
+            paddingBottom: '18px',
             borderRadius: 4
           }}
         >

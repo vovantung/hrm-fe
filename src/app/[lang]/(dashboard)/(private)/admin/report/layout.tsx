@@ -60,7 +60,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       {/* Content page */}
       <div
         style={{
-          top: settings.layout == 'horizontal' ? '111px' : '72px',
+          top: settings.layout == 'horizontal' ? '109px' : '70px',
           transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
           transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
         }}
@@ -86,7 +86,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       <div
         style={{
           position: 'fixed',
-          top: settings.layout == 'horizontal' ? '111px' : '72px',
+          top: settings.layout == 'horizontal' ? '109px' : '70px',
           width: '420px',
           left: left,
           transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
@@ -107,9 +107,9 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           <div
             style={{
               overflowY: 'auto',
-              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 225px)' : 'calc(100vh - 185px)',
+              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 222px)' : 'calc(100vh - 182px)',
               minHeight: settings.layout == 'horizontal' ? '151px' : '151px',
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 225px)' : 'calc(100vh - 185px)'
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 222px)' : 'calc(100vh - 182px)'
             }}
           >
             <aside>

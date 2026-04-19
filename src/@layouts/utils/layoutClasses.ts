@@ -61,8 +61,13 @@ export const blankLayoutClasses = {
 // Classes for front layout
 export const frontLayoutClasses = {
   root: 'ts-front-layout-root',
-  header: 'ts-front-layout-header',
-  navbar: 'ts-front-layout-navbar',
+
+  // header: 'ts-front-layout-header',
+
+  // navbar: 'ts-front-layout-navbar',
+  header: 'ts-horizontal-layout-header',
+  navbar: 'ts-horizontal-layout-navbar',
+
   navbarContent: 'ts-front-layout-navbar-content',
   footer: 'ts-front-layout-footer'
 }

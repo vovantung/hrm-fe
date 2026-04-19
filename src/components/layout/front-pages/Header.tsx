@@ -10,7 +10,8 @@ import Link from 'next/link'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import useScrollTrigger from '@mui/material/useScrollTrigger'
+
+// import useScrollTrigger from '@mui/material/useScrollTrigger'
 import type { Theme } from '@mui/material/styles'
 
 // Third-party Imports
@@ -39,14 +40,16 @@ const Header = ({ mode }: { mode: Mode }) => {
   const isBelowLgScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
   // Detect window scroll
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    disableHysteresis: true
-  })
+  // const trigger = useScrollTrigger({
+  //   threshold: 0,
+  //   disableHysteresis: true
+  // })
 
   return (
-    <header className={classnames(frontLayoutClasses.header, styles.header)}>
-      <div className={classnames(frontLayoutClasses.navbar, styles.navbar, { [styles.headerScrolled]: trigger })}>
+    <header>
+      {/* <header className={classnames(frontLayoutClasses.header, styles.header)}></header> */}
+      <div>
+        {/* <div className={classnames(frontLayoutClasses.navbar, styles.navbar, { [styles.headerScrolled]: trigger })}> */}
         <div className={classnames(frontLayoutClasses.navbarContent, styles.navbarContent)}>
           {isBelowLgScreen ? (
             <div className='flex items-center gap-2 sm:gap-4'>

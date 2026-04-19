@@ -325,7 +325,7 @@ const FilterWeeklyReportSidebar = () => {
       <div
         style={{
           margin: '0px',
-          padding: lgAbove ? '0' : '0px',
+          padding: lgAbove ? '14px' : '14px',
           paddingTop: '0px',
           paddingBottom: '0px',
           textAlign: 'justify'

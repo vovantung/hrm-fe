@@ -465,9 +465,8 @@ const WeeklyReportView = () => {
                 maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 314px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
-
                 marginBottom: '20px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 314px)'
               }}
             >
               <TableContainer style={{}}>

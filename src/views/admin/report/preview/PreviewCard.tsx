@@ -56,7 +56,7 @@ const PreviewCard = () => {
   return (
     <div
       style={{
-        height: settings.layout == 'horizontal' ? 'calc(100vh - 266px)' : 'calc(100vh - 226px)',
+        height: settings.layout == 'horizontal' ? 'calc(100vh - 262px)' : 'calc(100vh - 222px)',
         minHeight: '114px'
       }}
     >
@@ -64,12 +64,11 @@ const PreviewCard = () => {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)',
+          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 314px)',
           minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
           overflowY: 'auto',
-
           marginBottom: '20px',
-          height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
+          height: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 314px)'
         }}
       >
         <div

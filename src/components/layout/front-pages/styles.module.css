@@ -1,6 +1,6 @@
 .header {
-  /* position: sticky; */
-  position: fixed;
+  position: sticky;
+  /* position: fixed; */
   inset-block-start: 0;
   z-index: var(--header-z-index);
   display: flex;
@@ -22,7 +22,7 @@
   .navbar {
     inline-size: calc(100% - 48px);
     /* padding-block: 0.438rem; */
-    padding-block: 0px;
+    padding-block: 0.2rem;
     padding-inline: 1.5rem;
     margin-inline: auto;
     margin-block-start: 1rem;

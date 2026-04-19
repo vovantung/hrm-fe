@@ -127,8 +127,6 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       />
     </div>
   ) : (
-    <>
-      <main>{children}</main>
-    </>
+    <>{/* <main>{children}</main> */}</>
   )
 }

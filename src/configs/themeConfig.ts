@@ -76,8 +76,8 @@ const themeConfig: Config = {
   },
   contentWidth: 'wide', // 'compact', 'wide'
   footer: {
-    type: 'static', // 'fixed', 'static'
-    contentWidth: 'wide', // 'compact', 'wide'
+    type: 'fixed', // 'fixed', 'static'
+    contentWidth: 'compact', // 'compact', 'wide'
     detached: true //! true, false (This will not work in the Horizontal Layout)
   },
   disableRipple: false, // true, false

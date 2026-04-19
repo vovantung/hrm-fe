@@ -7,14 +7,14 @@ import Link from 'next/link'
 import classnames from 'classnames'
 
 // Hook Imports
-// import useHorizontalNav from '@menu/hooks/useHorizontalNav'
+import useHorizontalNav from '@menu/hooks/useHorizontalNav'
 
 // Util Imports
 import { horizontalLayoutClasses } from '@layouts/utils/layoutClasses'
 
 const FooterContent = () => {
   // Hooks
-  // const { isBreakpointReached } = useHorizontalNav()
+  const { isBreakpointReached } = useHorizontalNav()
 
   return (
     <div
@@ -28,24 +28,22 @@ const FooterContent = () => {
           TXU
         </Link>
       </p>
-      {/* {!isBreakpointReached && (
-
-      )} */}
-
-      <div className='flex items-center gap-4'>
-        <Link href='https://txuyen.com' target='_blank' className='text-primary'>
-          License
-        </Link>
-        {/* <Link href='#' target='_blank' className='text-primary'>
+      {!isBreakpointReached && (
+        <div className='flex items-center gap-4'>
+          <Link href='https://txuyen.com' target='_blank' className='text-primary'>
+            License
+          </Link>
+          {/* <Link href='#' target='_blank' className='text-primary'>
             More Themes
           </Link> */}
-        <Link href='https://txuyen.com' target='_blank' className='text-primary'>
-          Documentation
-        </Link>
-        <Link href='https://txuyen.com' target='_blank' className='text-primary'>
-          Support
-        </Link>
-      </div>
+          <Link href='https://txuyen.com' target='_blank' className='text-primary'>
+            Documentation
+          </Link>
+          <Link href='https://txuyen.com' target='_blank' className='text-primary'>
+            Support
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

@@ -55,12 +55,16 @@ export type Config = {
 
 const themeConfig: Config = {
   templateName: 'TXUYEN',
-  homePageUrl: '/dashboards/crm',
-  settingsCookieName: 'vuexy-mui-next-demo-1',
+
+  // homePageUrl: '/dashboards/crm',
+  homePageUrl: '/front-pages/landing-page',
+
+  // settingsCookieName: 'vuexy-mui-next-demo-1',
+  settingsCookieName: 'txuyen-demo-1',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false
-  layout: 'vertical', // 'vertical', 'collapsed', 'horizontal'
+  layout: 'horizontal', // 'vertical', 'collapsed', 'horizontal'
   layoutPadding: 24, // Common padding for header, content, footer layout components (in px)
   compactContentWidth: 1440, // in px
   navbar: {

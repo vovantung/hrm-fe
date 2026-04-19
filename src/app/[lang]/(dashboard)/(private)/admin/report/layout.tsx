@@ -77,7 +77,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           <aside>
-            <main style={{ margin: '0px', padding: '0px', marginTop: '16px' }}>{children}</main>
+            <main style={{ margin: '0px', padding: '0px', paddingTop: '16px' }}>{children}</main>
           </aside>
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
     </div>
   ) : (
     <aside>
-      <main style={{ margin: '0px', padding: '0px', marginTop: '16px' }}>{children}</main>
+      <main style={{ margin: '0px', padding: '0px', paddingTop: '16px' }}>{children}</main>
     </aside>
   )
 }

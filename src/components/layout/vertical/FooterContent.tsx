@@ -18,7 +18,6 @@ const FooterContent = () => {
 
   return (
     <div
-      style={{ padding: '0px', paddingTop: '18px' }}
       className={classnames(verticalLayoutClasses.footerContent, 'flex items-center justify-between flex-wrap gap-4')}
     >
       <p>

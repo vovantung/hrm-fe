@@ -487,10 +487,18 @@ const WeeklyReportView = () => {
               }}
             >
               <TableContainer style={{}}>
-                <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '0px' }}>
+                <h3
+                  style={{
+                    marginLeft: '24px',
+                    marginRight: '24px',
+                    marginBottom: '20px',
+                    marginTop: '0px',
+                    fontSize: lgAbove ? '14px' : '12px'
+                  }}
+                >
                   BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
                 </h3>
-                <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
+                <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
                       <TableCell style={{ alignContent: 'center', textAlign: 'center' }}>
@@ -510,25 +518,29 @@ const WeeklyReportView = () => {
                   <TableBody>
                     {reportedWeeklyListOfPage.map((reportedWeekly, index) => (
                       <TableRow key={reportedWeekly.id}>
-                        <TableCell style={{ alignContent: 'center', textAlign: 'center', fontSize: '14px' }}>
+                        <TableCell
+                          style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                        >
                           {index + 1 < 10 ? '0' + (index + 1) : index + 1}
                         </TableCell>
                         <TableCell
                           style={{
-                            fontSize: '14px'
+                            fontSize: lgAbove ? '14px' : '11.5px'
                           }}
                         >
                           {reportedWeekly.department.name}
                         </TableCell>
-                        <TableCell style={{ alignContent: 'center', textAlign: 'center', fontSize: '14px' }}>
+                        <TableCell
+                          style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                        >
                           {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}
                         </TableCell>
-                        <TableCell style={{ fontSize: '13.5px' }}>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                           <span
                             className='link-custom'
                             style={{
                               color: theme.palette.primary.dark,
-                              fontSize: '13.5px',
+                              fontSize: lgAbove ? '13.5px' : '11.5px',
                               cursor: 'pointer'
                             }}
                             id={reportedWeekly.filename + '_0'}
@@ -590,7 +602,7 @@ const WeeklyReportView = () => {
                     variant='contained'
                     onClick={handleInputOpen}
                   >
-                    {!lgAbove ? '' : 'Tải báo cáo'}
+                    {!lgAbove ? 'Báo cáo' : 'Tải báo cáo'}
                   </Button>
                 </div>
               </div>

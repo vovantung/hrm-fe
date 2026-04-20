@@ -277,7 +277,7 @@ const PreviewCard = () => {
               variant='contained'
               onClick={handleButtonClick}
             >
-              {!lgAbove ? '' : 'In thống kê'}
+              {!lgAbove ? 'In' : 'In thống kê'}
             </Button>
           </div>
         </div>

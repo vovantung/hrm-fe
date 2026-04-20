@@ -481,7 +481,7 @@ const WeeklyReportView = () => {
                 height:
                   settings.layout == 'horizontal'
                     ? lgAbove
-                      ? 'calc(100vh - 400px)'
+                      ? 'calc(100vh - 333px)'
                       : 'calc(100vh - 366px)'
                     : 'calc(100vh - 325px)'
               }}

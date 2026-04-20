@@ -107,9 +107,9 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
           <div
             style={{
               overflowY: 'auto',
-              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 220px)' : 'calc(100vh - 180px)',
+              maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 235px)' : 'calc(100vh - 195px)',
               minHeight: settings.layout == 'horizontal' ? '151px' : '151px',
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 220px)' : 'calc(100vh - 180px)'
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 235px)' : 'calc(100vh - 195px)'
             }}
           >
             <aside>

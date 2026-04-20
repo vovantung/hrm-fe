@@ -124,10 +124,16 @@ const PreviewCard = () => {
                 <div className='rightCol'>
                   {/* <div className='header-left'> */}
                   <div className='header-block'>
-                    <div style={{ margin: '0px', padding: '0px' }} className='bold-txu font-txu'>
+                    <div
+                      style={{ margin: '0px', padding: '0px', fontSize: lgAbove ? '13.5px' : '11.5px' }}
+                      className='bold-txu font-txu'
+                    >
                       CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
                     </div>
-                    <div style={{ margin: '0px', padding: '0px' }} className='bold-txu font-txu-1'>
+                    <div
+                      style={{ margin: '0px', padding: '0px', fontSize: lgAbove ? '13.5px' : '11.5px' }}
+                      className='bold-txu font-txu-1'
+                    >
                       Độc lập - Tự do - Hạnh phúc
                     </div>
                     <hr
@@ -137,7 +143,8 @@ const PreviewCard = () => {
                         marginTop: '0px',
                         marginLeft: '60px',
                         marginRight: '60px',
-                        marginBottom: '15px'
+                        marginBottom: '15px',
+                        fontSize: lgAbove ? '13.5px' : '11.5px'
                       }}
                     />
                     <div className='font-txu italic-txu'>
@@ -152,7 +159,8 @@ const PreviewCard = () => {
                   width: '100%',
                   textAlign: 'center',
                   paddingBottom: '0px',
-                  marginBottom: '0px'
+                  marginBottom: '0px',
+                  fontSize: lgAbove ? '14px' : '11.5px'
                 }}
                 className='bold-txu font-txu-1'
               >
@@ -165,7 +173,7 @@ const PreviewCard = () => {
               </div>
 
               <Grid size={{ xs: 12 }}>
-                <div className='overflow-x-auto  previewCard'>
+                <div className='overflow-x-auto  previewCard' style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                   <table>
                     <thead>
                       <tr>
@@ -186,16 +194,21 @@ const PreviewCard = () => {
                     <tbody>
                       {reportedWeeklyList?.map((item, index) => (
                         <tr key={index}>
-                          <td style={{ textAlign: 'center' }}> {index + 1 < 10 ? '0' + (index + 1) : index + 1}</td>
-                          <td style={{ paddingLeft: '6px' }}>{item.department.name}</td>
+                          <td style={{ textAlign: 'center', fontSize: lgAbove ? '13.5px' : '11.5px' }}>
+                            {' '}
+                            {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                          </td>
+                          <td style={{ paddingLeft: '6px', fontSize: lgAbove ? '13.5px' : '11.5px' }}>
+                            {item.department.name}
+                          </td>
                           <td
-                            style={{ paddingLeft: '6px' }}
+                            style={{ paddingLeft: '6px', fontSize: lgAbove ? '13.5px' : '11.5px' }}
 
                             //  className='report-name'
                           >
                             {item.originName}
                           </td>
-                          <td style={{ textAlign: 'center' }}>
+                          <td style={{ textAlign: 'center', fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                             {format(new Date(item.uploadedAt), 'dd/MM/yyyy HH:mm')}
                           </td>
                         </tr>
@@ -213,7 +226,10 @@ const PreviewCard = () => {
                 <div className='rightCol'>
                   {/* <div className='header-left'> */}
                   <div className='header-block'>
-                    <div style={{ marginRight: '100px', marginBottom: '150px' }} className='bold-txu font-txu'>
+                    <div
+                      style={{ marginRight: '100px', marginBottom: '150px', fontSize: lgAbove ? '13.5px' : '11.5px' }}
+                      className='bold-txu font-txu'
+                    >
                       LÃNH ĐẠO ĐƠN VỊ
                     </div>
                   </div>

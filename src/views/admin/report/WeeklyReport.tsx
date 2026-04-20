@@ -493,10 +493,10 @@ const WeeklyReportView = () => {
                     marginRight: '24px',
                     marginBottom: '20px',
                     marginTop: '0px',
-                    fontSize: lgAbove ? '14px' : '12px'
+                    fontSize: lgAbove ? '17.5px' : '12px'
                   }}
                 >
-                  BÁO CÁO TUẦN (CÁC ĐƠN VỊ)
+                  BÁO CÁO TUẦN
                 </h3>
                 <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>

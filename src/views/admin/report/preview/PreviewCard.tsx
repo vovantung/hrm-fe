@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2'
 
 // import Divider from '@mui/material/Divider'
 import { format } from 'date-fns'
-import { Box, Button, useTheme } from '@mui/material'
+import { Box, Button, useMediaQuery, useTheme } from '@mui/material'
 
 // Component Imports
 
@@ -38,6 +38,7 @@ type DepartmentDataType = {
 
 const PreviewCard = () => {
   const theme = useTheme()
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
   const { settings } = useSettings()
   const now = new Date()
 
@@ -56,7 +57,12 @@ const PreviewCard = () => {
   return (
     <div
       style={{
-        height: settings.layout == 'horizontal' ? 'calc(100vh - 273px)' : 'calc(100vh - 233px)',
+        height:
+          settings.layout == 'horizontal'
+            ? !lgAbove
+              ? 'calc(100vh - 220)'
+              : 'calc(100vh - 273px)'
+            : 'calc(100vh - 233px)',
         minHeight: '114px'
       }}
     >
@@ -64,11 +70,21 @@ const PreviewCard = () => {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 366px)' : 'calc(100vh - 325px)',
+          maxHeight:
+            settings.layout == 'horizontal'
+              ? !lgAbove
+                ? 'calc(100vh - 311px)'
+                : 'calc(100vh - 366px)'
+              : 'calc(100vh - 325px)',
           minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
           overflowY: 'auto',
           marginBottom: '20px',
-          height: settings.layout == 'horizontal' ? 'calc(100vh - 366px)' : 'calc(100vh - 325px)'
+          height:
+            settings.layout == 'horizontal'
+              ? !lgAbove
+                ? 'calc(100vh - 311px)'
+                : 'calc(100vh - 366px)'
+              : 'calc(100vh - 325px)'
         }}
       >
         <div

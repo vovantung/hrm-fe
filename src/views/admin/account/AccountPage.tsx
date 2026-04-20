@@ -733,7 +733,7 @@ const AccountPage = () => {
                 marginRight: '24px',
                 marginBottom: '20px',
                 marginTop: '20px',
-                fontSize: lgAbove ? '17.5px' : '11.5px'
+                fontSize: lgAbove ? '17.5px' : '12px'
               }}
             >
               TÀI KHOẢN
@@ -769,7 +769,7 @@ const AccountPage = () => {
                   <TableBody>
                     {accountsOfPage.map(account => (
                       <TableRow key={account.id}>
-                        <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                           {account.lastName + ' ' + account.firstName}{' '}
                         </TableCell>
                         <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>{account.username}</TableCell>
@@ -842,7 +842,7 @@ const AccountPage = () => {
                 }}
               >
                 <Button
-                  style={{ fontSize: lgAbove ? '14px' : '12px', borderRadius: 4 }}
+                  style={{ fontSize: lgAbove ? '14px' : '13px', borderRadius: 4 }}
                   variant='contained'
                   startIcon={<i className='wpf-add-user' />}
                   onClick={handleViewCreateAccount}

@@ -594,6 +594,7 @@ const WeeklyReportView = () => {
 
                   <Button
                     style={{
+                      fontSize: lgAbove ? '14px' : '13px',
                       borderRadius: 4
                     }}
                     startIcon={<i style={{ height: '20px' }} className='icon-park-outline-upload-logs' />}

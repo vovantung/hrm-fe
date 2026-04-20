@@ -62,7 +62,7 @@ const PreviewCard = () => {
             ? !lgAbove
               ? 'calc(100vh - 220)'
               : 'calc(100vh - 273px)'
-            : 'calc(100vh - 233px)',
+            : 'calc(100vh - 234px)',
         minHeight: '114px'
       }}
     >
@@ -75,7 +75,7 @@ const PreviewCard = () => {
               ? !lgAbove
                 ? 'calc(100vh - 311px)'
                 : 'calc(100vh - 366px)'
-              : 'calc(100vh - 325px)',
+              : 'calc(100vh - 327px)',
           minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
           overflowY: 'auto',
           marginBottom: '20px',
@@ -84,7 +84,7 @@ const PreviewCard = () => {
               ? !lgAbove
                 ? 'calc(100vh - 311px)'
                 : 'calc(100vh - 366px)'
-              : 'calc(100vh - 325px)'
+              : 'calc(100vh - 327px)'
         }}
       >
         <div

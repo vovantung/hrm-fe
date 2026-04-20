@@ -60,7 +60,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       {/* Content page */}
       <div
         style={{
-          top: settings.layout == 'horizontal' ? '107px' : '68px',
+          top: settings.layout == 'horizontal' ? '111px' : '72px',
           transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
           transform: isVisible ? 'translateY(0)' : 'translateY(-56px)'
         }}
@@ -86,7 +86,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
       <div
         style={{
           position: 'fixed',
-          top: settings.layout == 'horizontal' ? '107px' : '68px',
+          top: settings.layout == 'horizontal' ? '111px' : '72px',
           width: '420px',
           left: left,
           transition: 'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',

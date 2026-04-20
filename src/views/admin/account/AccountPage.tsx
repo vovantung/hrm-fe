@@ -19,7 +19,9 @@ import {
   Slide,
   Snackbar,
   styled,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material'
 
 import Card from '@mui/material/Card'
@@ -91,6 +93,9 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const AccountPage = () => {
+  const theme = useTheme()
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
+
   // const route = useRouter()
   const { settings } = useSettings()
   const [init, setInit] = useState<boolean>(false)
@@ -721,8 +726,16 @@ const AccountPage = () => {
         </div>
 
         <div style={{ opacity: accountsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
-          <Card style={{ borderRadius: 3 }}>
-            <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>
+          <Card style={{ borderRadius: 4 }}>
+            <h3
+              style={{
+                marginLeft: '24px',
+                marginRight: '24px',
+                marginBottom: '20px',
+                marginTop: '20px',
+                fontSize: lgAbove ? '17.5px' : '11.5px'
+              }}
+            >
               TÀI KHOẢN
             </h3>
             {/* <CardHeader title='ACCOUNT' /> */}
@@ -730,7 +743,7 @@ const AccountPage = () => {
               <TableContainer
                 style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
               >
-                <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
+                <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
                       <TableCell>
@@ -756,13 +769,15 @@ const AccountPage = () => {
                   <TableBody>
                     {accountsOfPage.map(account => (
                       <TableRow key={account.id}>
-                        <TableCell style={{ fontSize: '14px' }}>
+                        <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                           {account.lastName + ' ' + account.firstName}{' '}
                         </TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>{account.username}</TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>{account.department?.name ?? ''}</TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>{account.phoneNumber}</TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>{account.email}</TableCell>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>{account.username}</TableCell>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
+                          {account.department?.name ?? ''}
+                        </TableCell>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>{account.phoneNumber}</TableCell>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>{account.email}</TableCell>
                         <TableCell>
                           <IconButton
                             color='primary'
@@ -827,12 +842,12 @@ const AccountPage = () => {
                 }}
               >
                 <Button
-                  style={{ fontSize: '14px', borderRadius: 4 }}
+                  style={{ fontSize: lgAbove ? '14px' : '12px', borderRadius: 4 }}
                   variant='contained'
                   startIcon={<i className='wpf-add-user' />}
                   onClick={handleViewCreateAccount}
                 >
-                  Thêm tài khoản
+                  Thêm mới
                 </Button>
                 <Pagination pageSize={6} items={accounts} onChangePage={onChangePage} />
               </Box>

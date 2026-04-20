@@ -590,7 +590,7 @@ const WeeklyReportView = () => {
                     variant='contained'
                     onClick={handleInputOpen}
                   >
-                    Tải báo cáo
+                    {!lgAbove ? '' : 'Tải báo cáo'}
                   </Button>
                 </div>
               </div>

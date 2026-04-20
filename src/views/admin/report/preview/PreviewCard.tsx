@@ -277,7 +277,7 @@ const PreviewCard = () => {
               variant='contained'
               onClick={handleButtonClick}
             >
-              In thống kê
+              {!lgAbove ? '' : 'In thống kê'}
             </Button>
           </div>
         </div>
@@ -305,7 +305,7 @@ const PreviewCard = () => {
               height: '100%'
             }}
           >
-            <span style={{ fontSize: '13.5px', fontStyle: 'revert' }}>
+            <span style={{ fontSize: lgAbove ? '13.5px' : '12px', fontStyle: 'revert' }}>
               Từ <strong>{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : ''}</strong> đến{' '}
               <strong>{dateTo ? format(dateTo, 'dd/MM/yyyy') : ''}</strong> có{' '}
               <strong>

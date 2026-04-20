@@ -302,10 +302,11 @@ const PreviewCard = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '100%'
+              height: '100%',
+              marginLeft: '18px'
             }}
           >
-            <span style={{ fontSize: lgAbove ? '13.5px' : '12px', fontStyle: 'revert' }}>
+            <span style={{ fontSize: lgAbove ? '13.5px' : '11.5px', fontStyle: 'revert' }}>
               Từ <strong>{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : ''}</strong> đến{' '}
               <strong>{dateTo ? format(dateTo, 'dd/MM/yyyy') : ''}</strong> có{' '}
               <strong>

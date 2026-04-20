@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 
 // import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
 
 // import { Icon } from '@iconify/react/dist/iconify.js'
 
@@ -59,8 +59,6 @@ const TransitionUp = (props: TransitionProps) => {
 
 const WeeklyReportView = () => {
   const theme = useTheme() as Theme
-
-  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
   const [container, setContainer] = useState<Element | null>(null)
 
   const { settings } = useSettings()
@@ -456,12 +454,7 @@ const WeeklyReportView = () => {
         >
           <div
             style={{
-              height:
-                settings.layout == 'horizontal'
-                  ? lgAbove
-                    ? 'calc(100vh - 220px)'
-                    : 'calc(100vh - 260px)'
-                  : 'calc(100vh - 220px)',
+              height: settings.layout == 'horizontal' ? 'calc(100vh - 262px)' : 'calc(100vh - 222px)',
               minHeight: '114px'
             }}
           >
@@ -469,11 +462,12 @@ const WeeklyReportView = () => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 353px)' : 'calc(100vh - 312px)',
+                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 314px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
+
                 marginBottom: '20px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 353px)' : 'calc(100vh - 312px)'
+                height: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 314px)'
               }}
             >
               <TableContainer style={{}}>

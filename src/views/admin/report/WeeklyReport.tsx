@@ -457,7 +457,7 @@ const WeeklyReportView = () => {
             style={{
               height:
                 settings.layout == 'horizontal'
-                  ? lgAbove
+                  ? !lgAbove
                     ? 'calc(100vh - 240)'
                     : 'calc(100vh - 273px)'
                   : 'calc(100vh - 233px)',
@@ -470,7 +470,7 @@ const WeeklyReportView = () => {
                 justifyContent: 'center',
                 maxHeight:
                   settings.layout == 'horizontal'
-                    ? lgAbove
+                    ? !lgAbove
                       ? 'calc(100vh - 333px)'
                       : 'calc(100vh - 366px)'
                     : 'calc(100vh - 325px)',

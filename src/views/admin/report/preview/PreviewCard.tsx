@@ -285,7 +285,8 @@ const PreviewCard = () => {
           >
             <Button
               style={{
-                borderRadius: 4
+                borderRadius: 4,
+                fontSize: lgAbove ? '14px' : '13px'
               }}
               startIcon={<i style={{ height: '20px' }} className='ph-printer-bold' />}
               color='primary'

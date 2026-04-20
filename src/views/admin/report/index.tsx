@@ -11,6 +11,8 @@ import TabPanel from '@mui/lab/TabPanel'
 
 import { styled, useTheme } from '@mui/material/styles'
 
+// import { useTheme, Box, useMediaQuery } from '@mui/material'
+
 const CustomTab = styled(Tab)(({ theme }) => ({
   textTransform: 'none',
   fontWeight: 400,
@@ -55,7 +57,7 @@ const CustomTab = styled(Tab)(({ theme }) => ({
 // Component Imports
 // import CustomTabList from '@core/components/mui/TabList'
 import CustomTabList from '@mui/lab/TabList'
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 
 const ReportAdmin = ({ tabContentList }: { tabContentList: { [key: string]: ReactElement } }) => {
   // States
@@ -66,6 +68,7 @@ const ReportAdmin = ({ tabContentList }: { tabContentList: { [key: string]: Reac
   }
 
   const theme = useTheme()
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
 
   return (
     <Box display='flex' flexDirection='column' height='100%'>
@@ -85,7 +88,8 @@ const ReportAdmin = ({ tabContentList }: { tabContentList: { [key: string]: Reac
             <CustomTab
               style={{
                 // marginLeft: '24px',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fontSize: lgAbove ? '15px' : '13px'
               }}
               label='Report'
               icon={<i className='fluent-mdl2-report-warning' />}
@@ -107,7 +111,8 @@ const ReportAdmin = ({ tabContentList }: { tabContentList: { [key: string]: Reac
             />
             <CustomTab
               style={{
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fontSize: lgAbove ? '15px' : '13px'
               }}
               label='Report review'
               icon={<i className='fluent-mdl2-report-lock' />}

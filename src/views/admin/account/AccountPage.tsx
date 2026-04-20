@@ -746,22 +746,22 @@ const AccountPage = () => {
                 <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Họ tên</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Tên người dùng</b>
                       </TableCell>
                       <TableCell>
                         <b>Đơn vị</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Số điện thoại</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Email</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Hành động</b>
                       </TableCell>
                     </TableRow>

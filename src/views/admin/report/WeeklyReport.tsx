@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 
 // import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material'
 
 // import { Icon } from '@iconify/react/dist/iconify.js'
 
@@ -59,6 +59,7 @@ const TransitionUp = (props: TransitionProps) => {
 
 const WeeklyReportView = () => {
   const theme = useTheme() as Theme
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
   const [container, setContainer] = useState<Element | null>(null)
 
   const { settings } = useSettings()
@@ -454,7 +455,12 @@ const WeeklyReportView = () => {
         >
           <div
             style={{
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 273px)' : 'calc(100vh - 233px)',
+              height:
+                settings.layout == 'horizontal'
+                  ? lgAbove
+                    ? 'calc(100vh - 307)'
+                    : 'calc(100vh - 273px)'
+                  : 'calc(100vh - 233px)',
               minHeight: '114px'
             }}
           >
@@ -462,12 +468,22 @@ const WeeklyReportView = () => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 366px)' : 'calc(100vh - 325px)',
+                maxHeight:
+                  settings.layout == 'horizontal'
+                    ? lgAbove
+                      ? 'calc(100vh - 400px)'
+                      : 'calc(100vh - 366px)'
+                    : 'calc(100vh - 325px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
 
                 marginBottom: '20px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 366px)' : 'calc(100vh - 325px)'
+                height:
+                  settings.layout == 'horizontal'
+                    ? lgAbove
+                      ? 'calc(100vh - 400px)'
+                      : 'calc(100vh - 366px)'
+                    : 'calc(100vh - 325px)'
               }}
             >
               <TableContainer style={{}}>

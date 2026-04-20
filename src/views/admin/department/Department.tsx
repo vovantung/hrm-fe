@@ -537,6 +537,8 @@ const DepartmentView = () => {
                           sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
                         >
                           <Box
+                            id={department.id + '_0'}
+                            onClick={handleRemoveDepartment}
                             sx={{
                               width: 18,
                               height: 18,
@@ -547,14 +549,39 @@ const DepartmentView = () => {
                           >
                             <Icon
                               icon='mingcute:delete-line'
-                              id={department.id + '_0'}
-                              onClick={handleRemoveDepartment}
-                              style={{ width: '100%', height: '100%' }}
+                              style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
                             />
                           </Box>
                         </IconButton>
                         |
                         <IconButton
+                          color='primary'
+                          size='small'
+                          sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
+                        >
+                          <Box
+                            id={department.id + '_0'}
+                            onClick={handleViewUpdateDepartment}
+                            sx={{
+                              width: 18,
+                              height: 18,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <Icon
+                              icon='nimbus-edit'
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                pointerEvents: 'none'
+                              }}
+                            />
+                          </Box>
+                        </IconButton>
+                        {/* <IconButton
                           color='primary'
                           size='small'
                           sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
@@ -575,7 +602,7 @@ const DepartmentView = () => {
                               style={{ width: '100%', height: '100%' }}
                             />
                           </Box>
-                        </IconButton>
+                        </IconButton> */}
                       </TableCell>
                     </TableRow>
                   ))}

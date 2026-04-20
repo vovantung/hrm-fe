@@ -821,6 +821,8 @@ const AccountPage = () => {
                             sx={{ paddingBottom: 0, paddingTop: 0, marginRight: '5px' }}
                           >
                             <Box
+                              id={account.username + '_0'}
+                              onClick={handleRemoveAccount}
                               sx={{
                                 width: 18,
                                 height: 18,
@@ -831,9 +833,7 @@ const AccountPage = () => {
                             >
                               <Icon
                                 icon='mingcute:delete-line'
-                                id={account.username + '_0'}
-                                onClick={handleRemoveAccount}
-                                style={{ width: '100%', height: '100%' }}
+                                style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
                               />
                             </Box>
                           </IconButton>
@@ -844,6 +844,8 @@ const AccountPage = () => {
                             sx={{ paddingBottom: 0, paddingTop: 0, marginLeft: '5px' }}
                           >
                             <Box
+                              id={account.username + '_1'}
+                              onClick={handleViewUpdateAccount}
                               sx={{
                                 width: 18,
                                 height: 18,
@@ -853,10 +855,8 @@ const AccountPage = () => {
                               }}
                             >
                               <Icon
-                                id={account.username + '_1'}
                                 icon='nimbus-edit'
-                                onClick={handleViewUpdateAccount}
-                                style={{ width: '100%', height: '100%' }}
+                                style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
                               />
                             </Box>
                           </IconButton>

@@ -24,10 +24,8 @@ import {
   useTheme
 } from '@mui/material'
 
-import Card from '@mui/material/Card'
-
 // import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
+// import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -726,23 +724,51 @@ const AccountPage = () => {
         </div>
 
         <div style={{ opacity: accountsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
-          <Card style={{ borderRadius: 4 }}>
-            <h3
+          <div
+            style={{
+              height:
+                settings.layout == 'horizontal'
+                  ? !lgAbove
+                    ? 'calc(100vh - 145)'
+                    : 'calc(100vh - 198px)'
+                  : 'calc(100vh - 159px)',
+              minHeight: '114px'
+            }}
+          >
+            <div
               style={{
-                marginLeft: '24px',
-                marginRight: '24px',
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight:
+                  settings.layout == 'horizontal'
+                    ? !lgAbove
+                      ? 'calc(100vh - 236px)'
+                      : 'calc(100vh - 291px)'
+                    : 'calc(100vh - 252px)',
+                minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
+                overflowY: 'auto',
+
                 marginBottom: '20px',
-                marginTop: '20px',
-                fontSize: lgAbove ? '17.5px' : '12px'
+                height:
+                  settings.layout == 'horizontal'
+                    ? !lgAbove
+                      ? 'calc(100vh - 236px)'
+                      : 'calc(100vh - 291px)'
+                    : 'calc(100vh - 252px)'
               }}
             >
-              TÀI KHOẢN
-            </h3>
-            {/* <CardHeader title='ACCOUNT' /> */}
-            <CardContent className='p-0'>
-              <TableContainer
-                style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
-              >
+              <TableContainer style={{}}>
+                <h3
+                  style={{
+                    marginLeft: '24px',
+                    marginRight: '24px',
+                    marginBottom: '20px',
+                    marginTop: '20px',
+                    fontSize: lgAbove ? '17.5px' : '12px'
+                  }}
+                >
+                  NHÂN VIÊN
+                </h3>
                 <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
@@ -830,328 +856,91 @@ const AccountPage = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginLeft: '25px',
-                  marginTop: '20px',
-                  marginBottom: '20px',
-                  marginRight: '20px'
+            </div>
+            <hr
+              style={{
+                border: 'none',
+                borderTop: '0.6px solid #cccccc97',
+                marginTop: '0px'
+              }}
+            />
+
+            <Box
+              sx={{
+                justifyContent: 'space-between',
+                display: 'flex',
+                marginLeft: '25px',
+
+                // marginTop: settings.layout == 'horizontal' ? '16px' : '14px',
+                marginRight: '20px'
+              }}
+            >
+              <div
+                style={{
+                  // color: theme.palette.primary.main,
+
+                  margin: '0px',
+                  padding: '0px'
                 }}
               >
-                <Button
-                  style={{ fontSize: lgAbove ? '14px' : '13px', borderRadius: 4 }}
-                  variant='contained'
-                  startIcon={<i className='wpf-add-user' />}
-                  onClick={handleViewCreateAccount}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}
                 >
-                  Thêm mới
-                </Button>
-                <Pagination pageSize={6} items={accounts} onChangePage={onChangePage} />
-              </Box>
-            </CardContent>
-
-            {/* Hộp thoại update account  */}
-            <Dialog
-              fullWidth
-              open={updateAccountDailog}
-              onClose={toggleUpdateAccountDailog}
-              sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-            >
-              <DialogContent>
-                <CustomCloseButton onClick={closeUpdateAccountDailog}>
-                  <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-                </CustomCloseButton>
-                <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-                  Account
-                </Typography>
-
-                <Box sx={{ overflow: 'auto' }}>
-                  <CustomTextField
-                    autoFocus
-                    fullWidth
-                    label='Last name'
-                    placeholder='Enter last name'
-                    value={updateAccount.lastName ?? ''}
-                    onChange={e => setUpdateAccount({ ...updateAccount, lastName: e.target.value })}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    label='First name'
-                    placeholder='Enter first name'
-                    value={updateAccount.firstName ?? ''}
-                    onChange={e => setUpdateAccount({ ...updateAccount, firstName: e.target.value })}
-                  />
-
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    label='Phone number'
-                    placeholder='Enter phone number'
-                    value={updateAccount.phoneNumber ?? ''}
-                    onChange={e => setUpdateAccount({ ...updateAccount, phoneNumber: e.target.value })}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    type='email'
-                    helperText='You can use letters, numbers & periods'
-                    label='Email'
-                    placeholder='Enter email'
-                    value={updateAccount.email ?? ''}
-                    onChange={e => setUpdateAccount({ ...updateAccount, email: e.target.value })}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    select
-                    fullWidth
-                    label='Department'
-                    onChange={onChangeDepartmentToUpdate}
-                    value={updateAccount.department.id}
-                  >
-                    {departments.map(department => (
-                      <MenuItem key={department.id} value={department.id}>
-                        {department.name}
-                      </MenuItem>
-                    ))}
-                  </CustomTextField>
-
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    fullWidth
-                    label='New password (leave blank if no update needed)'
-                    placeholder='Enter new password'
-                    id='form-layout-basic-password'
-                    type={isPasswordShown ? 'text' : 'password'}
-                    helperText='Use 8 or more characters with a mix of letters, numbers & symbols'
-                    value={updateAccount.newpassword ?? ''}
-                    onChange={e => setUpdateAccount({ ...updateAccount, newpassword: e.target.value })}
-                    slotProps={{
-                      input: {
-                        endAdornment: (
-                          <InputAdornment position='end'>
-                            <IconButton
-                              edge='end'
-                              onClick={handleClickShowPassword}
-                              onMouseDown={e => e.preventDefault()}
-                              aria-label='toggle password visibility'
-                            >
-                              <i className={isPasswordShown ? 'tabler-eye-off' : 'tabler-eye'} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }
-                    }}
-                  />
-                </Box>
-                <div style={{ textAlign: 'center', marginTop: '15px' }}>
                   <Button
-                    style={{ fontSize: '14px', borderRadius: 4 }}
-                    variant='contained'
-                    startIcon={<i className='ic-round-save-alt' />}
-                    sx={{ mr: 3.5 }}
+                    style={{
+                      fontSize: lgAbove ? '14px' : '13px',
+                      borderRadius: 4
+                    }}
+                    startIcon={<i style={{ height: '20px' }} className='wpf-add-user' />}
                     color='primary'
-                    onClick={handleUpdateAccount}
+                    size='medium'
+                    variant='contained'
+                    onClick={handleViewCreateAccount}
                   >
-                    Cập nhật
+                    {!lgAbove ? ' Thêm mới' : ' Thêm mới'}
                   </Button>
                 </div>
-              </DialogContent>
-            </Dialog>
+              </div>
 
-            {/* Hộp thoại thêm mới account */}
+              <Box
+                sx={{
+                  height: '70px'
 
-            <Dialog
-              fullWidth
-              open={createAccountDailog}
-              onClose={toggleCreateAccountDailog}
-              sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-            >
-              <DialogContent>
-                <CustomCloseButton onClick={closeCreateAccountDailog}>
-                  <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-                </CustomCloseButton>
-                <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-                  Account
-                </Typography>
+                  //  visibility: 'hidden'
+                }}
+              ></Box>
 
-                <Box sx={{ overflow: 'auto' }}>
-                  <CustomTextField
-                    autoFocus
-                    fullWidth
-                    label='Username'
-                    placeholder='Enter username'
-                    value={createAccount.username ?? ''}
-                    onChange={e => setCreateAccount({ ...createAccount, username: e.target.value })}
-                    error={createAccount.username === ''}
-                    helperText={createAccount.username === '' ? 'This field is required.' : ''}
-                  />
-
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    fullWidth
-                    label='Password'
-                    placeholder='Enter new password'
-                    id='form-layout-basic-password'
-                    type={isPasswordShown ? 'text' : 'password'}
-                    error={createAccount.newpassword === ''}
-                    helperText={
-                      createAccount.newpassword === ''
-                        ? 'This field is required.Use 8 or more characters with a mix of letters, numbers & symbols'
-                        : ''
-                    }
-                    value={createAccount.newpassword ?? ''}
-                    onChange={e => setCreateAccount({ ...createAccount, newpassword: e.target.value })}
-                    slotProps={{
-                      input: {
-                        endAdornment: (
-                          <InputAdornment position='end'>
-                            <IconButton
-                              edge='end'
-                              onClick={handleClickShowPassword}
-                              onMouseDown={e => e.preventDefault()}
-                              aria-label='toggle password visibility'
-                            >
-                              <i className={isPasswordShown ? 'tabler-eye-off' : 'tabler-eye'} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }
-                    }}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    label='Last name'
-                    placeholder='Enter last name'
-                    value={createAccount.lastName ?? ''}
-                    onChange={e => setCreateAccount({ ...createAccount, lastName: e.target.value })}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    label='First name'
-                    placeholder='Enter first name'
-                    value={createAccount.firstName ?? ''}
-                    onChange={e => setCreateAccount({ ...createAccount, firstName: e.target.value })}
-                  />
-
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    label='Phone number'
-                    placeholder='Enter phone number'
-                    value={createAccount.phoneNumber ?? ''}
-                    onChange={e => setCreateAccount({ ...createAccount, phoneNumber: e.target.value })}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    autoFocus
-                    fullWidth
-                    type='email'
-                    label='Email'
-                    placeholder='Enter email'
-                    error={createAccount.email === ''}
-                    helperText={
-                      createAccount.email === '' ? 'This field is required. You can use letters, numbers & periods' : ''
-                    }
-                    value={createAccount.email ?? ''}
-                    onChange={e => setCreateAccount({ ...createAccount, email: e.target.value })}
-                  />
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    select
-                    fullWidth
-                    label='Department'
-                    onChange={onChangeDepartmentToCreate}
-                    value={createAccount.department.id}
-                  >
-                    {departments.map(department => (
-                      <MenuItem key={department.id} value={department.id}>
-                        {department.name}
-                      </MenuItem>
-                    ))}
-                  </CustomTextField>
-
-                  <CustomTextField
-                    style={{ marginTop: '15px' }}
-                    select
-                    fullWidth
-                    label='Role'
-                    onChange={onChangeRoleToCreate}
-                    value={createAccount.role.name}
-                  >
-                    {roles.map(role => (
-                      <MenuItem key={role.id} value={role.name}>
-                        {role.name}
-                      </MenuItem>
-                    ))}
-                  </CustomTextField>
-                </Box>
-                <div style={{ textAlign: 'center', marginTop: '15px' }}>
-                  <Button
-                    style={{ fontSize: '14px', borderRadius: 4 }}
-                    variant='contained'
-                    startIcon={<i className='material-symbols-person-add-rounded' />}
-                    sx={{ mr: 3.5 }}
+              <div
+                style={{
+                  // color: theme.palette.primary.main,
+                  margin: '0px',
+                  padding: '0px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}
+                >
+                  <Pagination
+                    shape='rounded'
                     color='primary'
-                    onClick={handleCreateAccount}
-                  >
-                    Thêm
-                  </Button>
+                    pageSize={6}
+                    items={accounts}
+                    onChangePage={onChangePage}
+                  />
                 </div>
-              </DialogContent>
-            </Dialog>
-
-            {/* <Fragment>
-              <Snackbar
-                open={openAlert}
-                onClose={handleAlertClose}
-                autoHideDuration={2500}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                TransitionComponent={transition}
-              >
-                <Alert
-                  variant='filled'
-                  severity='info'
-                  style={{ color: 'white', backgroundColor: '#056abdff' }}
-                  onClose={handleAlertClose}
-                  sx={{ width: '100%' }}
-                >
-                  {message}
-                </Alert>
-              </Snackbar>
-            </Fragment>
-
-            <Fragment>
-              <Snackbar
-                open={openError}
-                onClose={handleErrorClose}
-                autoHideDuration={2500}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                TransitionComponent={transition}
-              >
-                <Alert
-                  variant='filled'
-                  severity='error'
-                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                  onClose={handleErrorClose}
-                  sx={{ width: '100%' }}
-                >
-                  {message}
-                </Alert>
-              </Snackbar>
-            </Fragment> */}
-          </Card>
+              </div>
+            </Box>
+          </div>
         </div>
 
         {container && (
@@ -1206,6 +995,305 @@ const AccountPage = () => {
             </Snackbar>
           </Portal>
         )}
+
+        {/* Hộp thoại update account  */}
+        <Dialog
+          fullWidth
+          open={updateAccountDailog}
+          onClose={toggleUpdateAccountDailog}
+          sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+        >
+          <DialogContent>
+            <CustomCloseButton onClick={closeUpdateAccountDailog}>
+              <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+            </CustomCloseButton>
+            <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+              Account
+            </Typography>
+
+            <Box sx={{ overflow: 'auto' }}>
+              <CustomTextField
+                autoFocus
+                fullWidth
+                label='Last name'
+                placeholder='Enter last name'
+                value={updateAccount.lastName ?? ''}
+                onChange={e => setUpdateAccount({ ...updateAccount, lastName: e.target.value })}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                label='First name'
+                placeholder='Enter first name'
+                value={updateAccount.firstName ?? ''}
+                onChange={e => setUpdateAccount({ ...updateAccount, firstName: e.target.value })}
+              />
+
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                label='Phone number'
+                placeholder='Enter phone number'
+                value={updateAccount.phoneNumber ?? ''}
+                onChange={e => setUpdateAccount({ ...updateAccount, phoneNumber: e.target.value })}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                type='email'
+                helperText='You can use letters, numbers & periods'
+                label='Email'
+                placeholder='Enter email'
+                value={updateAccount.email ?? ''}
+                onChange={e => setUpdateAccount({ ...updateAccount, email: e.target.value })}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                select
+                fullWidth
+                label='Department'
+                onChange={onChangeDepartmentToUpdate}
+                value={updateAccount.department.id}
+              >
+                {departments.map(department => (
+                  <MenuItem key={department.id} value={department.id}>
+                    {department.name}
+                  </MenuItem>
+                ))}
+              </CustomTextField>
+
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                fullWidth
+                label='New password (leave blank if no update needed)'
+                placeholder='Enter new password'
+                id='form-layout-basic-password'
+                type={isPasswordShown ? 'text' : 'password'}
+                helperText='Use 8 or more characters with a mix of letters, numbers & symbols'
+                value={updateAccount.newpassword ?? ''}
+                onChange={e => setUpdateAccount({ ...updateAccount, newpassword: e.target.value })}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={e => e.preventDefault()}
+                          aria-label='toggle password visibility'
+                        >
+                          <i className={isPasswordShown ? 'tabler-eye-off' : 'tabler-eye'} />
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }
+                }}
+              />
+            </Box>
+            <div style={{ textAlign: 'center', marginTop: '15px' }}>
+              <Button
+                style={{ fontSize: '14px', borderRadius: 4 }}
+                variant='contained'
+                startIcon={<i className='ic-round-save-alt' />}
+                sx={{ mr: 3.5 }}
+                color='primary'
+                onClick={handleUpdateAccount}
+              >
+                Cập nhật
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Hộp thoại thêm mới account */}
+
+        <Dialog
+          fullWidth
+          open={createAccountDailog}
+          onClose={toggleCreateAccountDailog}
+          sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+        >
+          <DialogContent>
+            <CustomCloseButton onClick={closeCreateAccountDailog}>
+              <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+            </CustomCloseButton>
+            <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+              Account
+            </Typography>
+
+            <Box sx={{ overflow: 'auto' }}>
+              <CustomTextField
+                autoFocus
+                fullWidth
+                label='Username'
+                placeholder='Enter username'
+                value={createAccount.username ?? ''}
+                onChange={e => setCreateAccount({ ...createAccount, username: e.target.value })}
+                error={createAccount.username === ''}
+                helperText={createAccount.username === '' ? 'This field is required.' : ''}
+              />
+
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                fullWidth
+                label='Password'
+                placeholder='Enter new password'
+                id='form-layout-basic-password'
+                type={isPasswordShown ? 'text' : 'password'}
+                error={createAccount.newpassword === ''}
+                helperText={
+                  createAccount.newpassword === ''
+                    ? 'This field is required.Use 8 or more characters with a mix of letters, numbers & symbols'
+                    : ''
+                }
+                value={createAccount.newpassword ?? ''}
+                onChange={e => setCreateAccount({ ...createAccount, newpassword: e.target.value })}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={e => e.preventDefault()}
+                          aria-label='toggle password visibility'
+                        >
+                          <i className={isPasswordShown ? 'tabler-eye-off' : 'tabler-eye'} />
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }
+                }}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                label='Last name'
+                placeholder='Enter last name'
+                value={createAccount.lastName ?? ''}
+                onChange={e => setCreateAccount({ ...createAccount, lastName: e.target.value })}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                label='First name'
+                placeholder='Enter first name'
+                value={createAccount.firstName ?? ''}
+                onChange={e => setCreateAccount({ ...createAccount, firstName: e.target.value })}
+              />
+
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                label='Phone number'
+                placeholder='Enter phone number'
+                value={createAccount.phoneNumber ?? ''}
+                onChange={e => setCreateAccount({ ...createAccount, phoneNumber: e.target.value })}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                autoFocus
+                fullWidth
+                type='email'
+                label='Email'
+                placeholder='Enter email'
+                error={createAccount.email === ''}
+                helperText={
+                  createAccount.email === '' ? 'This field is required. You can use letters, numbers & periods' : ''
+                }
+                value={createAccount.email ?? ''}
+                onChange={e => setCreateAccount({ ...createAccount, email: e.target.value })}
+              />
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                select
+                fullWidth
+                label='Department'
+                onChange={onChangeDepartmentToCreate}
+                value={createAccount.department.id}
+              >
+                {departments.map(department => (
+                  <MenuItem key={department.id} value={department.id}>
+                    {department.name}
+                  </MenuItem>
+                ))}
+              </CustomTextField>
+
+              <CustomTextField
+                style={{ marginTop: '15px' }}
+                select
+                fullWidth
+                label='Role'
+                onChange={onChangeRoleToCreate}
+                value={createAccount.role.name}
+              >
+                {roles.map(role => (
+                  <MenuItem key={role.id} value={role.name}>
+                    {role.name}
+                  </MenuItem>
+                ))}
+              </CustomTextField>
+            </Box>
+            <div style={{ textAlign: 'center', marginTop: '15px' }}>
+              <Button
+                style={{ fontSize: '14px', borderRadius: 4 }}
+                variant='contained'
+                startIcon={<i className='material-symbols-person-add-rounded' />}
+                sx={{ mr: 3.5 }}
+                color='primary'
+                onClick={handleCreateAccount}
+              >
+                Thêm
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* <Fragment>
+              <Snackbar
+                open={openAlert}
+                onClose={handleAlertClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+              >
+                <Alert
+                  variant='filled'
+                  severity='info'
+                  style={{ color: 'white', backgroundColor: '#056abdff' }}
+                  onClose={handleAlertClose}
+                  sx={{ width: '100%' }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+            </Fragment>
+
+            <Fragment>
+              <Snackbar
+                open={openError}
+                onClose={handleErrorClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+              >
+                <Alert
+                  variant='filled'
+                  severity='error'
+                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                  onClose={handleErrorClose}
+                  sx={{ width: '100%' }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+            </Fragment> */}
       </div>
     )
 }

@@ -17,13 +17,11 @@ import {
   Slide,
   Snackbar,
   styled,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material'
 
-import Card from '@mui/material/Card'
-
-// import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -74,6 +72,9 @@ const TransitionUp = (props: TransitionProps) => {
 }
 
 const DepartmentView = () => {
+  const theme = useTheme()
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
+
   // const route = useRouter()
   const { settings } = useSettings()
   const [init, setInit] = useState<boolean>(false)
@@ -441,46 +442,90 @@ const DepartmentView = () => {
       </div>
 
       <div style={{ opacity: departmentsOfPage.length ? 1 : 0, transition: 'opacity 0.2s ease' }}>
-        <Card style={{ borderRadius: 3 }}>
-          <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '20px' }}>ĐƠN VỊ</h3>
-          {/* <CardHeader title='DEPARTMENT' /> */}
-          <CardContent className='p-0'>
-            <TableContainer
-              style={{ maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 340px)' : 'calc(100vh - 300px)' }}
+        <div
+          style={{
+            height:
+              settings.layout == 'horizontal'
+                ? !lgAbove
+                  ? 'calc(100vh - 145)'
+                  : 'calc(100vh - 198px)'
+                : 'calc(100vh - 159px)',
+            minHeight: '114px'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              maxHeight:
+                settings.layout == 'horizontal'
+                  ? !lgAbove
+                    ? 'calc(100vh - 236px)'
+                    : 'calc(100vh - 291px)'
+                  : 'calc(100vh - 252px)',
+              minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
+              overflowY: 'auto',
 
-              // style={{
-              //   maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 355px)' : 'calc(100vh - 310px)'
-              // }}
-            >
-              <Table style={{ fontSize: '14px' }} className={tableStyles.table} stickyHeader>
+              marginBottom: '20px',
+              height:
+                settings.layout == 'horizontal'
+                  ? !lgAbove
+                    ? 'calc(100vh - 236px)'
+                    : 'calc(100vh - 291px)'
+                  : 'calc(100vh - 252px)'
+            }}
+          >
+            <TableContainer>
+              <h3
+                style={{
+                  marginLeft: '24px',
+                  marginRight: '24px',
+                  marginBottom: '20px',
+                  marginTop: '20px',
+                  fontSize: lgAbove ? '17.5px' : '12px'
+                }}
+              >
+                PHÒNG BAN
+              </h3>
+              <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                 <TableHead>
                   <TableRow>
-                    <TableCell>
+                    <TableCell
+                      style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                    >
+                      <b>STT</b>
+                    </TableCell>
+                    <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                       <b>Đơn vị</b>
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                       <b>Mô tả</b>
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                       <b>Ngày tạo</b>
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                       <b>Ngày cập nhật</b>
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                       <b>Hành động</b>
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {departmentsOfPage.map(department => (
+                  {departmentsOfPage.map((department, index) => (
                     <TableRow key={department.id}>
-                      <TableCell style={{ fontSize: '14px' }}>{department.name}</TableCell>
-                      <TableCell style={{ fontSize: '14px' }}>{department.description} </TableCell>
-                      <TableCell style={{ fontSize: '14px' }}>
+                      <TableCell
+                        style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                      >
+                        {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                      </TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>{department.name}</TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>{department.description} </TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         {format(new Date(department.createdAt), 'dd/MM/yyyy hh:mm')}
                       </TableCell>
-                      <TableCell style={{ fontSize: '14px' }}>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         {' '}
                         {format(new Date(department.updatedAt), 'dd/MM/yyyy hh:mm')}
                       </TableCell>
@@ -537,133 +582,91 @@ const DepartmentView = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginLeft: '25px',
-                marginTop: '20px',
-                marginBottom: '20px',
-                marginRight: '20px'
+          </div>
+          <hr
+            style={{
+              border: 'none',
+              borderTop: '0.6px solid #cccccc97',
+              marginTop: '0px'
+            }}
+          />
+
+          <Box
+            sx={{
+              justifyContent: 'space-between',
+              display: 'flex',
+              marginLeft: '25px',
+
+              // marginTop: settings.layout == 'horizontal' ? '16px' : '14px',
+              marginRight: '20px'
+            }}
+          >
+            <div
+              style={{
+                // color: theme.palette.primary.main,
+
+                margin: '0px',
+                padding: '0px'
               }}
             >
-              <Button
-                style={{ fontSize: '14px', borderRadius: 4 }}
-                variant='contained'
-                startIcon={<i className='lets-icons-group-add-fill' />}
-                onClick={handleViewCreateDepartment}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%'
+                }}
               >
-                Thêm đơn vị
-              </Button>
-              <Pagination pageSize={6} items={departments} onChangePage={onChangePage} />
-            </Box>
-          </CardContent>
-
-          {/* Hộp thoại update department  */}
-          <Dialog
-            fullWidth
-            open={updateDepartmentDailog}
-            onClose={toggleUpdateDepartmentDailog}
-            sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-          >
-            <DialogContent>
-              <CustomCloseButton onClick={closeUpdateDepartmentDailog}>
-                <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-              </CustomCloseButton>
-              <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-                Department
-              </Typography>
-
-              <Box sx={{ overflow: 'auto' }}>
-                <CustomTextField
-                  autoFocus
-                  fullWidth
-                  label='Name'
-                  placeholder='Enter name'
-                  value={updateDepartment.name ?? ''}
-                  error={updateDepartment.name === ''}
-                  helperText={updateDepartment.name === '' ? 'This field is required.' : ''}
-                  onChange={e => setUpdateDepartment({ ...updateDepartment, name: e.target.value })}
-                />
-                <CustomTextField
-                  style={{ marginTop: '15px' }}
-                  autoFocus
-                  fullWidth
-                  label='Description'
-                  placeholder='Enter description'
-                  value={updateDepartment.description ?? ''}
-                  onChange={e => setUpdateDepartment({ ...updateDepartment, description: e.target.value })}
-                />
-              </Box>
-              <div style={{ textAlign: 'center', marginTop: '15px' }}>
                 <Button
-                  style={{ fontSize: '14px', borderRadius: 4 }}
-                  variant='contained'
-                  startIcon={<i className='ic-round-save-alt' />}
-                  sx={{ mr: 3.5 }}
+                  style={{
+                    fontSize: lgAbove ? '14px' : '13px',
+                    borderRadius: 4
+                  }}
+                  startIcon={<i style={{ height: '20px' }} className='lets-icons-group-add-fill' />}
                   color='primary'
-                  onClick={handleUpdateDepartment}
+                  size='medium'
+                  variant='contained'
+                  onClick={handleViewCreateDepartment}
                 >
-                  Cập nhật
+                  {!lgAbove ? ' Thêm mới' : ' Thêm mới'}
                 </Button>
               </div>
-            </DialogContent>
-          </Dialog>
+            </div>
 
-          {/* Hộp thoại thêm mới account */}
+            <Box
+              sx={{
+                height: '70px'
 
-          <Dialog
-            fullWidth
-            open={createDepartmentDailog}
-            onClose={toggleCreateDepartmentDailog}
-            sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
-          >
-            <DialogContent>
-              <CustomCloseButton onClick={closeCreateDepartmentDailog}>
-                <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
-              </CustomCloseButton>
-              <Typography variant='h4' sx={{ marginBottom: '5px' }}>
-                Department
-              </Typography>
+                //  visibility: 'hidden'
+              }}
+            ></Box>
 
-              <Box sx={{ overflow: 'auto' }}>
-                <CustomTextField
-                  autoFocus
-                  fullWidth
-                  label='Name'
-                  placeholder='Enter name'
-                  value={createDepartment.name ?? ''}
-                  onChange={e => setCreateDepartment({ ...createDepartment, name: e.target.value })}
-                  error={createDepartment.name === ''}
-                  helperText={createDepartment.name === '' ? 'This field is required.' : ''}
-                />
-
-                <CustomTextField
-                  style={{ marginTop: '15px' }}
-                  autoFocus
-                  fullWidth
-                  label='Description'
-                  placeholder='Enter description'
-                  value={createDepartment.description ?? ''}
-                  onChange={e => setCreateDepartment({ ...createDepartment, description: e.target.value })}
-                />
-              </Box>
-              <div style={{ textAlign: 'center', marginTop: '15px' }}>
-                <Button
-                  style={{ fontSize: '14px', borderRadius: 4 }}
-                  variant='contained'
-                  startIcon={<i className='lets-icons-group-add-fill' />}
-                  sx={{ mr: 3.5 }}
+            <div
+              style={{
+                // color: theme.palette.primary.main,
+                margin: '0px',
+                padding: '0px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%'
+                }}
+              >
+                <Pagination
+                  shape='rounded'
                   color='primary'
-                  onClick={handleCreateDepartment}
-                >
-                  Thêm
-                </Button>
+                  pageSize={6}
+                  items={departments}
+                  onChangePage={onChangePage}
+                />
               </div>
-            </DialogContent>
-          </Dialog>
-        </Card>
+            </div>
+          </Box>
+        </div>
       </div>
       {container && (
         <Portal container={container}>
@@ -717,6 +720,109 @@ const DepartmentView = () => {
           </Snackbar>
         </Portal>
       )}
+      {/* Hộp thoại update department  */}
+      <Dialog
+        fullWidth
+        open={updateDepartmentDailog}
+        onClose={toggleUpdateDepartmentDailog}
+        sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+      >
+        <DialogContent>
+          <CustomCloseButton onClick={closeUpdateDepartmentDailog}>
+            <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+          </CustomCloseButton>
+          <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+            Department
+          </Typography>
+
+          <Box sx={{ overflow: 'auto' }}>
+            <CustomTextField
+              autoFocus
+              fullWidth
+              label='Name'
+              placeholder='Enter name'
+              value={updateDepartment.name ?? ''}
+              error={updateDepartment.name === ''}
+              helperText={updateDepartment.name === '' ? 'This field is required.' : ''}
+              onChange={e => setUpdateDepartment({ ...updateDepartment, name: e.target.value })}
+            />
+            <CustomTextField
+              style={{ marginTop: '15px' }}
+              autoFocus
+              fullWidth
+              label='Description'
+              placeholder='Enter description'
+              value={updateDepartment.description ?? ''}
+              onChange={e => setUpdateDepartment({ ...updateDepartment, description: e.target.value })}
+            />
+          </Box>
+          <div style={{ textAlign: 'center', marginTop: '15px' }}>
+            <Button
+              style={{ fontSize: '14px', borderRadius: 4 }}
+              variant='contained'
+              startIcon={<i className='ic-round-save-alt' />}
+              sx={{ mr: 3.5 }}
+              color='primary'
+              onClick={handleUpdateDepartment}
+            >
+              Cập nhật
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Hộp thoại thêm mới account */}
+
+      <Dialog
+        fullWidth
+        open={createDepartmentDailog}
+        onClose={toggleCreateDepartmentDailog}
+        sx={{ '& .MuiDialog-paper': { overflow: 'visible' } }}
+      >
+        <DialogContent>
+          <CustomCloseButton onClick={closeCreateDepartmentDailog}>
+            <Icon icon='pajamas:close-xs' fontSize='1.25rem' />
+          </CustomCloseButton>
+          <Typography variant='h4' sx={{ marginBottom: '5px' }}>
+            Department
+          </Typography>
+
+          <Box sx={{ overflow: 'auto' }}>
+            <CustomTextField
+              autoFocus
+              fullWidth
+              label='Name'
+              placeholder='Enter name'
+              value={createDepartment.name ?? ''}
+              onChange={e => setCreateDepartment({ ...createDepartment, name: e.target.value })}
+              error={createDepartment.name === ''}
+              helperText={createDepartment.name === '' ? 'This field is required.' : ''}
+            />
+
+            <CustomTextField
+              style={{ marginTop: '15px' }}
+              autoFocus
+              fullWidth
+              label='Description'
+              placeholder='Enter description'
+              value={createDepartment.description ?? ''}
+              onChange={e => setCreateDepartment({ ...createDepartment, description: e.target.value })}
+            />
+          </Box>
+          <div style={{ textAlign: 'center', marginTop: '15px' }}>
+            <Button
+              style={{ fontSize: '14px', borderRadius: 4 }}
+              variant='contained'
+              startIcon={<i className='lets-icons-group-add-fill' />}
+              sx={{ mr: 3.5 }}
+              color='primary'
+              onClick={handleCreateDepartment}
+            >
+              Thêm
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

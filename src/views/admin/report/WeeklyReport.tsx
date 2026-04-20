@@ -458,9 +458,9 @@ const WeeklyReportView = () => {
               height:
                 settings.layout == 'horizontal'
                   ? !lgAbove
-                    ? 'calc(100vh - 220)'
-                    : 'calc(100vh - 273px)'
-                  : 'calc(100vh - 234px)',
+                    ? 'calc(100vh - 219)'
+                    : 'calc(100vh - 272px)'
+                  : 'calc(100vh - 233px)',
               minHeight: '114px'
             }}
           >
@@ -471,9 +471,9 @@ const WeeklyReportView = () => {
                 maxHeight:
                   settings.layout == 'horizontal'
                     ? !lgAbove
-                      ? 'calc(100vh - 311px)'
-                      : 'calc(100vh - 366px)'
-                    : 'calc(100vh - 327px)',
+                      ? 'calc(100vh - 310px)'
+                      : 'calc(100vh - 365px)'
+                    : 'calc(100vh - 326px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
 
@@ -481,9 +481,9 @@ const WeeklyReportView = () => {
                 height:
                   settings.layout == 'horizontal'
                     ? !lgAbove
-                      ? 'calc(100vh - 311px)'
-                      : 'calc(100vh - 366px)'
-                    : 'calc(100vh - 327px)'
+                      ? 'calc(100vh - 310px)'
+                      : 'calc(100vh - 365px)'
+                    : 'calc(100vh - 326px)'
               }}
             >
               <TableContainer style={{}}>
@@ -501,16 +501,20 @@ const WeeklyReportView = () => {
                 <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
-                      <TableCell style={{ alignContent: 'center', textAlign: 'center' }}>
+                      <TableCell
+                        style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                      >
                         <b>STT</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Đơn vị</b>
                       </TableCell>
-                      <TableCell style={{ alignContent: 'center', textAlign: 'center' }}>
+                      <TableCell
+                        style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                      >
                         <b>Ngày báo cáo</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Tên báo cáo</b>
                       </TableCell>
                     </TableRow>

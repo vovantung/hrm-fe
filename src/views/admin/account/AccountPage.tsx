@@ -772,6 +772,11 @@ const AccountPage = () => {
                 <Table style={{ fontSize: lgAbove ? '14px' : '11.5px' }} className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
+                      <TableCell
+                        style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                      >
+                        <b>STT</b>
+                      </TableCell>
                       <TableCell style={{ fontSize: lgAbove ? '14px' : '11.5px' }}>
                         <b>Họ tên</b>
                       </TableCell>
@@ -793,8 +798,13 @@ const AccountPage = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {accountsOfPage.map(account => (
+                    {accountsOfPage.map((account, index) => (
                       <TableRow key={account.id}>
+                        <TableCell
+                          style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '14px' : '11.5px' }}
+                        >
+                          {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                        </TableCell>
                         <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                           {account.lastName + ' ' + account.firstName}{' '}
                         </TableCell>

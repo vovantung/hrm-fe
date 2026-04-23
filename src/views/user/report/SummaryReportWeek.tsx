@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
+import { Alert, Box, CircularProgress, Portal, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material'
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -52,6 +52,8 @@ const TransitionUp = (props: TransitionProps) => {
 
 const SummaryReportWeekView = () => {
   const theme = useTheme() as Theme
+
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
   const { settings } = useSettings()
   const route = useRouter()
   const [container, setContainer] = useState<Element | null>(null)
@@ -245,7 +247,14 @@ const SummaryReportWeekView = () => {
         >
           <div
             style={{
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 266px)' : 'calc(100vh - 226px)',
+              height:
+                settings.layout == 'horizontal'
+                  ? !lgAbove
+                    ? 'calc(100vh - 220)'
+                    : 'calc(100vh - 273px)'
+                  : !lgAbove
+                    ? 'calc(100vh - 217px)'
+                    : 'calc(100vh - 233px)',
               minHeight: '114px'
             }}
           >
@@ -253,12 +262,26 @@ const SummaryReportWeekView = () => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)',
+                maxHeight:
+                  settings.layout == 'horizontal'
+                    ? !lgAbove
+                      ? 'calc(100vh - 310px)'
+                      : 'calc(100vh - 366px)'
+                    : lgAbove
+                      ? 'calc(100vh - 326px)'
+                      : 'calc(100vh - 310px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
 
                 marginBottom: '20px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
+                height:
+                  settings.layout == 'horizontal'
+                    ? !lgAbove
+                      ? 'calc(100vh - 310px)'
+                      : 'calc(100vh - 366px)'
+                    : lgAbove
+                      ? 'calc(100vh - 326px)'
+                      : 'calc(100vh - 310px)'
               }}
             >
               <TableContainer>
@@ -399,59 +422,59 @@ const SummaryReportWeekView = () => {
                 </div>
               </div>
             </Box>
-            {container && (
-              <Portal container={container}>
-                {/* Alert */}
-                <Snackbar
-                  open={openAlert}
-                  onClose={handleAlertClose}
-                  autoHideDuration={2500}
-                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                  TransitionComponent={transition}
-                  sx={{ zIndex: 9999 }}
-                >
-                  <Alert
-                    variant='filled'
-                    severity='info'
-                    style={{ color: 'white', backgroundColor: '#056abdff' }}
-                    onClose={handleAlertClose}
-                    sx={{
-                      width: '100%',
-                      maxWidth: '600px',
-                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                    }}
-                  >
-                    {message}
-                  </Alert>
-                </Snackbar>
-
-                {/* Error */}
-                <Snackbar
-                  open={openError}
-                  onClose={handleErrorClose}
-                  autoHideDuration={2500}
-                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                  TransitionComponent={transition}
-                  sx={{ zIndex: 9999 }}
-                >
-                  <Alert
-                    variant='filled'
-                    severity='error'
-                    style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                    onClose={handleErrorClose}
-                    sx={{
-                      width: '100%',
-                      maxWidth: '600px',
-                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                      // borderRadius: 2 // bo góc mềm hơn (optional)
-                    }}
-                  >
-                    {message}
-                  </Alert>
-                </Snackbar>
-              </Portal>
-            )}
           </div>
+          {container && (
+            <Portal container={container}>
+              {/* Alert */}
+              <Snackbar
+                open={openAlert}
+                onClose={handleAlertClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+                sx={{ zIndex: 9999 }}
+              >
+                <Alert
+                  variant='filled'
+                  severity='info'
+                  style={{ color: 'white', backgroundColor: '#056abdff' }}
+                  onClose={handleAlertClose}
+                  sx={{
+                    width: '100%',
+                    maxWidth: '600px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                  }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+
+              {/* Error */}
+              <Snackbar
+                open={openError}
+                onClose={handleErrorClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+                sx={{ zIndex: 9999 }}
+              >
+                <Alert
+                  variant='filled'
+                  severity='error'
+                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                  onClose={handleErrorClose}
+                  sx={{
+                    width: '100%',
+                    maxWidth: '600px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                    // borderRadius: 2 // bo góc mềm hơn (optional)
+                  }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+            </Portal>
+          )}
         </div>
       </div>
     )

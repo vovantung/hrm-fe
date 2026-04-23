@@ -62,7 +62,9 @@ const PreviewCard = () => {
             ? !lgAbove
               ? 'calc(100vh - 220)'
               : 'calc(100vh - 273px)'
-            : 'calc(100vh - 234px)',
+            : !lgAbove
+              ? 'calc(100vh - 217px)'
+              : 'calc(100vh - 233px)',
         minHeight: '114px'
       }}
     >
@@ -73,18 +75,23 @@ const PreviewCard = () => {
           maxHeight:
             settings.layout == 'horizontal'
               ? !lgAbove
-                ? 'calc(100vh - 311px)'
+                ? 'calc(100vh - 310px)'
                 : 'calc(100vh - 366px)'
-              : 'calc(100vh - 327px)',
+              : lgAbove
+                ? 'calc(100vh - 326px)'
+                : 'calc(100vh - 310px)',
           minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
           overflowY: 'auto',
+
           marginBottom: '20px',
           height:
             settings.layout == 'horizontal'
               ? !lgAbove
-                ? 'calc(100vh - 311px)'
+                ? 'calc(100vh - 310px)'
                 : 'calc(100vh - 366px)'
-              : 'calc(100vh - 327px)'
+              : lgAbove
+                ? 'calc(100vh - 326px)'
+                : 'calc(100vh - 310px)'
         }}
       >
         <div

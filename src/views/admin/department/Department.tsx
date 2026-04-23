@@ -448,8 +448,10 @@ const DepartmentView = () => {
               settings.layout == 'horizontal'
                 ? !lgAbove
                   ? 'calc(100vh - 145)'
-                  : 'calc(100vh - 198px)'
-                : 'calc(100vh - 159px)',
+                  : 'calc(100vh - 199px)'
+                : !lgAbove
+                  ? 'calc(100vh - 143px)'
+                  : 'calc(100vh - 159px)',
             minHeight: '114px'
           }}
         >
@@ -461,8 +463,10 @@ const DepartmentView = () => {
                 settings.layout == 'horizontal'
                   ? !lgAbove
                     ? 'calc(100vh - 236px)'
-                    : 'calc(100vh - 291px)'
-                  : 'calc(100vh - 252px)',
+                    : 'calc(100vh - 292px)'
+                  : !lgAbove
+                    ? 'calc(100vh - 236x)'
+                    : 'calc(100vh - 252px)',
               minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
               overflowY: 'auto',
 
@@ -471,8 +475,10 @@ const DepartmentView = () => {
                 settings.layout == 'horizontal'
                   ? !lgAbove
                     ? 'calc(100vh - 236px)'
-                    : 'calc(100vh - 291px)'
-                  : 'calc(100vh - 252px)'
+                    : 'calc(100vh - 292px)'
+                  : !lgAbove
+                    ? 'calc(100vh - 236px)'
+                    : 'calc(100vh - 252px)'
             }}
           >
             <TableContainer>

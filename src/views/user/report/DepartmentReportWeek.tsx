@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useTheme } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Portal, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material'
 
 import TableContainer from '@mui/material/TableContainer'
 import Table from '@mui/material/Table'
@@ -56,6 +56,7 @@ const TransitionUp = (props: TransitionProps) => {
 
 const DepartmentReportWeekView = () => {
   const theme = useTheme() as Theme
+  const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
   const { settings } = useSettings()
   const route = useRouter()
   const [init, setInit] = useState<boolean>(false)
@@ -372,7 +373,14 @@ const DepartmentReportWeekView = () => {
         >
           <div
             style={{
-              height: settings.layout == 'horizontal' ? 'calc(100vh - 266px)' : 'calc(100vh - 226px)',
+              height:
+                settings.layout == 'horizontal'
+                  ? !lgAbove
+                    ? 'calc(100vh - 220)'
+                    : 'calc(100vh - 273px)'
+                  : !lgAbove
+                    ? 'calc(100vh - 217px)'
+                    : 'calc(100vh - 233px)',
               minHeight: '114px'
             }}
           >
@@ -380,12 +388,26 @@ const DepartmentReportWeekView = () => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)',
+                maxHeight:
+                  settings.layout == 'horizontal'
+                    ? !lgAbove
+                      ? 'calc(100vh - 310px)'
+                      : 'calc(100vh - 366px)'
+                    : lgAbove
+                      ? 'calc(100vh - 326px)'
+                      : 'calc(100vh - 310px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
 
                 marginBottom: '20px',
-                height: settings.layout == 'horizontal' ? 'calc(100vh - 359px)' : 'calc(100vh - 318px)'
+                height:
+                  settings.layout == 'horizontal'
+                    ? !lgAbove
+                      ? 'calc(100vh - 310px)'
+                      : 'calc(100vh - 366px)'
+                    : lgAbove
+                      ? 'calc(100vh - 326px)'
+                      : 'calc(100vh - 310px)'
               }}
             >
               <TableContainer>
@@ -395,19 +417,23 @@ const DepartmentReportWeekView = () => {
                 <Table className={tableStyles.table} stickyHeader>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
+                      <TableCell
+                        style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '13.5px' : '11.5px' }}
+                      >
                         <b>STT</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                         <b>Đơn vị</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{ alignContent: 'center', textAlign: 'center', fontSize: lgAbove ? '13.5px' : '11.5px' }}
+                      >
                         <b>Ngày báo cáo</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                         <b>Tên báo cáo</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                         <b>Báo cáo tổng hợp</b>
                       </TableCell>
                     </TableRow>
@@ -417,16 +443,26 @@ const DepartmentReportWeekView = () => {
                       <TableRow key={index}>
                         <TableCell
                           style={{
-                            fontSize: '14px'
+                            alignContent: 'center',
+                            textAlign: 'center',
+                            fontSize: lgAbove ? '13.5px' : '11.5px'
                           }}
                         >
                           {index + 1 < 10 ? '0' + (index + 1) : index + 1}
                         </TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>{reportedWeekly.department.name} </TableCell>
-                        <TableCell style={{ fontSize: '14px' }}>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
+                          {reportedWeekly.department.name}{' '}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            alignContent: 'center',
+                            textAlign: 'center',
+                            fontSize: lgAbove ? '13.5px' : '11.5px'
+                          }}
+                        >
                           {format(new Date(reportedWeekly.uploadedAt), 'dd/MM/yyyy hh:mm')}{' '}
                         </TableCell>
-                        <TableCell style={{ fontSize: '13.5px' }}>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                           {/* <Link
                             href={reportedWeekly.url}
                             target='_blank'
@@ -442,7 +478,7 @@ const DepartmentReportWeekView = () => {
                             className='link-custom'
                             style={{
                               color: theme.palette.primary.dark,
-                              fontSize: '13.5px',
+                              fontSize: lgAbove ? '13.5px' : '11.5px',
                               cursor: 'pointer'
                             }}
                             id={reportedWeekly.filename + '_0'}
@@ -451,13 +487,13 @@ const DepartmentReportWeekView = () => {
                             {reportedWeekly.originName}
                           </span>
                         </TableCell>
-                        <TableCell style={{ fontSize: '13.5px' }}>
+                        <TableCell style={{ fontSize: lgAbove ? '13.5px' : '11.5px' }}>
                           {reportedWeekly.urlReportEx != null ? (
                             <span
                               className='link-custom'
                               style={{
                                 color: theme.palette.primary.dark,
-                                fontSize: '13.5px',
+                                fontSize: lgAbove ? '13.5px' : '11.5px',
                                 cursor: 'pointer'
                               }}
                               id={reportedWeekly.filenameReportEx + '_0'}
@@ -513,7 +549,8 @@ const DepartmentReportWeekView = () => {
 
                   <Button
                     style={{
-                      borderRadius: 4
+                      borderRadius: 4,
+                      fontSize: lgAbove ? '14px' : '13px'
                     }}
                     startIcon={<i style={{ height: '20px' }} className='icon-park-outline-upload-logs' />}
                     color='primary'
@@ -556,59 +593,59 @@ const DepartmentReportWeekView = () => {
                 </div>
               </div>
             </Box>
-            {container && (
-              <Portal container={container}>
-                {/* Alert */}
-                <Snackbar
-                  open={openAlert}
-                  onClose={handleAlertClose}
-                  autoHideDuration={2500}
-                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                  TransitionComponent={transition}
-                  sx={{ zIndex: 9999 }}
-                >
-                  <Alert
-                    variant='filled'
-                    severity='info'
-                    style={{ color: 'white', backgroundColor: '#056abdff' }}
-                    onClose={handleAlertClose}
-                    sx={{
-                      width: '100%',
-                      maxWidth: '600px',
-                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                    }}
-                  >
-                    {message}
-                  </Alert>
-                </Snackbar>
-
-                {/* Error */}
-                <Snackbar
-                  open={openError}
-                  onClose={handleErrorClose}
-                  autoHideDuration={2500}
-                  anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                  TransitionComponent={transition}
-                  sx={{ zIndex: 9999 }}
-                >
-                  <Alert
-                    variant='filled'
-                    severity='error'
-                    style={{ color: 'white', backgroundColor: '#c51111a9' }}
-                    onClose={handleErrorClose}
-                    sx={{
-                      width: '100%',
-                      maxWidth: '600px',
-                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
-                      // borderRadius: 2 // bo góc mềm hơn (optional)
-                    }}
-                  >
-                    {message}
-                  </Alert>
-                </Snackbar>
-              </Portal>
-            )}
           </div>
+          {container && (
+            <Portal container={container}>
+              {/* Alert */}
+              <Snackbar
+                open={openAlert}
+                onClose={handleAlertClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+                sx={{ zIndex: 9999 }}
+              >
+                <Alert
+                  variant='filled'
+                  severity='info'
+                  style={{ color: 'white', backgroundColor: '#056abdff' }}
+                  onClose={handleAlertClose}
+                  sx={{
+                    width: '100%',
+                    maxWidth: '600px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                  }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+
+              {/* Error */}
+              <Snackbar
+                open={openError}
+                onClose={handleErrorClose}
+                autoHideDuration={2500}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                TransitionComponent={transition}
+                sx={{ zIndex: 9999 }}
+              >
+                <Alert
+                  variant='filled'
+                  severity='error'
+                  style={{ color: 'white', backgroundColor: '#c51111a9' }}
+                  onClose={handleErrorClose}
+                  sx={{
+                    width: '100%',
+                    maxWidth: '600px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.548)' // 👈 shadow
+                    // borderRadius: 2 // bo góc mềm hơn (optional)
+                  }}
+                >
+                  {message}
+                </Alert>
+              </Snackbar>
+            </Portal>
+          )}
         </div>
       </div>
     )

@@ -458,9 +458,11 @@ const WeeklyReportView = () => {
               height:
                 settings.layout == 'horizontal'
                   ? !lgAbove
-                    ? 'calc(100vh - 219)'
-                    : 'calc(100vh - 272px)'
-                  : 'calc(100vh - 233px)',
+                    ? 'calc(100vh - 220)'
+                    : 'calc(100vh - 273px)'
+                  : !lgAbove
+                    ? 'calc(100vh - 217px)'
+                    : 'calc(100vh - 233px)',
               minHeight: '114px'
             }}
           >
@@ -472,8 +474,10 @@ const WeeklyReportView = () => {
                   settings.layout == 'horizontal'
                     ? !lgAbove
                       ? 'calc(100vh - 310px)'
-                      : 'calc(100vh - 365px)'
-                    : 'calc(100vh - 326px)',
+                      : 'calc(100vh - 366px)'
+                    : lgAbove
+                      ? 'calc(100vh - 326px)'
+                      : 'calc(100vh - 310px)',
                 minHeight: settings.layout == 'horizontal' ? '23px' : '23px',
                 overflowY: 'auto',
 
@@ -482,8 +486,10 @@ const WeeklyReportView = () => {
                   settings.layout == 'horizontal'
                     ? !lgAbove
                       ? 'calc(100vh - 310px)'
-                      : 'calc(100vh - 365px)'
-                    : 'calc(100vh - 326px)'
+                      : 'calc(100vh - 366px)'
+                    : lgAbove
+                      ? 'calc(100vh - 326px)'
+                      : 'calc(100vh - 310px)'
               }}
             >
               <TableContainer style={{}}>

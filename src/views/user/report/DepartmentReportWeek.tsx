@@ -161,6 +161,10 @@ const DepartmentReportWeekView = () => {
   // Việc đặt lại giá trị null cho file đã được thực hiện sau mỗi lần thêm báo cáo nên dù có chọn lại đúng file cũ thì báo cáo vẫn được xem là báo cáo mới
   // do có sự thay đổi giá trị từ có file sang null, và từ null sang có file...
 
+  async function refresh() {
+    window.location.reload()
+  }
+
   async function handleReportedWeekly() {
     if (reportedWeeklyList.length !== 0) return
 
@@ -184,11 +188,17 @@ const DepartmentReportWeekView = () => {
       const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-department-fromto', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get list reported weekly, cause by ' + resError.errorMessage)
+          return
+        } else {
+          const resError = await res.json()
 
-        return
+          handleErrorOpen('Can not get list reported weekly, cause by ' + resError.errorMessage)
+
+          return
+        }
       }
 
       const reportedWeeklys = await res.json()
@@ -225,11 +235,19 @@ const DepartmentReportWeekView = () => {
       const res1 = await fetch(globalVariables.url_admin + '/user/weekly-report/get-presignedurl-for-put', param1)
 
       if (!res1.ok) {
-        const resError = await res1.json()
+        if (res1.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+          return
+        } else {
+          const resError = await res1.json()
 
-        return
+          handleErrorOpen(
+            'Can not get presignedurl for put file report to files servcer, cause by ' + resError.errorMessage
+          )
+
+          return
+        }
       }
 
       const rs1 = await res1.json()
@@ -238,11 +256,17 @@ const DepartmentReportWeekView = () => {
         const res2 = await fetch(rs1.pre_signed_url, { method: 'PUT', body: file })
 
         if (!res2.ok) {
-          const resError = await res2.json()
+          if (res2.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res2.json()
 
-          return
+            handleErrorOpen('Can not put report file to files servcer, cause by ' + resError.errorMessage)
+
+            return
+          }
         }
 
         const param3 = {
@@ -260,11 +284,17 @@ const DepartmentReportWeekView = () => {
         const res3 = await fetch(globalVariables.url_admin + '/user/weekly-report/add', param3)
 
         if (!res3.ok) {
-          const resError = await res3.json()
+          if (res3.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not upload weekly report, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res3.json()
 
-          return
+            handleErrorOpen('Can not add weekly report, cause by ' + resError.errorMessage)
+
+            return
+          }
         }
 
         const reportWeekly = await res3.json()
@@ -319,11 +349,19 @@ const DepartmentReportWeekView = () => {
         const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-presignedurl-for-get', param)
 
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res.json()
 
-          return
+            handleErrorOpen(
+              'Can not get presignedurl for download file from files server, cause by ' + resError.errorMessage
+            )
+
+            return
+          }
         }
 
         const department = await res.json()

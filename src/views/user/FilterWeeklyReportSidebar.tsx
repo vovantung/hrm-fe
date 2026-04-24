@@ -157,20 +157,19 @@ const FilterWeeklyReportSidebar = () => {
     return weeks
   }
 
+  async function refresh() {
+    window.location.reload()
+  }
+
   async function handleReportedFromTo() {
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-
-          // Authorization: auth
           Authorization: auth.token
         },
         body: JSON.stringify({
-          // Date.toISOString() trong nextjs là kiểu chuẩn để truyền cho kiểu java.util.Date ở java backend
           from: dateFrom?.toISOString(),
           to: dateTo?.toISOString()
         })
@@ -179,10 +178,24 @@ const FilterWeeklyReportSidebar = () => {
       const res1 = await fetch(globalVariables.url_admin + '/user/weekly-report/get-department-fromto', param)
 
       if (!res1.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
+        if (res1.status == 401) {
+          refresh()
+
+          return
+        } else {
+          const resError = await res1.json()
+
+          alert(
+            'Can not get weekly-report of department from ' +
+              dateFrom?.toISOString() +
+              ' to ' +
+              dateTo?.toISOString() +
+              ', by cause ' +
+              resError.errorMessage
+          )
+
+          return
+        }
       }
 
       const reportedFromToList1 = await res1.json()
@@ -195,10 +208,24 @@ const FilterWeeklyReportSidebar = () => {
       const res2 = await fetch(globalVariables.url_admin + '/user/weekly-report/get-summary-fromto', param)
 
       if (!res2.ok) {
-        // const rs = await res.json()
-        // handleErrorOpen('Can not get list department, cause by ' + rs.errorMessage)
-        // Thông báo hoặc log lỗi ở đây
-        return
+        if (res2.status == 401) {
+          refresh()
+
+          return
+        } else {
+          const resError = await res2.json()
+
+          alert(
+            'Can not get weekly-report summary from ' +
+              dateFrom?.toISOString() +
+              ' to ' +
+              dateTo?.toISOString() +
+              ', by cause ' +
+              resError.errorMessage
+          )
+
+          return
+        }
       }
 
       const reportedFromToList2 = await res2.json()

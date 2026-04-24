@@ -135,6 +135,10 @@ const SummaryReportWeekView = () => {
     dispatch(setLoading(false))
   }, [])
 
+  async function refresh() {
+    window.location.reload()
+  }
+
   async function handleReportedWeekly() {
     if (reportedWeeklyList.length !== 0) return
     dispatch(setDateFromForUser(weekStart))
@@ -157,11 +161,17 @@ const SummaryReportWeekView = () => {
       const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-summary-fromto', param)
 
       if (!res.ok) {
-        const resError = await res.json()
+        if (res.status == 401) {
+          refresh()
 
-        handleErrorOpen('Can not get list reported weekly, cause by ' + resError.errorMessage)
+          return
+        } else {
+          const resError = await res.json()
 
-        return
+          handleErrorOpen('Can not get weekly-report list, cause by ' + resError.errorMessage)
+
+          return
+        }
       }
 
       const reportedWeeklys = await res.json()
@@ -195,11 +205,19 @@ const SummaryReportWeekView = () => {
         const res = await fetch(globalVariables.url_admin + '/user/weekly-report/get-presignedurl-for-get', param)
 
         if (!res.ok) {
-          const resError = await res.json()
+          if (res.status == 401) {
+            refresh()
 
-          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+            return
+          } else {
+            const resError = await res.json()
 
-          return
+            handleErrorOpen(
+              'Can not get presignedurl for download file from files server, cause by ' + resError.errorMessage
+            )
+
+            return
+          }
         }
 
         const department = await res.json()

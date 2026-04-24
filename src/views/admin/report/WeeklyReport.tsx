@@ -287,7 +287,9 @@ const WeeklyReportView = () => {
         } else {
           const resError = await res.json()
 
-          handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+          handleErrorOpen(
+            'Can not get presignedurl for put file report to files servcer, cause by ' + resError.errorMessage
+          )
 
           return
         }
@@ -308,7 +310,7 @@ const WeeklyReportView = () => {
           } else {
             const resError1 = await res1.json()
 
-            handleErrorOpen('Can not get department, cause by ' + resError1.errorMessage)
+            handleErrorOpen('Can not put report file to files servcer, cause by  ' + resError1.errorMessage)
 
             return
           }
@@ -338,7 +340,7 @@ const WeeklyReportView = () => {
           } else {
             const resError2 = await res2.json()
 
-            handleErrorOpen('Can not upload weekly report, cause by ' + resError2.errorMessage)
+            handleErrorOpen('Can not upload weekly-report, cause by ' + resError2.errorMessage)
 
             return
           }
@@ -404,7 +406,9 @@ const WeeklyReportView = () => {
           } else {
             const resError = await res.json()
 
-            handleErrorOpen('Can not get department, cause by ' + resError.errorMessage)
+            handleErrorOpen(
+              'Can not get presignedurl for download file from files server, cause by ' + resError.errorMessage
+            )
 
             return
           }

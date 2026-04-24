@@ -168,8 +168,6 @@ const DepartmentReportWeekView = () => {
     dispatch(setDateToForUser(weekEnd))
 
     try {
-      // const auth = localStorage.getItem('Authorization') as string
-
       const param = {
         method: 'POST',
         headers: {
@@ -411,7 +409,15 @@ const DepartmentReportWeekView = () => {
               }}
             >
               <TableContainer>
-                <h3 style={{ marginLeft: '24px', marginRight: '24px', marginBottom: '20px', marginTop: '00px' }}>
+                <h3
+                  style={{
+                    marginLeft: '24px',
+                    marginRight: '24px',
+                    marginBottom: '20px',
+                    marginTop: '00px',
+                    fontSize: lgAbove ? '17.5px' : '12px'
+                  }}
+                >
                   BÁO CÁO TUẦN (ĐƠN VỊ)
                 </h3>
                 <Table className={tableStyles.table} stickyHeader>

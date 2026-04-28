@@ -176,7 +176,7 @@ const FilterWeeklyReportSidebar = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/date-range', param)
+      const res = await fetch(globalVariables.url_report + '/admin/weekly-reports/date-range', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -221,7 +221,7 @@ const FilterWeeklyReportSidebar = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong khoảng thời gian from-to
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/departments/without-reports', param)
+      const res = await fetch(globalVariables.url_report + '/admin/weekly-reports/departments/without-reports', param)
 
       if (!res.ok) {
         if (res.status == 401) {

@@ -161,7 +161,7 @@ const AccountDetails = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_admin + '/user/account/get-presignedurl-for-put', param1)
+      const res1 = await fetch(globalVariables.url_report + '/user/account/get-presignedurl-for-put', param1)
 
       if (!res1.ok) {
         const resError = await res1.json()
@@ -201,7 +201,7 @@ const AccountDetails = () => {
           })
         }
 
-        const res3 = await fetch(globalVariables.url_admin + '/user/account/update-avatar', param3)
+        const res3 = await fetch(globalVariables.url_report + '/user/account/update-avatar', param3)
 
         if (!res3.ok) {
           const resError = await res3.json()
@@ -235,7 +235,7 @@ const AccountDetails = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/user/account/update-avatar', param)
+      const res = await fetch(globalVariables.url_report + '/user/account/update-avatar', param)
 
       if (!res.ok) {
         const resError = await res.json()

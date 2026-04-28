@@ -7,7 +7,7 @@ export const globalVariablesSlice = createSlice({
     url_user: 'https://backend.txuyen.com/user',
     url_auth: 'https://backend.txuyen.com/auth',
 
-    url_admin: 'https://backend.txuyen.com/report',
+    url_report: 'https://backend.txuyen.com/report',
 
     url_saga: 'https://backend.txuyen.com/saga'
 

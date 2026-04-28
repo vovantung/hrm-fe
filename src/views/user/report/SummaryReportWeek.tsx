@@ -158,7 +158,7 @@ const SummaryReportWeekView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/user/weekly-reports/summary/reports', param)
+      const res = await fetch(globalVariables.url_report + '/user/weekly-reports/summary/reports', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -202,7 +202,7 @@ const SummaryReportWeekView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/user/weekly-reports/get-presignedurl-for-get', param)
+        const res = await fetch(globalVariables.url_report + '/user/weekly-reports/get-presignedurl-for-get', param)
 
         if (!res.ok) {
           if (res.status == 401) {

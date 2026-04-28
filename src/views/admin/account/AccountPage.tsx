@@ -247,7 +247,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
+      const res = await fetch(globalVariables.url_report + '/admin/account/get-paging', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -294,7 +294,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/account/get-paging', param)
+      const res = await fetch(globalVariables.url_report + '/admin/account/get-paging', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -328,7 +328,7 @@ const AccountPage = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_admin + '/admin/department/get-paging', param1)
+      const res1 = await fetch(globalVariables.url_report + '/admin/department/get-paging', param1)
 
       if (!res1.ok) {
         if (res1.status == 401) {
@@ -410,7 +410,7 @@ const AccountPage = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/admin/account/remove', param)
+        const res = await fetch(globalVariables.url_report + '/admin/account/remove', param)
 
         if (!res.ok) {
           if (res.status == 401) {
@@ -456,7 +456,7 @@ const AccountPage = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/admin/account/get-by-username', param)
+        const res = await fetch(globalVariables.url_report + '/admin/account/get-by-username', param)
 
         if (!res.ok) {
           if (res.status == 401) {
@@ -497,7 +497,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
+      const res = await fetch(globalVariables.url_report + '/admin/department/get-by-id', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -543,7 +543,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/account/create-or-update', param)
+      const res = await fetch(globalVariables.url_report + '/admin/account/create-or-update', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -613,7 +613,7 @@ const AccountPage = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/department/get-by-id', param)
+      const res = await fetch(globalVariables.url_report + '/admin/department/get-by-id', param)
 
       if (!res.ok) {
         if (res.status == 401) {

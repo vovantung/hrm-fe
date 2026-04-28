@@ -185,7 +185,7 @@ const DepartmentReportWeekView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/user/weekly-reports/current-department/reports', param)
+      const res = await fetch(globalVariables.url_report + '/user/weekly-reports/current-department/reports', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -232,7 +232,7 @@ const DepartmentReportWeekView = () => {
         })
       }
 
-      const res1 = await fetch(globalVariables.url_admin + '/user/weekly-reports/get-presignedurl-for-put', param1)
+      const res1 = await fetch(globalVariables.url_report + '/user/weekly-reports/get-presignedurl-for-put', param1)
 
       if (!res1.ok) {
         if (res1.status == 401) {
@@ -281,7 +281,7 @@ const DepartmentReportWeekView = () => {
           })
         }
 
-        const res3 = await fetch(globalVariables.url_admin + '/user/weekly-reports/add', param3)
+        const res3 = await fetch(globalVariables.url_report + '/user/weekly-reports/add', param3)
 
         if (!res3.ok) {
           if (res3.status == 401) {
@@ -346,7 +346,7 @@ const DepartmentReportWeekView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/user/weekly-reports/get-presignedurl-for-get', param)
+        const res = await fetch(globalVariables.url_report + '/user/weekly-reports/get-presignedurl-for-get', param)
 
         if (!res.ok) {
           if (res.status == 401) {

@@ -181,7 +181,7 @@ const WeeklyReportView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/date-range', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -232,7 +232,7 @@ const WeeklyReportView = () => {
       }
 
       // Lấy số đơn vị chưa upload báo cáo trong tuần hiện tại
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-noreport-fromto', param)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/departments/without-reports', param)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -277,7 +277,7 @@ const WeeklyReportView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-presignedurl-for-put', param1)
+      const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/get-presignedurl-for-put', param1)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -330,7 +330,7 @@ const WeeklyReportView = () => {
           })
         }
 
-        const res2 = await fetch(globalVariables.url_admin + '/admin/weekly-report/add', param2)
+        const res2 = await fetch(globalVariables.url_admin + '/admin/weekly-reports/add', param2)
 
         if (!res2.ok) {
           if (res2.status == 401) {
@@ -396,7 +396,7 @@ const WeeklyReportView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/admin/weekly-report/get-presignedurl-for-get', param)
+        const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/get-presignedurl-for-get', param)
 
         if (!res.ok) {
           if (res.status == 401) {

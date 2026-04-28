@@ -277,7 +277,7 @@ const WeeklyReportView = () => {
         })
       }
 
-      const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/get-presignedurl-for-put', param1)
+      const res = await fetch(globalVariables.url_admin + '/user/weekly-reports/get-presignedurl-for-put', param1)
 
       if (!res.ok) {
         if (res.status == 401) {
@@ -330,7 +330,7 @@ const WeeklyReportView = () => {
           })
         }
 
-        const res2 = await fetch(globalVariables.url_admin + '/admin/weekly-reports/add', param2)
+        const res2 = await fetch(globalVariables.url_admin + '/user/weekly-reports/add', param2)
 
         if (!res2.ok) {
           if (res2.status == 401) {
@@ -396,7 +396,7 @@ const WeeklyReportView = () => {
           })
         }
 
-        const res = await fetch(globalVariables.url_admin + '/admin/weekly-reports/get-presignedurl-for-get', param)
+        const res = await fetch(globalVariables.url_admin + '/user/weekly-reports/get-presignedurl-for-get', param)
 
         if (!res.ok) {
           if (res.status == 401) {

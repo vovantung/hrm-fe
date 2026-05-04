@@ -12,6 +12,7 @@ import accountsReducer from '@/redux-store/slices/accounts'
 import sagasReducer from '@/redux-store/slices/sagas'
 import authReducer from '@/redux-store/slices/auth'
 import departmentsReducer from '@/redux-store/slices/departments'
+import workflowsReducer from '@/redux-store/slices/workflows'
 import reportWeeklyReducer from '@/redux-store/slices/report-weekly'
 import commonReducer from '@/redux-store/slices/common'
 
@@ -26,6 +27,7 @@ export const store = configureStore({
     accounts: accountsReducer,
     sagas: sagasReducer,
     departments: departmentsReducer,
+    workflows: workflowsReducer,
     reportWeekly: reportWeeklyReducer,
     auth: authReducer,
     common: commonReducer

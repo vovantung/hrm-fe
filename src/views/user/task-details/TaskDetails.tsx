@@ -68,7 +68,7 @@ const TaskDetailsView = ({ id }: any) => {
         })
       }
 
-      const res = await fetch(globalVariables.url_user + '/task/get-by-id', param)
+      const res = await fetch(globalVariables.url_report + '/user/task/get-by-id', param)
 
       if (!res.ok) {
         return
@@ -100,7 +100,7 @@ const TaskDetailsView = ({ id }: any) => {
         })
       }
 
-      const res = await fetch(globalVariables.url_user + '/task/submit-task', param)
+      const res = await fetch(globalVariables.url_report + '/user/task/submit-task', param)
 
       if (!res.ok) {
         alert('Submit task failed!')
@@ -136,7 +136,7 @@ const TaskDetailsView = ({ id }: any) => {
         })
       }
 
-      const res = await fetch(globalVariables.url_user + '/task/approve-task', param)
+      const res = await fetch(globalVariables.url_report + '/user/task/approve-task', param)
 
       if (!res.ok) {
         alert('Approve task failed!')
